@@ -1,7 +1,0 @@
-export fucntion NavHeroSection ({ }) {
-
-
-    return ( 
-        
-    )
-}
