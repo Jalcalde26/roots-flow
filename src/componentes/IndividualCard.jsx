@@ -1,8 +1,9 @@
 import {NacimientoIcon} from "../assets/icons/NacimientoIcon.jsx";
 import DefuncionIcon from "../assets/icons/DefuncionIcon.jsx";
 import LugarNacimientoIcon from "../assets/icons/LugarNacimientoIcon.jsx";
+import fechaFormateada from "../logica/fechaFormateada.js";
 
-export function IndividualCard ({persona}, herencia) {
+export function IndividualCard ({persona, generacion, pariente}) {
 
     if (!persona) return null;
     
@@ -10,6 +11,23 @@ export function IndividualCard ({persona}, herencia) {
     const formaAnillo = persona.sexo === `m` ? `before:rounded-full` : `before:rounded-lg`;
     const avatar = persona.fotografia ?? 'personas/avatar-prueba.png';
     const hasAnyData = persona.fechaNacimiento || persona.fechaDefuncion || persona.lugarNacimiento;
+    
+    function getColorGeneracion (generacion, pariente) {
+        
+        if (!generacion) return "transparent";
+        if (generacion === "generacionEgo" && !pariente) return "#B989F0"
+
+        const coloresAnillos = {
+            generacionF2: {paterno:"#B8A2F8", materno:"#E8C2FB"},
+            generacionF1: {paterno:"#9176EB", materno:"#D292F3"},
+            generacionP1: {paterno:"#1B3B8B", materno:"#8C1B42"},
+            generacionP2: {paterno:"#2D52B8", materno:"#B5325E"},
+            generacionP3: {paterno:"#4A70E2", materno:"#E85A83"},
+        }
+    
+        return coloresAnillos[generacion]?.[pariente] ?? "transparent";
+    }
+
     /* TODO: construir clases colores avatar dependiendo herencia*/
 
     return (
@@ -28,7 +46,7 @@ export function IndividualCard ({persona}, herencia) {
                             before:-inset-0.5
                             ${formaAnillo}
                             before:border-2
-                            before:border-[#B989F0]
+                            before:border-[${getColorGeneracion(generacion, pariente)}]
                             before:shadow-md
                             before:transition-transform 
                             before:duration-300 
@@ -43,7 +61,7 @@ export function IndividualCard ({persona}, herencia) {
                             <NacimientoIcon className={`w-3 h-3`}/> Fecha de nacimiento: 
                         </dt>
                         <dd>
-                            {persona.fechaNacimiento}
+                            {fechaFormateada(persona.fechaNacimiento)}
                         </dd>
                     </div>
                     )}
@@ -56,7 +74,7 @@ export function IndividualCard ({persona}, herencia) {
                             Fecha de defunción:
                         </dt>
                         <dd>
-                                {persona.fechaDefuncion}
+                                {fechaFormateada(persona.fechaDefuncion)}
                         </dd>
                     </div>
                     )}
@@ -68,7 +86,7 @@ export function IndividualCard ({persona}, herencia) {
                             Lugar de nacimiento:
                         </dt>
                         <dd>
-                             {persona.lugarNacimiento}
+                            {persona.lugarNacimiento}
                         </dd>
                     </div>
                         )}

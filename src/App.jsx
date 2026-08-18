@@ -4,13 +4,16 @@ import treeData from './data/family-tree.json';
 
 function App() {
 
-const personaId = treeData.personas.find(p => p.id === "per-014")
-
+const personaEj = treeData.personas.find(p => p.id === "per-014")
+  
   return (
     <>
       <IndividualCard
-      persona={personaId}
+      persona={personaEj}
+      generacion="generacionP1"
+      pariente="paterno"
       />
+      
     </>
   )
 }
