@@ -11,7 +11,7 @@ const personaEj = treeData.personas.find(p => p.id === "per-014")
       <IndividualCard
       persona={personaEj}
       generacion="generacionP1"
-      pariente="paterno"
+      pariente="padre"
       />
       
     </>
