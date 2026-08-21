@@ -6,18 +6,9 @@ import { ArbolGenealogico } from './componentes/ArbolGenealogico';
 
 function App() {
 
-  const listadoFamiliar; // Evitar que se cree un array vacío
+  const listadoFamiliar = [ [treeData.personas[0], treeData.personas[14 ], treeData.personas[1], treeData.personas[3]], [treeData.personas[4], treeData.personas[3]] , [treeData.personas[2], treeData.personas[1], treeData.personas[0]]  ]; // Evitar que se cree un array vacío
 
-  if (generacion === generacionEgo) filaImprimir = getHermanos({persona}, personas);
-  if (generacion === generacionP1) {
-      const tios = {tiosPaternos, tiosMaternos} = getTios({persona}, personas);
-      const padres = {padre, madre} = getPadres({persona}, personas);
-
-      forEach.tiosPaternos( p => filaImprimir.push(p));
-      filaImprimir.push(padre).push(madre);
-      forEach.tiosMaternos( p => filaImprimir.push(p));
-  }
-  if (generacion === generacionP1)
+ //   TO DO: CONSTRUIR LOGICA CALCULO DE ARBOL
 
   return (
     <>
@@ -25,7 +16,7 @@ function App() {
         listadoFamiliar = {listadoFamiliar}
         children={(personas) => (
           <NivelGeneracional
-            key ={personas[0].generacion}
+            //key ={personas[0].generacion}
             personas = {personas}
             children = {(persona) => (
                           <IndividualCard
@@ -43,3 +34,15 @@ function App() {
 }
 
 export default App;
+
+
+ /*if (generacion === generacionEgo) filaImprimir = getHermanos({persona}, personas);
+  if (generacion === generacionP1) {
+      const tios = {tiosPaternos, tiosMaternos} = getTios({persona}, personas);
+      const padres = {padre, madre} = getPadres({persona}, personas);
+
+      forEach.tiosPaternos( p => filaImprimir.push(p));
+      filaImprimir.push(padre).push(madre);
+      forEach.tiosMaternos( p => filaImprimir.push(p));
+  }
+  if (generacion === generacionP1)*/
