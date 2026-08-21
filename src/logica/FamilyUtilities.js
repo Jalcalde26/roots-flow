@@ -1,14 +1,14 @@
-export function getPadres ({persona}, personas) {
+export function getPadres (persona, personas) {
 
-    if (!persona) return { padre:undefined, madre:undefined };
+    if (!persona) return { padre:null, madre:null };
 
-    const padre= personas.find( p => p.id === persona.padreId) ;
-    const madre= personas.find (p => p.id === persona.madreId ); 
+    const padre= personas.find (p => p.id === persona.padreId) ?? null;
+    const madre= personas.find (p => p.id === persona.madreId) ?? null; 
 
     return {padre, madre} ; 
 }
 
-export function getHermanos ({persona}, personas) {
+export function getHermanos (persona, personas) {
 
     if (!persona) return [];
 
@@ -27,26 +27,26 @@ export function getHermanos ({persona}, personas) {
     const obtenerFechaOrdenable = (individuo) => new Date(individuo.fechaNacimiento ?? "3000-01-01");
     hermanos.sort( (a,b) => obtenerFechaOrdenable(a) - obtenerFechaOrdenable(b) );
 
-return hermanos;
+    return hermanos;
 }
 
-export function getAbuelos ({persona}, personas) {
+export function getAbuelos (persona, personas) {
 
-    if (!persona) return { abueloPaterno: undefined, abuelaPaterna: undefined, abueloMaterno: undefined, abuelaMaterna: undefined }
+    if (!persona) return { abueloPaterno: null, abuelaPaterna: null, abueloMaterno: null, abuelaMaterna: null }
 
     const {padre, madre} = getPadres(persona, personas);
 
-    const abueloPaterno = personas.find ( p => p.id === padre?.padreId);
-    const abuelaPaterna = personas.find ( p => p.id === padre?.madreId);
-    const abueloMaterno = personas.find ( p => p.id === madre?.padreId);
-    const abuelaMaterna = personas.find ( p => p.id === madre?.madreId);
+    const abueloPaterno = personas.find ( p => p.id === padre?.padreId) ?? null;
+    const abuelaPaterna = personas.find ( p => p.id === padre?.madreId) ?? null;
+    const abueloMaterno = personas.find ( p => p.id === madre?.padreId) ?? null;
+    const abuelaMaterna = personas.find ( p => p.id === madre?.madreId) ?? null;
 
     return {abueloPaterno, abuelaPaterna, abueloMaterno, abuelaMaterna}
 }
 
-export function getTios ({persona}, personas) {
+export function getTios (persona, personas) {
 
-    if (!persona) return { tiosPaternos: undefined, tiosMaternos: undefined}
+    if (!persona) return { tiosPaternos: [], tiosMaternos: []}
 
     const { padre, madre } = getPadres(persona, personas);
 

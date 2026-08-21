@@ -40,7 +40,7 @@
             "lugarNacimiento": "Sevilla",
             "familiasIds": [ "fam-001", "fan-002" ],
             "padreId":  "per-004",
-            "madreId": null,
+            "madreId": "per-005",
             "hijosIds": [],
             "parejasId":[]
         },

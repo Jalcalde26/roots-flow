@@ -16,15 +16,15 @@ export function IndividualCard ({persona, generacion, pariente}) {
     function getColorGeneracion (generacion, pariente) {
         
         if (!generacion) return "transparent";
-        if (generacion === "generacionEgo") return "#9B79BD"
+        if (generacion === "ego") return "#9B79BD"
         
 
         const coloresAnillos = {
-            generacionF2: {padre:"#B8A2F8", madre:"#E8C2FB"},
-            generacionF1: {padre:"#9176EB", madre:"#D292F3"},
-            generacionP1: {padre:"#3B82F6", madre:"#FB7185"},
-            generacionP2: {padre:"#2D52B8", madre:"#B5325E"},
-            generacionP3: {padre:"#4A70E2", madre:"#E85A83"},
+            f2: {padre:"#B8A2F8", madre:"#E8C2FB"},
+            f1: {padre:"#9176EB", madre:"#D292F3"},
+            p1: {padre:"#3B82F6", madre:"#FB7185"},
+            p2: {padre:"#2D52B8", madre:"#B5325E"},
+            p3: {padre:"#4A70E2", madre:"#E85A83"},
         }
     
         return coloresAnillos[generacion]?.[pariente] ?? "transparent";

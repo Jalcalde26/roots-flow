@@ -1,14 +1,33 @@
 import { useState } from 'react'
+import { useMemo } from 'react'
 import { IndividualCard } from './componentes/IndividualCard';
-import treeData from './data/family-tree.json';
+import treeDataJSON from './data/family-tree.json';
 import { NivelGeneracional } from './componentes/NivelGeneracional';
 import { ArbolGenealogico } from './componentes/ArbolGenealogico';
+import getListadoFamiliar from './logica/getListadoFamiliar';
 
 function App() {
-
-  const listadoFamiliar = [ [treeData.personas[0], treeData.personas[14 ], treeData.personas[1], treeData.personas[3]], [treeData.personas[4], treeData.personas[3]] , [treeData.personas[2], treeData.personas[1], treeData.personas[0]]  ]; // Evitar que se cree un array vacío
+ // array de pruebas
+  //const listadoFamiliar = [ [treeData.personas[0], treeData.personas[14], treeData.personas[1], treeData.personas[3]], [treeData.personas[4], treeData.personas[3]] , [treeData.personas[2], treeData.personas[1], treeData.personas[0]]  ]; // Evitar que se cree un array vacío
 
  //   TO DO: CONSTRUIR LOGICA CALCULO DE ARBOL
+ // en app.jsx al calcular las generaciones se añadira la prop pariente y generacion a cada miembro, extrayendo de ahí para IndividualCard
+    /*
+        
+    */
+  //const [treeData, setTreeData] = useState(treeDataJSON); 
+  // al migrar a base de datos
+  /* useEffect(() => {
+      fetch('/api/personas')
+      .then(res => res.json())
+      .then(data => setTreeData(data));
+  }, []);*/
+
+  const [personaInicialId, setPersonaInicialId] = useState(treeDataJSON?.personas[0]?.id);
+
+  const listadoFamiliar = useMemo(() => getListadoFamiliar(personaInicialId, treeDataJSON.personas), [personaInicialId , treeDataJSON]);
+
+  console.log(listadoFamiliar);
 
   return (
     <>
@@ -16,7 +35,7 @@ function App() {
         listadoFamiliar = {listadoFamiliar}
         children={(personas) => (
           <NivelGeneracional
-            //key ={personas[0].generacion}
+            key ={personas[0].generacion}
             personas = {personas}
             children = {(persona) => (
                           <IndividualCard
@@ -34,15 +53,3 @@ function App() {
 }
 
 export default App;
-
-
- /*if (generacion === generacionEgo) filaImprimir = getHermanos({persona}, personas);
-  if (generacion === generacionP1) {
-      const tios = {tiosPaternos, tiosMaternos} = getTios({persona}, personas);
-      const padres = {padre, madre} = getPadres({persona}, personas);
-
-      forEach.tiosPaternos( p => filaImprimir.push(p));
-      filaImprimir.push(padre).push(madre);
-      forEach.tiosMaternos( p => filaImprimir.push(p));
-  }
-  if (generacion === generacionP1)*/
