@@ -23,16 +23,23 @@ function App() {
       .then(data => setTreeData(data));
   }, []);*/
 
-  const [personaInicialId, setPersonaInicialId] = useState(treeDataJSON?.personas[0]?.id);
+  const [personaInicialId, setPersonaInicialId] = useState("per-003");
 
   const listadoFamiliar = useMemo(() => getListadoFamiliar(personaInicialId, treeDataJSON.personas), [personaInicialId , treeDataJSON]);
+  const listadoFamiliarFormateado = {
+      
+      p2: Object.values(listadoFamiliar.p2).flat(),
+      p1: Object.values(listadoFamiliar.p1).flat(),
+      ego: listadoFamiliar.ego
+  }
 
   console.log(listadoFamiliar);
+  console.log(listadoFamiliarFormateado)
 
   return (
     <>
       <ArbolGenealogico
-        listadoFamiliar = {listadoFamiliar}
+        listadoFamiliar = {listadoFamiliarFormateado}
         children={(personas) => (
           <NivelGeneracional
             key ={personas[0].generacion}

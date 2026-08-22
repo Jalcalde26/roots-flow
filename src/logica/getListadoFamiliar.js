@@ -15,10 +15,9 @@ export default function getListadoFamiliar(personaInicialId, personas){
     const copiaPersonaInicial = structuredClone(personaInicial);
 
     // ----- EGO -----
-    const arrayEgo = getHermanos(copiaPersonaInicial, copiaPersonas);
-    arrayEgo.push(copiaPersonaInicial);
-    arrayEgo.forEach( p => p.generacion = "ego");
-    const ego = arrayEgo;
+    const ego = getHermanos(copiaPersonaInicial, copiaPersonas);
+    ego.push(copiaPersonaInicial);
+    ego.forEach( p => p.generacion = "ego");
 
     // ----- P1 ------
     const {padre, madre} = getPadres(copiaPersonaInicial, copiaPersonas);
@@ -43,10 +42,10 @@ export default function getListadoFamiliar(personaInicialId, personas){
     });
 
     const p1 = {
-        padre: padre ? [padre] : [],
-        madre: madre ? [madre] : [],
-        tiosPaternos,
-        tiosMaternos
+        tiosPaternos: tiosPaternos ?? [],
+        padre: [padre].filter(Boolean),
+        madre: [madre].filter(Boolean),
+        tiosMaternos: tiosMaternos ?? []
     };
 
     // ------ P3 --------
@@ -67,9 +66,9 @@ export default function getListadoFamiliar(personaInicialId, personas){
     };
 
     return {
-        ego,
+        p2,
         p1,
-        p2
+        ego
     };
 }
 

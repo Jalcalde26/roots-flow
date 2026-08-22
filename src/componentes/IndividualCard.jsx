@@ -1,4 +1,4 @@
-import {NacimientoIcon} from "../assets/icons/NacimientoIcon.jsx";
+import { NacimientoIcon } from "../assets/icons/NacimientoIcon.jsx";
 import DefuncionIcon from "../assets/icons/DefuncionIcon.jsx";
 import LugarNacimientoIcon from "../assets/icons/LugarNacimientoIcon.jsx";
 import fechaFormateada from "../logica/fechaFormateada.js";
@@ -7,11 +7,11 @@ export function IndividualCard ({persona, generacion, pariente}) {
 
     if (!persona) return null;
     
-    const formaAvatar = persona.sexo === `m` ? `rounded-full` : `rounded-md`;
-    const formaAnillo = persona.sexo === `m` ? `before:rounded-full` : `before:rounded-lg`;
-    const avatar = persona.fotografia ?? 'personas/avatar-prueba.png';
-    const hasAnyData = persona.fechaNacimiento || persona.fechaDefuncion || persona.lugarNacimiento;
-    const lugarNacimientoAbreviado = persona.lugarNacimiento.match(/\(([^)]+)\)/)?.[1] ?? persona.lugarNacimiento;
+    const formaAvatar = persona?.sexo === `m` ? `rounded-full` : `rounded-md`;
+    const formaAnillo = persona?.sexo === `m` ? `before:rounded-full` : `before:rounded-lg`;
+    const avatar = persona?.fotografia ?? 'personas/avatar-prueba.png';
+    const hasAnyData = persona?.fechaNacimiento || persona?.fechaDefuncion || persona?.lugarNacimiento;
+    const lugarNacimientoAbreviado = persona?.lugarNacimiento.match(/\(([^)]+)\)/)?.[1] ?? persona?.lugarNacimiento;
     
     function getColorGeneracion (generacion, pariente) {
         
@@ -46,12 +46,12 @@ export function IndividualCard ({persona, generacion, pariente}) {
                                 before:absolute
                                 before:-inset-0.5
                                 ${formaAnillo}
-                                before:border-2
+                                before:border-3
                                 before:border-[var(--color-anillo)]
                                 before:shadow-md
                                 before:transition-transform 
                                 before:duration-300 
-                                group-hover:before:scale-120
+                                group-hover:before:scale-125
                                 before:pointer-events-none`}
                                 style={{ '--color-anillo': getColorGeneracion(generacion, pariente) }}
                                 > </div>
