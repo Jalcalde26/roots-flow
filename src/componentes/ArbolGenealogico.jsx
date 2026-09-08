@@ -1,7 +1,5 @@
 export function ArbolGenealogico ({ listadoFamiliar, children }) {
 
-    
-   
 
 
 

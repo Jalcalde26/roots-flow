@@ -2,8 +2,12 @@ import { NacimientoIcon } from "../assets/icons/NacimientoIcon.jsx";
 import DefuncionIcon from "../assets/icons/DefuncionIcon.jsx";
 import LugarNacimientoIcon from "../assets/icons/LugarNacimientoIcon.jsx";
 import fechaFormateada from "../logica/fechaFormateada.js";
+import { useState } from "react";
+
 
 export function IndividualCard ({persona, generacion, pariente}) {
+
+    const [isVisible, setIsVisible] = useState(false);
 
     if (!persona) return null;
     
@@ -32,8 +36,8 @@ export function IndividualCard ({persona, generacion, pariente}) {
 
     return (
         <>            
-            <article className = {`relative w-60 gap-2 z-5 pt-10 px-6  bg-[#f6f4e8] rounded-lg shadow-md hover:shadow-lg hover:translate-y-[-3px] transition-all duration-300 group`}>
-                <div className= {` w-full flex flex-col gap-2 mb-4`}>
+            <article className = {`flex flex-col items-center relative w-60 z-5 pt-10 px-6 bg-[#f6f4e8] rounded-lg shadow-md hover:shadow-lg hover:translate-y-[-3px] transition-all duration-300 group`}>
+                <div className= {` w-full flex flex-col gap-2 mb-1`}>
                     <h2 className = {`z-10 text-center leading-[0.8] flex-col text-3xl font-semibold text-[#31322E]`}>{persona.nombre}<br />
                         <span className={'text-[#094C8A]  font-normal text-xl border-slate-700 pr-1'}>{(persona.apellidoPaterno ?? '').toUpperCase()}</span>
                         <span className={`text-[#C3891F] font-normal text-xl pl-1`}>{(persona.apellidoMaterno ?? '').toUpperCase()}</span>
@@ -56,7 +60,7 @@ export function IndividualCard ({persona, generacion, pariente}) {
                                 style={{ '--color-anillo': getColorGeneracion(generacion, pariente) }}
                                 > </div>
                     {hasAnyData &&(
-                    <dl className={"w-full text-xs text-black border rounded-lg border-slate-300 px-1 hidden"}>
+                    <dl className={`w-full text-xs text-black border rounded-lg border-slate-300 px-1 ${isVisible ? "block" : "hidden"}`}>
                         {/* Fecha Nacimiento */}
                         {persona.fechaNacimiento &&(
                         <div className={"flex items-center justify-between border-b border-slate-300 p-1"}>
@@ -96,6 +100,7 @@ export function IndividualCard ({persona, generacion, pariente}) {
                     </dl>
                     )}
                 </div>
+                <button onClick={() => setIsVisible(!isVisible)} className={"text-black mb-2 border-1 w-5 h-5 border-slate-300 rounded-full text-center cursor-pointer"}>^</button>
             </article>
         </>
     )
