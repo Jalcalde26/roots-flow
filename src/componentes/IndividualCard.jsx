@@ -1,13 +1,16 @@
 import { NacimientoIcon } from "../assets/icons/NacimientoIcon.jsx";
+import FlechaAbajo from "../assets/icons/FlechaAbajo.jsx"
+import FlechaArriba from "../assets/icons/FlechaArriba.jsx"
 import DefuncionIcon from "../assets/icons/DefuncionIcon.jsx";
 import LugarNacimientoIcon from "../assets/icons/LugarNacimientoIcon.jsx";
 import fechaFormateada from "../logica/fechaFormateada.js";
+import FotoModal from "./FotoModal.jsx";
 import { useState } from "react";
 
 
 export function IndividualCard ({persona, generacion, pariente}) {
 
-    const [isVisible, setIsVisible] = useState(false);
+    const [infoIsVisible, setInfoIsVisible] = useState(false);
 
     if (!persona) return null;
     
@@ -36,14 +39,17 @@ export function IndividualCard ({persona, generacion, pariente}) {
 
     return (
         <>            
-            <article className = {`flex flex-col items-center relative w-60 z-5 pt-10 px-6 bg-[#f6f4e8] rounded-lg shadow-md hover:shadow-lg hover:translate-y-[-3px] transition-all duration-300 group`}>
-                <div className= {` w-full flex flex-col gap-2 mb-1`}>
+            <article className = {`flex flex-col items-center relative w-60 z-5 pt-10 px-6 pb-2 bg-[#f6f4e8] rounded-lg shadow-md hover:shadow-lg hover:translate-y-[-3px] transition-all duration-300 group`}>
+                <div className= {` w-full flex flex-col transition-all duration-700 ${infoIsVisible ? "gap-1" : "gap-0"} mb-1`}>
                     <h2 className = {`z-10 text-center leading-[0.8] flex-col text-3xl font-semibold text-[#31322E]`}>{persona.nombre}<br />
                         <span className={'text-[#094C8A]  font-normal text-xl border-slate-700 pr-1'}>{(persona.apellidoPaterno ?? '').toUpperCase()}</span>
                         <span className={`text-[#C3891F] font-normal text-xl pl-1`}>{(persona.apellidoMaterno ?? '').toUpperCase()}</span>
                     </h2>
                     <div className= {`z-10 absolute left-1/2 -translate-x-1/2 -top-16 w-22 h-22 ${formaAvatar} overflow-hidden transition-transform group-hover:scale-115 duration-300 group`}>
-                        <img className={`object-cover w-full h-full`} src={avatar} alt={`fotografía de ${persona.nombre} ${persona.apellidoPaterno} ${persona.apellidoMaterno}`}></img>
+                        <FotoModal 
+                            src={avatar}
+                            alt={`fotografía de ${persona.nombre} ${persona.apellidoPaterno} ${persona.apellidoMaterno}`}
+                        />
                     </div>
                     <div className= {`absolute left-1/2 -translate-x-1/2 -top-16 w-22 min-h-22 rounded-full
                                 before:content-['']
@@ -60,47 +66,56 @@ export function IndividualCard ({persona, generacion, pariente}) {
                                 style={{ '--color-anillo': getColorGeneracion(generacion, pariente) }}
                                 > </div>
                     {hasAnyData &&(
-                    <dl className={`w-full text-xs text-black border rounded-lg border-slate-300 px-1 ${isVisible ? "block" : "hidden"}`}>
-                        {/* Fecha Nacimiento */}
-                        {persona.fechaNacimiento &&(
-                        <div className={"flex items-center justify-between border-b border-slate-300 p-1"}>
-                            <dt className={`flex items-center gap-1`}>
-                                <NacimientoIcon className={`w-3 h-3`}/> Fecha nacimiento: 
-                            </dt>
-                            <dd>
-                                {fechaFormateada(persona.fechaNacimiento)}
-                            </dd>
-                        </div>
-                        )}
-                        {/* Fecha Defuncion (si existe) */}
-                        {persona.fechaDefuncion && (
-                        <div className={"flex items-center justify-between border-b border-slate-300 p-1"}>
+                    <dl className={`w-full grid transition-all duration-800 overflow-hidden text-xs text-black border rounded-lg px-1 pb-1
+                        ${ infoIsVisible 
+                            ? "grid-rows-[1fr] border-slate-300" 
+                            : "grid-rows-[0fr] border-transparent"}`}>
+                        <div className={`overflow-hidden`}> {/* Wrapper para generar transición onClick*/}
+                            {/* Fecha Nacimiento */}
+                            {persona.fechaNacimiento &&(
+                                <div className={"flex items-center justify-between border-b border-slate-300 p-1 "}>
+                                    <dt className={`flex items-center gap-1`}>
+                                        <NacimientoIcon className={`w-3 h-3`}/> Fecha nacimiento: 
+                                    </dt>
+                                    <dd>
+                                        {fechaFormateada(persona.fechaNacimiento)}
+                                    </dd>
+                                </div>
+                                )}
+                                {/* Fecha Defuncion (si existe) */}
+                                {persona.fechaDefuncion && (
+                                <div className={"flex items-center justify-between border-b border-slate-300 p-1"}>
 
-                            <dt className={`flex items-center gap-1`}>
-                                <DefuncionIcon className={`w-3 h-3`} />
-                                Fecha defunción:
-                            </dt>
-                            <dd>
-                                    {fechaFormateada(persona.fechaDefuncion)}
-                            </dd>
+                                    <dt className={`flex items-center gap-1`}>
+                                        <DefuncionIcon className={`w-3 h-3`} />
+                                        Fecha defunción:
+                                    </dt>
+                                    <dd>
+                                            {fechaFormateada(persona.fechaDefuncion)}
+                                    </dd>
+                                </div>
+                                )}
+                                {/* Lugar de Nacimiento */}
+                                {persona.lugarNacimiento &&(
+                                <div className={"flex items-center justify-between p-1 gap-1"}>
+                                    <dt className={`flex items-center gap-1`}>
+                                        <LugarNacimientoIcon className={`w-3 h-3`}/>
+                                        Lugar nacimiento:
+                                    </dt>
+                                    <dd>
+                                        { lugarNacimientoAbreviado }
+                                    </dd>
+                                </div>)}
                         </div>
-                        )}
-                        {/* Lugar de Nacimiento */}
-                        {persona.lugarNacimiento &&(
-                        <div className={"flex items-center justify-between p-1 gap-1"}>
-                            <dt className={`flex items-center gap-1`}>
-                                <LugarNacimientoIcon className={`w-3 h-3`}/>
-                                Lugar nacimiento:
-                            </dt>
-                            <dd>
-                                { lugarNacimientoAbreviado }
-                            </dd>
-                        </div>
-                            )}
-                    </dl>
-                    )}
+                    </dl>)}
                 </div>
-                <button onClick={() => setIsVisible(!isVisible)} className={"text-black mb-2 border-1 w-5 h-5 border-slate-300 rounded-full text-center cursor-pointer"}>^</button>
+                {hasAnyData && //Si no hay datos que mostrar, no se renderiza el boton
+                <button onClick={() => setInfoIsVisible(!infoIsVisible)} className={"flex justify-center text-black border-1 w-5 h-5 border-slate-300 rounded-full text-center cursor-pointer"}>
+                    {infoIsVisible
+                        ? <FlechaArriba className={`w-4 h-4 m-auto`}/>
+                        : <FlechaAbajo className={`w-4 h-4 m-auto`}/>
+                    }
+                </button>}
             </article>
         </>
     )

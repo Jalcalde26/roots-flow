@@ -23,7 +23,7 @@ function App() {
       .then(data => setTreeData(data));
   }, []);*/
 
-  const [personaInicialId, setPersonaInicialId] = useState("per-003");
+  const [personaInicialId, setPersonaInicialId] = useState("per-001");
 
   const listadoFamiliar = useMemo(() => getListadoFamiliar(personaInicialId, treeDataJSON.personas), [personaInicialId , treeDataJSON]);
   const listadoFamiliarFormateado = {
