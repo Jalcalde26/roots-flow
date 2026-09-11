@@ -1,8 +1,7 @@
+// SUSTITUIDO POR CALCTREE. NO BORRAR COMPONENTE 
+// POR SI SE RECUPERA ENFOQUE GRID/FLEX EN LAYOUT A FUTURO
+
 export function ArbolGenealogico ({ listadoFamiliar, children }) {
-
-
-
-
 
     return (
         <>
@@ -13,3 +12,21 @@ export function ArbolGenealogico ({ listadoFamiliar, children }) {
         </>
     )
 }
+
+/* <ArbolGenealogico
+        listadoFamiliar = {listadoFamiliarFormateado}
+        children={(personas) => (
+            <NivelGeneracional
+                key ={personas[0].generacion}
+                personas = {personas}
+                children = {(persona) => (
+                        <IndividualCard
+                            key = {persona.id}
+                            persona = {persona}
+                            generacion = {persona.generacion}
+                            pariente = {persona.pariente}
+                        />
+                        )}
+            />
+        )}
+/> */

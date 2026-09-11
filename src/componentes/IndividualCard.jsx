@@ -8,7 +8,7 @@ import FotoModal from "./FotoModal.jsx";
 import { useState } from "react";
 
 
-export function IndividualCard ({persona, generacion, pariente}) {
+export function IndividualCard ({persona, generacion, pariente, style}) {
 
     const [infoIsVisible, setInfoIsVisible] = useState(false);
 
@@ -39,7 +39,7 @@ export function IndividualCard ({persona, generacion, pariente}) {
 
     return (
         <>            
-            <article className = {`flex flex-col items-center relative w-60 z-5 pt-10 px-6 pb-2 bg-[#f6f4e8] rounded-lg shadow-md hover:shadow-lg hover:translate-y-[-3px] transition-all duration-300 group`}>
+            <article style={style} className = {`flex flex-col items-center relative w-60 z-5 pt-10 px-6 pb-2 bg-[#f6f4e8] rounded-lg shadow-md hover:shadow-lg hover:translate-y-[-3px] transition-all duration-300 group`}>
                 <div className= {` w-full flex flex-col transition-all duration-700 ${infoIsVisible ? "gap-1" : "gap-0"} mb-1`}>
                     <h2 className = {`z-10 text-center leading-[0.8] flex-col text-3xl font-semibold text-[#31322E]`}>{persona.nombre}<br />
                         <span className={'text-[#094C8A]  font-normal text-xl border-slate-700 pr-1'}>{(persona.apellidoPaterno ?? '').toUpperCase()}</span>

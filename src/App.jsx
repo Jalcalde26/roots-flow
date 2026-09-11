@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useMemo } from 'react'
+import calcTree from 'relatives-tree';
 import { IndividualCard } from './componentes/IndividualCard';
 import treeDataJSON from './data/family-tree.json';
-import { NivelGeneracional } from './componentes/NivelGeneracional';
-import { ArbolGenealogico } from './componentes/ArbolGenealogico';
 import getListadoFamiliar from './logica/getListadoFamiliar';
+import normalizarNodes from './logica/normalizarNodes';
 
 function App() {
  // array de pruebas
@@ -27,34 +27,35 @@ function App() {
 
   const listadoFamiliar = useMemo(() => getListadoFamiliar(personaInicialId, treeDataJSON.personas), [personaInicialId , treeDataJSON]);
   const listadoFamiliarFormateado = {
-      
       p2: Object.values(listadoFamiliar.p2).flat(),
       p1: Object.values(listadoFamiliar.p1).flat(),
       ego: listadoFamiliar.ego
-  }
+  };
 
-  console.log(listadoFamiliar);
-  console.log(listadoFamiliarFormateado)
+  const nodes = normalizarNodes(Object.values(listadoFamiliarFormateado).flat());
+  const tree = useMemo(() => calcTree(nodes, { rootId: personaInicialId }),[nodes, personaInicialId]);
+
+  const WIDTH = 240;
+  const HEIGHT = 160; //reajustar si es necesario
 
   return (
     <>
-      <ArbolGenealogico
-        listadoFamiliar = {listadoFamiliarFormateado}
-        children={(personas) => (
-          <NivelGeneracional
-            key ={personas[0].generacion}
-            personas = {personas}
-            children = {(persona) => (
-                          <IndividualCard
-                            key = {persona.id}
-                            persona = {persona}
-                            generacion = {persona.generacion}
-                            pariente = {persona.pariente}
-                          />
-                        )}
-          />
-        )}
-      />
+      <div className="relative" style={{ width: tree.canvas.width * (WIDTH / 2), height: tree.canvas.height * (HEIGHT / 2) }}>
+        {tree.nodes.map(node => {
+          const persona = treeDataJSON.personas.find(p => p.id === node.id);
+          return (
+            <IndividualCard
+              key={node.id}
+              persona={persona}
+              style={{
+                position: 'absolute',
+                left: node.left * (WIDTH / 2),
+                top: node.top * (HEIGHT / 2),
+              }}
+            />
+          );
+        })}
+      </div>
     </>
   )
 }
