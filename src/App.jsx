@@ -1,16 +1,13 @@
-import { useState } from 'react'
-import { IndividualCard } from './componentes/IndividualCard.jsx';
+import { useState, useRef } from 'react'
 import treeDataJSON from './data/family-tree.json';
-import normalizarData from './logica/normalizarData.js';
-import { useRef, useEffect } from 'react';
-import * as f3 from 'family-chart';
 import 'family-chart/styles/family-chart.css';
 import ArbolFamiliar from './componentes/ArbolFamiliar.jsx';
+import RootsflowLayout from './componentes/RootsflowLayout.jsx';
 
 function App() {
 
-
   const [personaInicialId, setPersonaInicialId] = useState("per-001"); 
+  const arbolRef = useRef(null);
 
   const data = [
               {
@@ -222,7 +219,6 @@ function App() {
               "parejasId": ["per-042"]
           }]
 
- 
   
 
   
@@ -230,12 +226,17 @@ function App() {
   return (
     <>
       <div className="w-screen h-screen">
-        <ArbolFamiliar
-          personas = {data}
-          mainId = {personaInicialId}
-          personaOnClick = {setPersonaInicialId}
-        />
-        
+        <RootsflowLayout
+          onAsideTransitionEnd={() => arbolRef.current.resetView()}
+          children={
+            <ArbolFamiliar
+              ref={arbolRef}
+              personas = {data}
+              mainId = {personaInicialId}
+              personaOnClick = {setPersonaInicialId}
+            />
+          }
+        /> 
       </div>
     </>
   )

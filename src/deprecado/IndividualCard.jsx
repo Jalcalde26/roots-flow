@@ -4,7 +4,7 @@ import FlechaArriba from "../assets/icons/FlechaArriba.jsx"
 import DefuncionIcon from "../assets/icons/DefuncionIcon.jsx";
 import LugarNacimientoIcon from "../assets/icons/LugarNacimientoIcon.jsx";
 import fechaFormateada from "../logica/fechaFormateada.js";
-import FotoModal from "./FotoModal.jsx";
+import FotoModal from "../componentes/FotoModal.jsx";
 import { useState } from "react";
 
 
