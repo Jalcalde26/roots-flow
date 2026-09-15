@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+:root {
+  --shadow-hover: 0px 0px 20px 0px rgba(0, 0, 0, 0.8);
+}
+ 
 #root {
   display: flex;
   align-items: center;
@@ -18,11 +22,25 @@
 
 body {
   background-color: #DAD2C2 ;
-  font-family: ui-serif;
   color: #ffff;
   width: 100vw;
   height: 100vh;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  
 }
+
+
+
+.f3 .card_cont .card-inner.rama-abuelosPaternos { background-color: #9bb7c2; } 
+.f3 .card_cont .card-inner.rama-abuelosMaternos { background-color: #d3a3ab; } 
+.f3 .card_cont .card-inner.rama-paterno         { background-color: #789fac; } 
+.f3 .card_cont .card-inner.rama-materno         { background-color: #c48a92; }
+.f3 .card_cont .card-inner.rama-ego             { background-color: #d4a373; }
+.f3 .card_cont .card-inner.rama-hijos           { background-color: #4d7f66; }
+.f3 .card_cont .card-inner.rama-nietos          { background-color: #5f8f78; }
+.f3 .card_cont .card-inner.rama-default         { background-color: #555555; }
+
+.f3 div.card-image-rect.sexo-m img { border-radius: 50px; }
+.f3 div.card-image-rect.sexo-h img { border-radius: 8px; }
+.f3 div.card-image-rect.sexo-m svg { border-radius: 50px; }
+.f3 div.card-image-rect.sexo-h svg { border-radius: 8px; }

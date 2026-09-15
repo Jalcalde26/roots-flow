@@ -39,7 +39,7 @@
             "fechaDefuncion": null,
             "lugarNacimiento": "Sevilla",
             "familiasIds": [ "fam-001", "fan-002" ],
-            "padreId":  "per-004",
+            "padreId": "per-004",
             "madreId": "per-005",
             "hijosIds": [],
             "parejasId":[]
@@ -55,7 +55,7 @@
             "fechaDefuncion": null,
             "lugarNacimiento": "Sevilla",
             "familiasIds": [ "fam-001", "fan-002" ],
-            "padreId":  "per-004",
+            "padreId": "per-004",
             "madreId": "per-005",
             "hijosIds": [],
             "parejasId":[]
@@ -103,7 +103,7 @@
             "fechaDefuncion": null,
             "lugarNacimiento": "Murcia",
             "familiasIds": [ "fam-002" ],
-            "padreId":  "per-042",
+            "padreId": "per-042",
             "madreId": "per-043",
             "hijosIds": ["per-001", "per-002", "per-003"],
             "parejasId": ["per-004"]
@@ -154,7 +154,7 @@
             "padreId":  "per-006",
             "madreId": "per-007",
             "hijosIds": [ "per-010" ],
-            "parejasId": []
+            "parejasId": ["per-009"]
         },
         {
             "id": "per-009",
@@ -266,7 +266,7 @@
             "padreId":  null,
             "madreId": null,
             "hijosIds": ["per-011", "per-012", "per-013", "per-006" ],
-            "parejasId": ["per-015"]
+            "parejasId": ["per-014"]
         },
         {
             "id": "per-016",
@@ -446,7 +446,7 @@
         },
         {
             "id": "per-027",
-            "nombre": "Juan / Jose",
+            "nombre": "Juan",
             "apellidoPaterno": "Mendoza",
             "apellidoMaterno":null,
             "fotografia": null,

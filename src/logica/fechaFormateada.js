@@ -1,3 +1,3 @@
 export default function fechaFormateada (fechaISO) {
-        return fechaISO.split('-').reverse().join('-');
+        return fechaISO?.split('-').reverse().join('-');
     }
