@@ -2,7 +2,7 @@ import 'family-chart/styles/family-chart.css';
 import '../index.css';
 import { useState, useEffect, useRef } from 'react';
 
-function RootsflowLayout ({ children, onAsideTransitionEnd }) {
+function RootsflowLayout ({ children, aside, onAsideTransitionEnd }) {
 
     const [isColapsed, setIsColapsed] = useState(false);
     const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -12,10 +12,7 @@ function RootsflowLayout ({ children, onAsideTransitionEnd }) {
 
 
     useEffect(() => {
-        if (!isDragging) {
-            document.body.style.userSelect = "";
-            return; 
-        } 
+        if (!isDragging) return;
         
         document.body.style.userSelect = "none";
         
@@ -58,6 +55,7 @@ function RootsflowLayout ({ children, onAsideTransitionEnd }) {
         return () => {
             document.removeEventListener("mousemove", handleMouseMove);
             document.removeEventListener("mouseup", handleMouseUp);
+            document.body.style.userSelect = "";
         };
 
     }, [isDragging]);
@@ -102,6 +100,7 @@ function RootsflowLayout ({ children, onAsideTransitionEnd }) {
                     onMouseDown={handleMouseDown}  
                     className={`absolute w-4 h-full -translate-x-1/2  border-white cursor-col-resize z-5`}> 
                 </div>
+                {aside}
             </aside>
         </div>
     );

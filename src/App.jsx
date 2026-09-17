@@ -3,6 +3,7 @@ import treeDataJSON from './data/family-tree.json';
 import 'family-chart/styles/family-chart.css';
 import ArbolFamiliar from './componentes/ArbolFamiliar.jsx';
 import RootsflowLayout from './componentes/RootsflowLayout.jsx';
+import BiographyPanel from './componentes/BiographyPanel.jsx'
 
 function App() {
 
@@ -219,6 +220,8 @@ function App() {
               "parejasId": ["per-042"]
           }]
 
+  const persona = data.find( p => p.id === personaInicialId);
+
   
 
   
@@ -234,6 +237,12 @@ function App() {
               personas = {data}
               mainId = {personaInicialId}
               personaOnClick = {setPersonaInicialId}
+            />
+          }
+          aside={
+            <BiographyPanel
+              persona={persona}
+              id = {personaInicialId}
             />
           }
         /> 
