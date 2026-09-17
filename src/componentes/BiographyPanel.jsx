@@ -1,5 +1,5 @@
- import { useState } from "react";
-
+import { useState } from "react";   
+import calcularEdad from '../logica/calcularEdad.js'
 /**
  * PersonAside
  * Panel lateral con la ficha biográfica de la persona enfocada en el árbol.
@@ -23,16 +23,9 @@
  */
     function BiographyPanel({persona}) {
 
-        /*const photoUrl = person.fotografia,
-        const name = personas,
-        profession,
-        birthDate,
-        deathDate,
-        birthPlace,
-        bio = [],
-        stats,
-        spouse,
-        onClose,*/
+        
+
+        const stats = {children: persona.hijosIds.length, age: calcularEdad(persona.fechaNacimiento), photos: persona?.galeria.length}
 
         const [expanded, setExpanded] = useState(false);
 
@@ -78,10 +71,10 @@
                 <div>
                 {/* foto */}
                 <div className="w-full h-56 rounded-2xl bg-neutral-800 overflow-hidden mb-6">
-                    {person.fotografia ? (
+                    {persona.fotografia ? (
                     <img
-                        src={person.fotografia}
-                        alt={name}
+                        src={persona.fotografia}
+                        alt={`fotografía de ${persona.name} ${persona.apellidoPaterno} ${persona.apellidoMaterno}`}
                         className="w-full h-full object-cover"
                     />
                     ) : (
@@ -95,7 +88,7 @@
                 </div>
 
                 {/* profesión */}
-                {profession && (
+                {persona.profesion && (
                     <p className="text-[13px] tracking-wide text-neutral-500 mb-1.5">
                     {profession}
                     </p>
@@ -103,23 +96,23 @@
 
                 {/* nombre */}
                 <h1 className="font-serif text-3xl font-normal leading-tight text-neutral-100 mb-2.5">
-                    {name}
+                    {persona.name}
                 </h1>
 
                 {/* fechas + lugar */}
                 <p className="text-sm text-neutral-400 mb-5">
-                    {birthDate} — {deathDate || "presente"}
-                    {birthPlace ? ` · ${birthPlace}` : ""}
+                    {persona.fechaNacimiento} — {persona.fechaDefuncion || "presente"}
+                    {persona.lugarNacimiento ? ` · ${persona.lugarNacimiento}` : ""}
                 </p>
 
                 {/* franja de stats */}
                 {stats && (
                     <div className="flex gap-6 py-4 border-t border-b border-neutral-800 mb-6">
-                    {stats.children != null && (
+                    {stats.children && (
                         <Stat value={stats.children} label="Hijos" />
                     )}
-                    {stats.age != null && <Stat value={stats.age} label="Años" />}
-                    {stats.photos != null && (
+                    {stats.age && <Stat value={stats.age} label="Años" />}
+                    {stats.photos && (
                         <Stat value={stats.photos} label="Fotos" />
                     )}
                     </div>
@@ -127,8 +120,8 @@
                 </div>
 
                 <div>
-                {/* biografía */}
-                {bio.map((paragraph, i) => (
+                {/* biografía -> cada indice 1 párrafo*/}
+                {persona?.biografia.map((paragraph, i) => (
                     <p
                     key={i}
                     className={`font-serif text-[15px] leading-[1.75] mb-4 ${
