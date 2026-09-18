@@ -32,7 +32,8 @@ function App() {
                             "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi libero nulla fugiat minima culpa? Voluptatibus maiores distinctio iure modi nisi alias obcaecati ipsam exercitationem nam? Aliquid pariatur veritatis quisquam?",
                             "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi explicabo velit ullam dicta exercitationem asperiores veritatis, optio sint maiores, beatae odit qui odio omnis, impedit deleniti? Accusamus eveniet labore ut!",
                             "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia illo et dolorem deleniti dolor nostrum accusamus, beatae blanditiis iure magni, ducimus quis officia harum nobis? Assumenda sit est commodi at."
-                          ]
+                          ],
+              "profesion": "Bióloga"
               },
               {
               "id": "per-008",
@@ -185,7 +186,7 @@ function App() {
               "apellidoMaterno": null,
               "fotografia": null,
               "sexo": "h",
-              "fechaNacimiento": null,
+              "fechaNacimiento": "undefined",
               "fechaDefuncion": "undefined",
               "lugarNacimiento": "Totana (Murcia)",
               "familiasIds": ["fam-002"],
@@ -250,6 +251,7 @@ function App() {
           aside={
             <BiographyPanel
               personas={data}
+              mascotas={treeDataJSON.mascotas}
               mainId = {personaInicialId}
               personaOnClick= {setPersonaInicialId}
             />

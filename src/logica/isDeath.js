@@ -1,7 +1,8 @@
 function isDeath (fechaDefuncion){
-        if (fechaDefuncion === "undefined") return "Desconocido";
-        if (fechaDefuncion === null) return "Presente";
-        else return true; 
+        // una fecha de defuncion incorrecta será considerado como individuo muerto
+        // null = vivo
+        if (fechaDefuncion === null) return false;
+        return true;
     };
 
 export default isDeath;

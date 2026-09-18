@@ -27,7 +27,6 @@ function ArbolFamiliar ({ personas, mainId, personaOnClick}, ref) {
         if (!containerRef.current) return;
 
         const data = normalizarData(personas);
-        console.log(data);
         listadoParentescoRef.current = getParentescoMainId(mainId, personas);
 
         const chart = f3.createChart(containerRef.current, data)

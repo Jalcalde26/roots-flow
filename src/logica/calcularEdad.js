@@ -1,4 +1,7 @@
+import esFechaValida from './esFechaValida.js'
+
 function calcularEdad(fechaNacimiento, fechaDefuncion) {
+    if (!esFechaValida(fechaNacimiento)) return false;
 
     const hoy = new Date();
     const nacimiento = new Date(fechaNacimiento);

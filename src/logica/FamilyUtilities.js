@@ -7,6 +7,9 @@ export function getPadres (persona, personas) {
 
     return {padre, madre} ; 
 }
+export function obtenerFechaOrdenable (individuo) {
+    new Date(individuo.fechaNacimiento ?? "3000-01-01")
+};
 
 export function getHermanos (persona, personas) {
 
@@ -23,7 +26,7 @@ export function getHermanos (persona, personas) {
                     .filter (p => p && p.id !== persona.id);
 
     // Ordenamos de mayor a menor. 
-    // Si fechaNcimiento = {} --> menor.
+    // Si fechaNacimiento = {} --> menor.
     const obtenerFechaOrdenable = (individuo) => new Date(individuo.fechaNacimiento ?? "3000-01-01");
     hermanos.sort( (a,b) => obtenerFechaOrdenable(a) - obtenerFechaOrdenable(b) );
 

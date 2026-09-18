@@ -41,14 +41,6 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd }) {
         function handleMouseUp() {
 
             setIsDragging(false);
-            if (asideWidthRef.current <= 24) {
-                setIsColapsed(true);
-                setShowLeftArrow(true);
-            }
-            if (asideWidthRef.current >= 24) {
-                setIsColapsed(false);
-                setShowLeftArrow(false);
-            }
             onAsideTransitionEnd();
         };
 
@@ -116,7 +108,7 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd }) {
                     onMouseDown={handleMouseDown}  
                     className={`absolute w-4 h-full -translate-x-1/2 left-0 border-white ${isColapsed ? "" : "cursor-col-resize"} z-5`}> 
                 </div>
-                <div className={` h-full overflow-y-auto transition-opacity duration-700 ${showContent ? "visible p-16 overflow-x-hidden opacity-100" : "invisible opacity-0" }`}>
+                <div className={` h-full text-pretty overflow-y-auto transition-opacity duration-700 ${showContent ? "visible p-16 overflow-x-hidden opacity-100" : "invisible opacity-0" }`}>
                     {asideWithProps}
                 </div>
             </aside>

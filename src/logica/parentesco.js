@@ -59,7 +59,7 @@ export default function getParentescoMainId(personaInicialId, personas){
                                     id: p.id,
                                     parentesco: "paterno",
                                     sexo: p.sexo
-                                 }));
+                                }));
 
     const bisabuelosMaternos = Object.values(getAbuelos(madre, copiaPersonas))
                                 .filter( p => p != null)
@@ -73,7 +73,7 @@ export default function getParentescoMainId(personaInicialId, personas){
     
     // ------ primera generacion descendente (hijos) ------
     
-     const listadoHijos = personaInicial.hijosIds.map ( h => copiaPersonas
+    const listadoHijos = personaInicial.hijosIds.map ( h => copiaPersonas
                         .find( p => h === p.id))
                         .filter(p => p != null);
 

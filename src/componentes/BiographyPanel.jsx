@@ -1,30 +1,40 @@
-import { useState } from "react";   
 import calcularEdad from '../logica/calcularEdad.js'
 import fechaFormateada from '../logica/fechaFormateada.js'
 import isDeath from '../logica/isDeath.js'
+import { IoLocationOutline } from "react-icons/io5";
+import { PiHeartHalf } from "react-icons/pi";
+import { TbCross } from "react-icons/tb";
+import { MdWorkOutline } from "react-icons/md";
+import esFechaValida from "../logica/esFechaValida.js";
+import { LiaBabySolid } from "react-icons/lia";
 
 
-function BiographyPanel({personas, mainId, personaOnClick, onClose}) {
+function BiographyPanel({personas, mascotas, mainId, personaOnClick, onClose}) {
 
     const persona =  personas.find(p=>p.id === mainId);
-    const personaStatus = isDeath(persona.fechaDefuncion);
-
-    
+    const personaIsDeath = isDeath(persona.fechaDefuncion);
     const spouse = personas.find(p=> p.id === persona.parejasId[0]);
-    
+    const edad = calcularEdad(persona.fechaNacimiento, persona.fechaDefuncion);
+    const hijos = persona.hijosIds
+        .map(id => personas.find( p => p.id === id))
+        .filter(Boolean);
+    hijos.sort((a,b) => calcularEdad(b.fechaNacimiento, b.fechaDefuncion) - calcularEdad(a.fechaNacimiento, a.fechaDefuncion));
+    const mascota = mascotas.find(m => m.duenoId === persona.id);
+    //IMPLEMENTAR MASCOTAS + RENDERIZADO DIV AL CLICAR BOTON
+    // IMPLEMENTAR HITOS VIDA
 
         return (
             <>
                 {/* barra superior */}
-                <div className="flex items-center justify-between mb-6 text-Roboto">
-                    <span className="text-md tracking-wide text-neutral-200">
-                    Bibliografia
+                <div className="flex items-center justify-between mb-6 text-white text-roboto">
+                    <span className="text-md tracking-wide ">
+                    Biografía
                     </span>
                     <div className="flex items-center gap-3">
                         <button
                             onClick={onClose}
                             aria-label="Cerrar panel"
-                            className="text-neutral-400 hover:text-neutral-200 transition-colors"
+                            className=" hover:text-neutral-500 transition-colors"
                         >
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                                 <path d="M18 6 6 18M6 6l12 12" />
@@ -33,7 +43,7 @@ function BiographyPanel({personas, mainId, personaOnClick, onClose}) {
                     </div>
                 </div>
 
-                <div className={""}>
+                <div className={"text-white text-roboto"}>
                     <div>
                     {/* foto */}
                     <div className="max-w-[360px] h-56 rounded-2xl bg-neutral-800 overflow-hidden mb-6">
@@ -44,7 +54,7 @@ function BiographyPanel({personas, mainId, personaOnClick, onClose}) {
                             className="w-full h-full object-cover"
                         />
                         ) : (
-                        <div className="w-full h-full flex items-center justify-center text-neutral-600">
+                        <div className="w-full h-full flex items-center justify-center text-neutral-300">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <circle cx="12" cy="8" r="4" />
                             <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" />
@@ -53,57 +63,81 @@ function BiographyPanel({personas, mainId, personaOnClick, onClose}) {
                         )}
                     </div>
 
-                    {/* profesión */}
-                    {persona.profesion && (
-                        <p className="text-[13px] tracking-wide text-neutral-500 mb-1.5">
-                        {profesion}
-                        </p>
-                    )}
-
-                    {/* nombre */}
-                    <h1 className="text-3xl font-normal leading-tight text-neutral-100 mb-2.5">
-                       {persona.nombre} {persona.apellidoPaterno} {persona.apellidoMaterno} - {calcularEdad(persona.fechaNacimiento, persona.fechaDefuncion)} años
+                    {/* nombre completo y edad */}
+                    <h1 className="text-2xl font-medium leading-tight mb-2.5 text-roboto">
+                        {persona.nombre} {persona.apellidoPaterno} {persona.apellidoMaterno}
+                        {edad && (
+                        <span className="text-xl font-normal">
+                            {` - ${edad} años`}
+                        </span>
+                        )}
                     </h1>
 
-                    {/* fechas + lugar */}
-                    <p className="text-sm text-neutral-400 mb-5">
-                        {persona.fechaNacimiento ? fechaFormateada(persona.fechaNacimiento) : "Desconocido"} — {personaStatus === true ? fechaFormateada(persona.fechaDefuncion) : personaStatus}
-                        <br/>                                                                                      
-                        {persona.lugarNacimiento ? `· ${persona.lugarNacimiento}` : ""}
+                    {/* datos personales */}
+                    <p className="text-sm text-neutral-300 mb-5">
+                        {/* nacimiento - muerte */}
+                        <span className="flex items-center gap-2">
+                            <TbCross className="w-4 h-4" /> 
+                            {esFechaValida(persona.fechaNacimiento)? fechaFormateada(persona.fechaNacimiento) : "Desconocido"} - {!personaIsDeath ? "Presente" 
+                                : esFechaValida(persona.fechaDefuncion) ? fechaFormateada(persona.fechaDefuncion) 
+                                : "Desconocido"}                                                                                      
+                        </span>
+                        {/* Lugar de nacimiento */}
+                        <span className="flex items-center gap-2 mt-1">
+                            <IoLocationOutline className={`w-4 h-4`}/> 
+                            {persona.lugarNacimiento ? `${persona.lugarNacimiento}` : ""}
+                        </span>
+                        {/* Profesion */}
+                        {persona.profesion && (
+                        <span className="flex items-center gap-2 mt-1">
+                            <MdWorkOutline className={`w-4 h-4`}/>
+                            {persona.profesion}
+                        </span>)
+                        }
+                        {/* Pareja de hecho */}
+                        {spouse && (
+                        <span className="flex items-center gap-2 mt-1">
+                                <PiHeartHalf className="w-4 h-4"/>
+                                {persona.sexo === "m" ? "Casada" : "Casado"} con 
+                                <button className="text-white hover:text-neutral-300 underline underline-offset-2"
+                                        onClick={() => personaOnClick(spouse.id)}
+                                >
+                                    {spouse.nombre} {spouse.apellidoPaterno} {spouse.apellidoMaterno}
+                                </button>
+                        </span>)
+                        }
+                        {/* hijos */}
+                        {hijos.length > 0 && (
+                        <span className="flex flex-wrap items-center gap-2 mt-1">
+                                <LiaBabySolid className="w-4 h-4"/>
+                                hijos:
+                                {hijos.map( h => (
+                                    <button className="text-white hover:text-neutral-300 underline underline-offset-2"
+                                        onClick={() => personaOnClick(h.id)}
+                                        key={h.id}>
+                                        {h.nombre} {h.apellidoPaterno} {h.apellidoMaterno}
+                                    </button>
+                                ))}
+                        </span>
+                        )}
                     </p>
 
                     </div>
 
                     <div>
+                        <div className='w-full  border-b border-neutral-500 mb-4'></div>
                     {/* biografía -> cada indice 1 párrafo*/}
                     {persona.biografia && (
                         persona.biografia.map((paragraph, i) => (
                         <p
                         key={i}
-                        className={`font-serif text-[15px] leading-[1.75] mb-4 ${
-                            i === 0 ? "text-neutral-200" : "text-neutral-400"
+                        className={`font-roboto text-base mb-4 ${
+                            i === 0 ? "text-white" : "text-neutral-200"
                         }`}
                         >
                         {paragraph}
                         </p>
                     )))}
-
-                    {/* cónyuge */}
-                    {spouse && (
-                        <div className="flex items-center gap-2 text-sm text-neutral-400 mt-6">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-neutral-500">
-                                <path d="M20.8 8.6c0 4.4-8.8 10.4-8.8 10.4S3.2 13 3.2 8.6a4.6 4.6 0 0 1 8.8-1.8 4.6 4.6 0 0 1 8.8 1.8Z" />
-                            </svg>
-                        {persona.sexo === "m" ? "Casada" : "Casado"} con {`${spouse.nombre} ${spouse.apellidoPaterno} ${spouse.apellidoMaterno}`}
-                            <span className="text-neutral-600">·</span>
-                            <button
-                                onClick={() => personaOnClick(spouse.id)}
-                                className="text-neutral-300 hover:text-neutral-100 underline underline-offset-2" //eliminar estilo boton -> link
-                            >
-                                ver ficha
-                            </button> 
-                        </div>
-                    )}
                     </div>
                 </div>
             </>
