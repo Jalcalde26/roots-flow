@@ -9,7 +9,7 @@ import getParentescoMainId from "../logica/parentesco.js";
 function ArbolFamiliar ({ personas, mainId, personaOnClick}, ref) {
     const containerRef = useRef(null);
     const chartRef = useRef(null);
-    const listadoParientescoRef = useRef(null);
+    const listadoParentescoRef = useRef(null);
     const esPrimerRender = useRef(true); 
 
     function resetView () {
@@ -27,7 +27,8 @@ function ArbolFamiliar ({ personas, mainId, personaOnClick}, ref) {
         if (!containerRef.current) return;
 
         const data = normalizarData(personas);
-        listadoParientescoRef.current = getParentescoMainId(mainId, personas);
+        console.log(data);
+        listadoParentescoRef.current = getParentescoMainId(mainId, personas);
 
         const chart = f3.createChart(containerRef.current, data)
             .setAncestryDepth(3)
@@ -42,8 +43,8 @@ function ArbolFamiliar ({ personas, mainId, personaOnClick}, ref) {
 
             // Personalización cards
             .setOnCardUpdate(function (d) {
-                const parentesco = listadoParientescoRef.current.find(p => p.id === d.data.id)?.parentesco ?? "default";
-                const sexo = listadoParientescoRef.current.find(p => p.id === d.data.id)?.sexo ?? "default";
+                const parentesco = listadoParentescoRef.current.find(p => p.id === d.data.id)?.parentesco ?? "default";
+                const sexo = listadoParentescoRef.current.find(p => p.id === d.data.id)?.sexo ?? "default";
                 const cardInner = this.querySelector('div.card-inner');
 
                 if (!cardInner) return;
@@ -79,7 +80,7 @@ function ArbolFamiliar ({ personas, mainId, personaOnClick}, ref) {
 
             if (!chartRef.current) return;
 
-            listadoParientescoRef.current = getParentescoMainId(mainId, personas);
+            listadoParentescoRef.current = getParentescoMainId(mainId, personas);
 
             chartRef.current.updateMainId(mainId); 
             chartRef.current.updateTree();

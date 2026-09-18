@@ -692,7 +692,7 @@
             "fotografia": null,
             "sexo": "h",
             "fechaNacimiento": null,
-            "fechaDefuncion": null,
+            "fechaDefuncion":"undefined",
             "lugarNacimiento": "Totana (Murcia)",
             "familiasIds": ["fam-002"],
             "padreId":  null,

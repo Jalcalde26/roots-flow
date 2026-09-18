@@ -5,6 +5,7 @@ import ArbolFamiliar from './componentes/ArbolFamiliar.jsx';
 import RootsflowLayout from './componentes/RootsflowLayout.jsx';
 import BiographyPanel from './componentes/BiographyPanel.jsx'
 
+
 function App() {
 
   const [personaInicialId, setPersonaInicialId] = useState("per-001"); 
@@ -25,7 +26,13 @@ function App() {
               "padreId": "per-004",
               "madreId": "per-005",
               "hijosIds": [],
-              "parejasId":[]
+              "parejasId":[],
+              "biografia":["Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi libero nulla fugiat minima culpa? Voluptatibus maiores distinctio iure modi nisi alias obcaecati ipsam exercitationem nam? Aliquid pariatur veritatis quisquam?",
+                            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi libero nulla fugiat minima culpa? Voluptatibus maiores distinctio iure modi nisi alias obcaecati ipsam exercitationem nam? Aliquid pariatur veritatis quisquam?",
+                            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi libero nulla fugiat minima culpa? Voluptatibus maiores distinctio iure modi nisi alias obcaecati ipsam exercitationem nam? Aliquid pariatur veritatis quisquam?",
+                            "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi explicabo velit ullam dicta exercitationem asperiores veritatis, optio sint maiores, beatae odit qui odio omnis, impedit deleniti? Accusamus eveniet labore ut!",
+                            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia illo et dolorem deleniti dolor nostrum accusamus, beatae blanditiis iure magni, ducimus quis officia harum nobis? Assumenda sit est commodi at."
+                          ]
               },
               {
               "id": "per-008",
@@ -58,7 +65,7 @@ function App() {
             "madreId": null,
             "hijosIds": [ "per-010" ],
             "parejasId": ["per-008"]
-            },
+            }, 
             {
                 "id": "per-010",
                 "nombre": "Carmen",
@@ -73,7 +80,7 @@ function App() {
                 "padreId":  "per-009",
                 "madreId": "per-008",
                 "hijosIds": [],
-                "parejasId": []
+                "parejasId": [],
             },
               {
               "id": "per-002",
@@ -179,7 +186,7 @@ function App() {
               "fotografia": null,
               "sexo": "h",
               "fechaNacimiento": null,
-              "fechaDefuncion": null,
+              "fechaDefuncion": "undefined",
               "lugarNacimiento": "Totana (Murcia)",
               "familiasIds": ["fam-002"],
               "padreId":  null,
@@ -220,7 +227,8 @@ function App() {
               "parejasId": ["per-042"]
           }]
 
-  const persona = data.find( p => p.id === personaInicialId);
+  
+
 
   
 
@@ -241,8 +249,9 @@ function App() {
           }
           aside={
             <BiographyPanel
-              persona={persona}
-              id = {personaInicialId}
+              personas={data}
+              mainId = {personaInicialId}
+              personaOnClick= {setPersonaInicialId}
             />
           }
         /> 

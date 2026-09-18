@@ -1,15 +1,21 @@
-function calcularEdad(fechaNacimiento) {
+function calcularEdad(fechaNacimiento, fechaDefuncion) {
 
     const hoy = new Date();
     const nacimiento = new Date(fechaNacimiento);
-    
-    let edad = hoy.getFullYear() - nacimiento.getFullYear();
-    const mes = hoy.getMonth() - nacimiento.getMonth();
-    
-    // Si aún no ha llegado el mes/día de cumpleaños este año, restamos 1
-    if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
-        edad--;
-    }
+    const fallecimiento = new Date(fechaDefuncion);
+
+    let edad = 0;
+    let mes = 0;
+
+    if (fechaDefuncion === null) {
+        edad = hoy.getFullYear() - nacimiento.getFullYear();
+        mes = hoy.getMonth() - nacimiento.getMonth();
+        if (mes < 0 || (mes === 0 && fallecimiento.getDate() < nacimiento.getDate())) edad--;
+    } else {
+        edad = fallecimiento.getFullYear() - nacimiento.getFullYear();
+        mes = fallecimiento.getMonth() - nacimiento.getMonth();
+        if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) edad--;
+    };
     
     return edad;
 }

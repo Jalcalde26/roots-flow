@@ -1,6 +1,7 @@
 import 'family-chart/styles/family-chart.css';
 import '../index.css';
 import { useState, useEffect, useRef } from 'react';
+import { cloneElement } from "react";
 
 function RootsflowLayout ({ children, aside, onAsideTransitionEnd }) {
 
@@ -9,7 +10,9 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd }) {
     const [isDragging, setIsDragging] = useState(false);
     const [asideWidth, setAsideWidth] = useState("30vw");
     const asideWidthRef = useRef(asideWidth);
+    const [showContent, setShowContent] = useState(!isColapsed);
 
+    
 
     useEffect(() => {
         if (!isDragging) return;
@@ -27,8 +30,8 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd }) {
                 return;
             }
 
-            if (newWidth <= 24) {
-                setAsideWidth(`1.5rem`);//1.5rem son 24px         
+            if (newWidth <= document.documentElement.clientWidth * 0.3) {
+                setAsideWidth(`30vw`);        
                 return;
             }
 
@@ -60,10 +63,20 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd }) {
 
     }, [isDragging]);
 
+    useEffect(() => {
+        if (isColapsed) {
+            setShowContent(false); // se oculta al instante
+        } else {
+            const timer = setTimeout(() => setShowContent(true), 200);
+            return () => clearTimeout(timer);
+        }
+    }, [isColapsed]);
+
 
 
     function handleMouseDown (e) {
         e.preventDefault();
+        if (isColapsed) return;
         setIsDragging(true);
     };
 
@@ -73,6 +86,8 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd }) {
         setIsColapsed(newIsColapsed);
         setAsideWidth(newIsColapsed ? "1.5rem" : "30vw");
     };
+
+    const asideWithProps = cloneElement(aside, { onClose: handleToggle });
 
     const handleTransitionEnd = (e) => {
         if (e.propertyName !== "width") return;
@@ -86,9 +101,10 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd }) {
             <div className="relative">
                 {children}
             </div>
-            <aside className={`relative bg-[#212121] shadow-[-14px_0_8px_-6px_rgba(0,0,0,0.3)] transition-all ${isDragging ? "duration-0" : "duration-700"}`}
+            <aside className={`h-screen relative bg-[#212121] shadow-[-14px_0_8px_-6px_rgba(0,0,0,0.3)] transition-all ${isDragging ? "duration-0" : "duration-700"}`}
                     style={{ width: `${asideWidth}`}}
                     onTransitionEnd={handleTransitionEnd}>
+                    
                 <button
                     className={`absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 text-xl rounded-full flex justify-center items-center w-9 h-9 bg-gray-600 shadow-[-14px_0_8px_-6px_rgba(0,0,0,0.3)] cursor-pointer z-10 transition-transform duration-400 hover:scale-120 will-change-transform`}
                     onClick={handleToggle}
@@ -98,9 +114,11 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd }) {
                 {/* div para detectar borde izq del aside de forma consistente*/}
                 <div 
                     onMouseDown={handleMouseDown}  
-                    className={`absolute w-4 h-full -translate-x-1/2  border-white cursor-col-resize z-5`}> 
+                    className={`absolute w-4 h-full -translate-x-1/2 left-0 border-white ${isColapsed ? "" : "cursor-col-resize"} z-5`}> 
                 </div>
-                {aside}
+                <div className={` h-full overflow-y-auto transition-opacity duration-700 ${showContent ? "visible p-16 overflow-x-hidden opacity-100" : "invisible opacity-0" }`}>
+                    {asideWithProps}
+                </div>
             </aside>
         </div>
     );
