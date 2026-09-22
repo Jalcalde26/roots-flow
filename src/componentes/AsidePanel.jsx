@@ -1,5 +1,4 @@
 import calcularEdad from '../logica/calcularEdad.js';
-import { calcularMascotaEdad } from '../logica/calcularEdad.js';
 import fechaFormateada from '../logica/fechaFormateada.js';
 import isDeath from '../logica/isDeath.js';
 import { IoLocationOutline } from "react-icons/io5";
@@ -10,22 +9,24 @@ import { IoClose } from "react-icons/io5";
 import { HiOutlineLink } from "react-icons/hi2";
 import esFechaValida from "../logica/esFechaValida.js";
 import { LiaBabySolid } from "react-icons/lia";
+import { MdOutlineSwapHoriz } from "react-icons/md";
 import { PiPawPrint } from "react-icons/pi";
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { getHijos } from '../logica/familyUtilities.js';
 import { useLayoutContext } from './LayoutContext.jsx';
 import PetPanel from './PetPanel.jsx';
 import Dato from './Dato.jsx';
 
 
-function BiographyPanel({key, personas, mascotas, mainId, personaOnClick}) {
+function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
 
     const [mascotaActivaId, setMascotaActivaId] = useState(null); 
     const [isVisible, setIsVisible] = useState(false);
+    const { panelView , handleToggle, showPanel } = useLayoutContext();
 
     // Al ser un calculo "barato" no se utiliza useMemo(). Contemplar si aumenta el coste.
 
-    // logica datos personales
+    // lógica biografia
     const persona =  personas.find(p=>p.id === mainId);
     const isPersonaDeath = isDeath(persona.fechaDefuncion);
     const spouse = personas.find(p=> p.id === persona.parejasId[0]);
@@ -38,7 +39,7 @@ function BiographyPanel({key, personas, mascotas, mainId, personaOnClick}) {
     let isMascotaDeath = null;
     if (mascota) isMascotaDeath = isDeath(mascota.fechaDefuncion);
 
-     const handleToggleMascota = (id) => {
+    const handleToggleMascota = (id) => {
         if (mascotaActivaId === id) {
             setIsVisible(!isVisible); // misma mascota: alterna
         } else {
@@ -49,18 +50,31 @@ function BiographyPanel({key, personas, mascotas, mainId, personaOnClick}) {
 
     const onCloseMascota = () => setIsVisible(false); // cerrar el panel desde dentro de PanelMascostas
 
-    const { panelView , handleToggle } = useLayoutContext();
+    // lógica hitos
 
     
 
     return (
         <>
+            {/* PANEL BIOGRAFIA */}
             <div className={`${panelView === "biografia" ? "" : "hidden"} p-16 pr-14`}>
                 {/* barra superior */}
-                <div className={`flex items-center justify-between mb-6 text-white text-roboto`}>
-                    <span className="uppercase text-sm tracking-wide ">
-                    Biografía
-                    </span>
+                <div className={`flex items-center justify-between mb-6`}>
+                    <div className='flex justify-between gap-2'>
+                        <button className={`biografia ? text-white`} aria-label="Ver biografía">
+                        Biografía
+                        </button>
+                        <button className='cursor-pointer' aria-label='Intercambiar panel' onClick={panelView === "biografia" 
+                                                                                                        ? () => showPanel("hitos") 
+                                                                                                        : () => showPanel("biografia")}>
+                            <MdOutlineSwapHoriz className='h-6 w-6 origin-center transition-transform duration-300 hover:scale-120 ' aria-hidden='true' focusable="false"/>
+                        </button>
+                        <button className={`text-neutral-400 hover:text-white cursor-pointer `} 
+                                aria-label="Ver hitos"
+                                onClick={ () => showPanel("hitos")}>
+                        Hitos
+                        </button>
+                    </div>
                     <button className="cursor-pointer hover:text-neutral-400" aria-label="Cerrar panel lateral" onClick={handleToggle}>
                         <IoClose className="w-4 h-4" aria-hidden="true" focusable="false"/>
                     </button>
@@ -164,10 +178,6 @@ function BiographyPanel({key, personas, mascotas, mainId, personaOnClick}) {
                             </dd>
                         </div>
                         )}
-                        {/* Hitos */}
-
-
-
                         {/* Mascotas */}
                         {listadoMascotas.length > 0 && (
                         <div className={`flex items-start gap-2`}>
@@ -218,15 +228,32 @@ function BiographyPanel({key, personas, mascotas, mainId, personaOnClick}) {
                     </div>
                 </div>
             </div>
-            <div className={`${panelView === "hitos" ? "flex" : "hidden"} p-16 pr-14 `}>
-                <div className="flex items-center justify-between mb-6 text-white text-roboto">
-                    <h2 className="uppercase text-sm tracking-wide ">
-                    Línea de vida
-                    </h2>
+
+            {/* PANEL HITOS */}
+            <div className={`${panelView === "hitos" ? "" : "hidden"} p-16 pr-14 `}>
+                <div className={`flex items-center justify-between mb-6`}>
+                    <div className='flex justify-between gap-2'>
+                        <button className={`text-neutral-400 hover:text-white cursor-pointer`} 
+                                aria-label="Ver biografía"
+                                onClick={ () => showPanel("biografia")}>
+                        Biografía
+                        </button>
+                        <button className='cursor-pointer' aria-label='Intercambiar panel' onClick={panelView === "biografia" 
+                                                                                                        ? () => showPanel("hitos") 
+                                                                                                        : () => showPanel("biografia")}>
+                            <MdOutlineSwapHoriz className='h-6 w-6 origin-center transition-transform duration-300 hover:scale-120 ' aria-hidden='true' focusable="false"/>
+                        </button>
+                        <button className={`text-white`} aria-label="Ver hitos">
+                        Hitos
+                        </button>
+                    </div>
+                    <button className={`cursor-pointer hover:text-neutral-400`} aria-label="Cerrar panel lateral" onClick={handleToggle}>
+                        <IoClose className="w-4 h-4" aria-hidden="true" focusable="false"/>
+                    </button>
                 </div>
             </div>
         </>
     );
 }
 
-export default BiographyPanel;
+export default AsidePanel;

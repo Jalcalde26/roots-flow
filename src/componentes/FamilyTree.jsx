@@ -1,24 +1,20 @@
 import * as f3 from 'family-chart';
 import { useRef, useEffect, forwardRef, useImperativeHandle } from "react";
 import { useLayoutContext } from './LayoutContext.jsx';
-import normalizarData from "../logica/normalizarData";
+import normalizarData from "../logica/normalizarData.js";
 import 'family-chart/styles/family-chart.css';
 import '../index.css';
 import getParentescoMainId from "../logica/parentesco.js";
 import { FaUsersViewfinder } from "react-icons/fa6";
 import { GiLaurelsTrophy } from "react-icons/gi";
-import { MdPersonSearch } from "react-icons/md";
 import { BsPersonLinesFill } from "react-icons/bs";
 
-// ORDENACION MAYOR A MENOR HIJOS
-// BOTON BIOGRAFIA *RECLICAJE* HITOS
 // IMPLEMENTAR HITOS VIDA
 // IMPLEMENTE MODAL FOTOS
 // IMPLEMENTAR BUSCADOR POR FILTRO
 // IMPLEMENTAR BOTON-MENÚ FILTROS -> getMaxDepth(mainId) + (getMaxDepth(mainId).ancestry > 3 o getMaxDepth(mainId).progeny > 2 indicativo que invite a seguir navegando)
-// ANIMACION CON MOTION (FRAMEWORK)
 
-function ArbolFamiliar ({ personas, mainId, personaOnClick}, ref) {
+function FamilyTree ({ personas, mainId, personaOnClick}, ref) {
     const containerRef = useRef(null);
     const chartRef = useRef(null);
     const listadoParentescoRef = useRef(null);
@@ -41,7 +37,7 @@ function ArbolFamiliar ({ personas, mainId, personaOnClick}, ref) {
 
         const data = normalizarData(personas); // Normalizar datos JSON/Base datos -> family-chart (libreria)
         listadoParentescoRef.current = getParentescoMainId(mainId, personas); // Calculo local de parentesco + sexo -> Controla color de card y forma de img cards.
-
+        console.log(data);
         const chart = f3.createChart(containerRef.current, data)
             .setAncestryDepth(3) // Calcula x lineas ascendentes
             .setProgenyDepth(2) // Calcula x lineas descendentes
@@ -53,7 +49,12 @@ function ArbolFamiliar ({ personas, mainId, personaOnClick}, ref) {
             })*/
             .setCardXSpacing(275).setCardYSpacing(150) // espacio por defecto -> x (250) y (150)
             //.setOrientationHorizontal() Cambia el arbol a horizontal
-            .setShowSiblingsOfMain(true); // Muestra hermanos en el arbol
+            .setShowSiblingsOfMain(true) // Muestra hermanos en el arbol
+            .setSortChildrenFunction((a, b) => { // Ordenacion Mayor > Menor en hijos
+                const fa = a.data.fullBirthDate ? new Date(a.data.fullBirthDate).getTime() : Infinity;
+                const fb = b.data.fullBirthDate ? new Date(b.data.fullBirthDate).getTime() : Infinity;
+                return fa - fb;
+            });
             
         chart.setCardHtml()
             .setCardDisplay([["firstName", "lastName"],["birthday"]]) // Contenido texto cards
@@ -135,4 +136,6 @@ function ArbolFamiliar ({ personas, mainId, personaOnClick}, ref) {
     );
 };
 
-export default forwardRef(ArbolFamiliar);
+export default forwardRef(FamilyTree);
+
+/* setPersonDropdown(getLabel, { onSelect, placeholder }) añade un buscador de personas. Con onSelect puedes llamar a tu personaOnClick, y así saltas a cualquier familiar sin navegar de tarjeta en tarjeta. */

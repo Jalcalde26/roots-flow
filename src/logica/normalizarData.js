@@ -17,6 +17,7 @@ function normalizarData (personas) { //aportar array plano con las personas a re
                                     : "Desconocido"}`,
             avatar: p.fotografia,
             gender: p.sexo === "m" ? "F" : "M",
+            fullBirthDate: p?.fechaNacimiento ? `${p.fechaNacimiento}` : "",
             weddingDate: p?.fechaMatrimonio
         },
         rels: {

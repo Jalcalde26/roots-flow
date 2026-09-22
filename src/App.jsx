@@ -1,14 +1,14 @@
 import { useState, useRef } from 'react'
 import treeDataJSON from './data/family-tree.json';
 import 'family-chart/styles/family-chart.css';
-import ArbolFamiliar from './componentes/ArbolFamiliar.jsx';
+import FamilyTree from './componentes/FamilyTree.jsx';
 import RootsflowLayout from './componentes/RootsflowLayout.jsx';
-import BiographyPanel from './componentes/BiographyPanel.jsx'
+import AsidePanel from './componentes/AsidePanel.jsx'
 
 
 function App() {
 
-  const [personaInicialId, setPersonaInicialId] = useState("per-001"); 
+  const [personaInicialId, setPersonaInicialId] = useState("per-004"); 
   const arbolRef = useRef(null);
 
   const data = [
@@ -239,11 +239,11 @@ function App() {
   
   return (
     <>
-      <div className="w-screen h-screen">
+      <div className="w-screen h-screen font-sans">
         <RootsflowLayout
           onAsideTransitionEnd={() => arbolRef.current.resetView()}
           children={
-            <ArbolFamiliar
+            <FamilyTree
               ref={arbolRef}
               personas = {data}
               mainId = {personaInicialId}
@@ -251,7 +251,7 @@ function App() {
             />
           }
           aside={
-            <BiographyPanel
+            <AsidePanel
               key={personaInicialId}
               personas={data}
               mascotas={treeDataJSON.mascotas}

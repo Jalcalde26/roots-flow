@@ -1,6 +1,5 @@
 import { calcularMascotaEdad } from '../logica/calcularEdad.js';
 import Dato from './Dato.jsx'
-import { MdOutlinePets } from "react-icons/md";
 import { IoLocationOutline } from "react-icons/io5";
 import { TbCross } from "react-icons/tb";
 import { IoPricetagsOutline } from "react-icons/io5";

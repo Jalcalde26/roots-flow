@@ -1,7 +1,6 @@
 import 'family-chart/styles/family-chart.css';
 import '../index.css';
 import { useState, useEffect, useRef } from 'react';
-import { cloneElement } from "react";
 import LayoutContext from './LayoutContext.jsx'
 
 function RootsflowLayout ({ children, aside, onAsideTransitionEnd }) {
