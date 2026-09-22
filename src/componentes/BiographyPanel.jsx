@@ -1,46 +1,69 @@
-import calcularEdad from '../logica/calcularEdad.js'
-import fechaFormateada from '../logica/fechaFormateada.js'
-import isDeath from '../logica/isDeath.js'
+import calcularEdad from '../logica/calcularEdad.js';
+import { calcularMascotaEdad } from '../logica/calcularEdad.js';
+import fechaFormateada from '../logica/fechaFormateada.js';
+import isDeath from '../logica/isDeath.js';
 import { IoLocationOutline } from "react-icons/io5";
 import { PiHeartHalf } from "react-icons/pi";
 import { TbCross } from "react-icons/tb";
 import { MdWorkOutline } from "react-icons/md";
+import { IoClose } from "react-icons/io5";
+import { HiOutlineLink } from "react-icons/hi2";
 import esFechaValida from "../logica/esFechaValida.js";
 import { LiaBabySolid } from "react-icons/lia";
+import { PiPawPrint } from "react-icons/pi";
+import { useState, useRef } from 'react';
+import { getHijos } from '../logica/familyUtilities.js';
+import { useLayoutContext } from './LayoutContext.jsx';
+import PetPanel from './PetPanel.jsx';
+import Dato from './Dato.jsx';
 
 
-function BiographyPanel({personas, mascotas, mainId, personaOnClick, onClose}) {
+function BiographyPanel({key, personas, mascotas, mainId, personaOnClick}) {
 
+    const [mascotaActivaId, setMascotaActivaId] = useState(null); 
+    const [isVisible, setIsVisible] = useState(false);
+
+    // Al ser un calculo "barato" no se utiliza useMemo(). Contemplar si aumenta el coste.
+
+    // logica datos personales
     const persona =  personas.find(p=>p.id === mainId);
-    const personaIsDeath = isDeath(persona.fechaDefuncion);
+    const isPersonaDeath = isDeath(persona.fechaDefuncion);
     const spouse = personas.find(p=> p.id === persona.parejasId[0]);
     const edad = calcularEdad(persona.fechaNacimiento, persona.fechaDefuncion);
-    const hijos = persona.hijosIds
-        .map(id => personas.find( p => p.id === id))
-        .filter(Boolean);
-    hijos.sort((a,b) => calcularEdad(b.fechaNacimiento, b.fechaDefuncion) - calcularEdad(a.fechaNacimiento, a.fechaDefuncion));
-    const mascota = mascotas.find(m => m.duenoId === persona.id);
-    //IMPLEMENTAR MASCOTAS + RENDERIZADO DIV AL CLICAR BOTON
-    // IMPLEMENTAR HITOS VIDA
+    const hijos = getHijos(persona, personas);
 
-        return (
-            <>
+    // lógica mascotas
+    const listadoMascotas = mascotas.filter(m => m.duenoId === persona.id);
+    const mascota = listadoMascotas.find(m => m.id === mascotaActivaId) ?? null;
+    let isMascotaDeath = null;
+    if (mascota) isMascotaDeath = isDeath(mascota.fechaDefuncion);
+
+     const handleToggleMascota = (id) => {
+        if (mascotaActivaId === id) {
+            setIsVisible(!isVisible); // misma mascota: alterna
+        } else {
+            setMascotaActivaId(id); // otra mascota: cambia y abre
+            setIsVisible(true);
+        }
+    };
+
+    const onCloseMascota = () => setIsVisible(false); // cerrar el panel desde dentro de PanelMascostas
+
+    const { panelView , handleToggle } = useLayoutContext();
+
+    
+
+    return (
+        <>
+            <div className={`${panelView === "biografia" ? "" : "hidden"} p-16 pr-14`}>
                 {/* barra superior */}
-                <div className="flex items-center justify-between mb-6 text-white text-roboto">
-                    <span className="text-md tracking-wide ">
+                <div className={`flex items-center justify-between mb-6 text-white text-roboto`}>
+                    <span className="uppercase text-sm tracking-wide ">
                     Biografía
                     </span>
-                    <div className="flex items-center gap-3">
-                        <button
-                            onClick={onClose}
-                            aria-label="Cerrar panel"
-                            className=" hover:text-neutral-500 transition-colors"
-                        >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                <path d="M18 6 6 18M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
+                    <button className="cursor-pointer hover:text-neutral-400" aria-label="Cerrar panel lateral" onClick={handleToggle}>
+                        <IoClose className="w-4 h-4" aria-hidden="true" focusable="false"/>
+                    </button>
                 </div>
 
                 <div className={"text-white text-roboto"}>
@@ -74,58 +97,112 @@ function BiographyPanel({personas, mascotas, mainId, personaOnClick, onClose}) {
                     </h1>
 
                     {/* datos personales */}
-                    <p className="text-sm text-neutral-300 mb-5">
+                    <dl className="flex flex-col gap-[0.5rem] text-sm text-neutral-300">
                         {/* nacimiento - muerte */}
-                        <span className="flex items-center gap-2">
-                            <TbCross className="w-4 h-4" /> 
-                            {esFechaValida(persona.fechaNacimiento)? fechaFormateada(persona.fechaNacimiento) : "Desconocido"} - {!personaIsDeath ? "Presente" 
-                                : esFechaValida(persona.fechaDefuncion) ? fechaFormateada(persona.fechaDefuncion) 
-                                : "Desconocido"}                                                                                      
-                        </span>
+                        <Dato Icono={TbCross} etiqueta={"fecha de nacimiento y muerte"} title="Nacimiento - Defunción">
+                            {esFechaValida(persona.fechaNacimiento)
+                                ? fechaFormateada(persona.fechaNacimiento) 
+                                : "Desconocido"} 
+                                <span aria-hidden="true">-</span>
+                                {!isPersonaDeath 
+                                    ? "Presente" 
+                                    : esFechaValida(persona.fechaDefuncion) 
+                                        ? fechaFormateada(persona.fechaDefuncion) 
+                                        : "Desconocido"}
+                        </Dato>
+
                         {/* Lugar de nacimiento */}
-                        <span className="flex items-center gap-2 mt-1">
-                            <IoLocationOutline className={`w-4 h-4`}/> 
+                        <Dato Icono={IoLocationOutline} etiqueta={"Lugar de nacimiento"} title="Lugar de nacimiento">
                             {persona.lugarNacimiento ? `${persona.lugarNacimiento}` : ""}
-                        </span>
+                        </Dato>
+                        
                         {/* Profesion */}
                         {persona.profesion && (
-                        <span className="flex items-center gap-2 mt-1">
-                            <MdWorkOutline className={`w-4 h-4`}/>
+                        <Dato Icono={MdWorkOutline} etiqueta={"Profesión"} title="Profesión">
                             {persona.profesion}
-                        </span>)
-                        }
+                        </Dato>
+                        )}
                         {/* Pareja de hecho */}
                         {spouse && (
-                        <span className="flex items-center gap-2 mt-1">
-                                <PiHeartHalf className="w-4 h-4"/>
-                                {persona.sexo === "m" ? "Casada" : "Casado"} con 
-                                <button className="text-white hover:text-neutral-300 underline underline-offset-2"
-                                        onClick={() => personaOnClick(spouse.id)}
-                                >
+                        <div className={`flex items-start flex-wrap gap-2`}>
+                            <dt className="flex items-start gap-2">
+                                <PiHeartHalf className="w-4 h-4" aria-hidden="true" focusable="false" />
+                                {persona.sexo === "m" ? "Casada" : "Casado"} con
+                            </dt>
+                            <dd className="flex flex-wrap items-center gap-2">
+                                <button className="capitalize text-white hover:text-neutral-300 underline underline-offset-2 cursor-pointer"
+                                        aria-label="Ver pareja"
+                                        onClick={() => personaOnClick(spouse.id)}>
                                     {spouse.nombre} {spouse.apellidoPaterno} {spouse.apellidoMaterno}
                                 </button>
-                        </span>)
-                        }
-                        {/* hijos */}
+                            </dd>
+                            {esFechaValida(persona.fechaMatrimonio) && (
+                            <span className="flex gap-2 items-center" title="Fecha de boda"><HiOutlineLink className="w-4 h-4"/>{fechaFormateada(persona.fechaMatrimonio)}</span>
+                            )}
+                        </div>
+                        )}  
+                        {/* Hijos */}
                         {hijos.length > 0 && (
-                        <span className="flex flex-wrap items-center gap-2 mt-1">
-                                <LiaBabySolid className="w-4 h-4"/>
-                                hijos:
+                        <div className={`flex items-start gap-2`}>
+                            <dt className="flex items-center gap-2">
+                                <LiaBabySolid className="w-4 h-4" aria-hidden="true" focusable="false" />
+                                {hijos.length > 1 
+                                    ? "Hijos:" 
+                                    : hijos[0].sexo === "m" 
+                                        ? "Hija:"
+                                        : "Hijo:"}
+                            </dt>
+                            <dd className="flex flex-wrap gap-2">
                                 {hijos.map( h => (
-                                    <button className="text-white hover:text-neutral-300 underline underline-offset-2"
+                                    <button className="capitalize text-white hover:text-neutral-300 underline underline-offset-2 cursor-pointer"
+                                        aria-label="Ver hijo"
                                         onClick={() => personaOnClick(h.id)}
                                         key={h.id}>
-                                        {h.nombre} {h.apellidoPaterno} {h.apellidoMaterno}
+                                        {h.nombre}
                                     </button>
                                 ))}
-                        </span>
+                            </dd>
+                        </div>
                         )}
-                    </p>
+                        {/* Hitos */}
 
-                    </div>
 
-                    <div>
-                        <div className='w-full  border-b border-neutral-500 mb-4'></div>
+
+                        {/* Mascotas */}
+                        {listadoMascotas.length > 0 && (
+                        <div className={`flex items-start gap-2`}>
+                            <dt className="flex items-center gap-2">
+                                <PiPawPrint className="w-4 h-4" aria-hidden="true" focusable="false" />
+                                {listadoMascotas.length > 1 ? "Mascotas:" : "Mascota:"}
+                            </dt>
+                            <dd className="flex flex-wrap gap-2">
+                                {listadoMascotas.map( m => (
+                                    <button className="capitalize text-white hover:text-neutral-300 underline underline-offset-2 cursor-pointer"
+                                        aria-label="Ver mascota"
+                                        onClick={() => handleToggleMascota(m.id)}
+                                        key={m.id}>
+                                        {m.nombre}
+                                    </button>
+                                ))}
+                            </dd>
+                        </div>
+                        )}
+                    </dl>
+                </div>
+                {/* Panel de mascotas*/}
+                <div className={`grid transition-all text-pretty duration-700 ${isVisible ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
+                    <PetPanel
+                        key={mainId}
+                        mascota = {mascota}
+                        isMascotaDeath = {isMascotaDeath}
+                        onClose = {onCloseMascota}
+                        isVisible={isVisible}
+                    />
+                </div>
+
+                {/* Sección biografía */}
+                <div className="pt-4">
+                    <div className='w-full border-b border-neutral-500 mb-4'></div>
                     {/* biografía -> cada indice 1 párrafo*/}
                     {persona.biografia && (
                         persona.biografia.map((paragraph, i) => (
@@ -140,9 +217,16 @@ function BiographyPanel({personas, mascotas, mainId, personaOnClick, onClose}) {
                     )))}
                     </div>
                 </div>
-            </>
-        );
-        }  
-
+            </div>
+            <div className={`${panelView === "hitos" ? "flex" : "hidden"} p-16 pr-14 `}>
+                <div className="flex items-center justify-between mb-6 text-white text-roboto">
+                    <h2 className="uppercase text-sm tracking-wide ">
+                    Línea de vida
+                    </h2>
+                </div>
+            </div>
+        </>
+    );
+}
 
 export default BiographyPanel;

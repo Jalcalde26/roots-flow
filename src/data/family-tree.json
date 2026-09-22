@@ -723,6 +723,7 @@
         {
             "id": "pet-001",
             "nombre": "milú",
+            "fotografia":"public/pets/pet-001.webp" ,
             "duenoId": "per-001",
             "especie": "perro",
             "lugarNacimiento": "Cadiz",

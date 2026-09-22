@@ -8,11 +8,16 @@ function normalizarData (personas) { //aportar array plano con las personas a re
     const nodos = copiaPersonas.map(p => ({
         id: p.id,
         data: {
-            "first name": p.nombre,
-            "last name": `${p.apellidoPaterno} ${p.apellidoMaterno}`,
-            birthday: fechaFormateada(p.fechaNacimiento) ?? "",
+            "firstName": p.nombre,
+            "lastName": [p.apellidoPaterno, p.apellidoMaterno].filter(Boolean).join(" "),
+            "birthday": `Nac. ${p.fechaNacimiento 
+                                    ? p.fechaNacimiento === "undefined" 
+                                          ? "Desconocido" 
+                                          : p.fechaNacimiento.split("-")[0] 
+                                    : "Desconocido"}`,
             avatar: p.fotografia,
             gender: p.sexo === "m" ? "F" : "M",
+            weddingDate: p?.fechaMatrimonio
         },
         rels: {
             spouses: p.parejasId, //solo incluimos una pareja por ahora

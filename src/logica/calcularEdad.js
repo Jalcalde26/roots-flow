@@ -24,3 +24,8 @@ function calcularEdad(fechaNacimiento, fechaDefuncion) {
 }
 
 export default calcularEdad;
+
+export function calcularMascotaEdad(mascota) {
+    if (mascota) return calcularEdad(mascota.fechaNacimiento, mascota.fechaDefuncion);
+    return null;
+};

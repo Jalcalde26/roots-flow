@@ -113,7 +113,7 @@ function App() {
               "padreId":  "per-004",
               "madreId":"per-005",
               "hijosIds": [],
-              "parejasId":[]
+              "parejasId":[],
             },
             {
               "id": "per-004",
@@ -129,7 +129,8 @@ function App() {
               "padreId":  "per-006",
               "madreId": "per-007",
               "hijosIds": ["per-001", "per-002", "per-003"],
-              "parejasId": ["per-005"]
+              "parejasId": ["per-005"],
+              "fechaMatrimonio": "1995-05-23"
             },
             {
               "id": "per-005",
@@ -145,7 +146,8 @@ function App() {
               "padreId": "per-042",
               "madreId": "per-043",
               "hijosIds": ["per-001", "per-002", "per-003"],
-              "parejasId": ["per-004"]
+              "parejasId": ["per-004"],
+              "fechaMatrimonio": " "
             },
             {
               "id": "per-006",
@@ -250,6 +252,7 @@ function App() {
           }
           aside={
             <BiographyPanel
+              key={personaInicialId}
               personas={data}
               mascotas={treeDataJSON.mascotas}
               mainId = {personaInicialId}

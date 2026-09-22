@@ -13,15 +13,15 @@ export default function getParentescoMainId(personaInicialId, personas){
     const copiaPersonaInicial = structuredClone(personaInicial);
 
     // ----- ego -----
-    const ego = [{id: copiaPersonaInicial.id, parentesco: "ego", sexo: copiaPersonaInicial.sexo}];
-    /*const listadoHermanos = getHermanos(copiaPersonaInicial, copiaPersonas);
+    const listadoHermanos = getHermanos(copiaPersonaInicial, copiaPersonas);
     listadoHermanos.push(copiaPersonaInicial);
     const hermanos = listadoHermanos
         .filter( p => p!= null)
         .map( p => ({
             id: p.id,
-            parentesco: "ego"
-    }));*/
+            parentesco: "ego",
+            sexo: p.sexo
+    }));
 
     // ----- Primera generacion ascendente (padres y tios) ------
     const {padre, madre} = getPadres(copiaPersonaInicial, copiaPersonas);
@@ -94,5 +94,5 @@ export default function getParentescoMainId(personaInicialId, personas){
                                             sexo: nieto.sexo
                                         })));
 
-    return [...ego, ...padres, ...tios, ...abuelos, ...bisabuelos, ...hijos, ...nietos];
+    return [...padres, ...tios, ...abuelos, ...bisabuelos, ...hermanos, ...hijos, ...nietos];
 };

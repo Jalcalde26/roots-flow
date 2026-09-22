@@ -1,3 +1,5 @@
+import calcularEdad from './calcularEdad.js';
+
 export function getPadres (persona, personas) {
 
     if (!persona) return { padre:null, madre:null };
@@ -57,4 +59,15 @@ export function getTios (persona, personas) {
     const tiosMaternos =  getHermanos(madre, personas);
 
     return { tiosPaternos, tiosMaternos };
-}
+};
+
+export function getHijos (persona, personas) {
+    if (!persona || !personas) return [];
+    const hijos = persona.hijosIds
+        .map(id => personas.find( p => p.id === id))
+        .filter(Boolean);
+        // ordenación mayor a menor
+    hijos.sort((a,b) => calcularEdad(b.fechaNacimiento, b.fechaDefuncion) - calcularEdad(a.fechaNacimiento, a.fechaDefuncion));
+
+    return hijos;
+};

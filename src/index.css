@@ -25,7 +25,35 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.icono-boda {font-size: 2rem;}
 
+.card-label > div:first-child {
+    font-weight: 400;
+}
+
+.card-label > div:last-child {
+    font-size: 0.85rem;
+    font-weight: 300;
+    margin-top: 4px;
+}
+
+.f3 div.card:has(> div.mini-tree:hover) > div {
+    transform: none;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.8);
+}
+
+.f3 {
+    --male-color: transparent !important;
+    --female-color: transparent !important;
+}
+
+.f3 .cards_view rect.card-male   { fill: #789fac; }
+.f3 .cards_view rect.card-female { fill: #c48a92;}
+
+.f3 svg text {
+    transform: translateY(-3px);
+    font-size: 14px !important;   /* negativo sube, positivo baja */
+}
 
 .f3 .card_cont .card-inner.rama-abuelosPaternos { background-color: #9bb7c2; } 
 .f3 .card_cont .card-inner.rama-abuelosMaternos { background-color: #d3a3ab; } 
@@ -40,3 +68,5 @@ body {
 .f3 div.card-image-rect.sexo-h img { border-radius: 8px; }
 .f3 div.card-image-rect.sexo-m svg { border-radius: 50px; }
 .f3 div.card-image-rect.sexo-h svg { border-radius: 8px; }
+.f3 div.card-female .person-icon svg {border-radius: 50px;}
+.f3 div.card-male .person-icon svg {border-radius: 8px;}
