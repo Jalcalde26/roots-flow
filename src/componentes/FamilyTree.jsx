@@ -8,7 +8,7 @@ import getParentescoMainId from "../logica/parentesco.js";
 import { FaUsersViewfinder } from "react-icons/fa6";
 import { GiLaurelsTrophy } from "react-icons/gi";
 import { BsPersonLinesFill } from "react-icons/bs";
-import PeopleFinder from "./PeopleFinder.jsx";
+import PeopleFinder from './PeopleFinder.jsx'
 
 // IMPLEMENTAR HITOS VIDA
 // IMPLEMENTE MODAL FOTOS
@@ -109,7 +109,7 @@ function FamilyTree ({ personas, mainId, personaOnClick}, ref) {
                 ref={containerRef}
                 style={{ width: '100%', height: '100%', margin: 'auto', backgroundColor: 'rgb(33,33,33)', color: '#fff' }}>
             </div>
-            <div className="absolute top-10">
+            <div className="absolute top-10 right-50">
                 <PeopleFinder 
                             data = {personas}
                             onSelect = {personaOnClick}>
