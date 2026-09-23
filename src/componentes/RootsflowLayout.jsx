@@ -89,7 +89,7 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd }) {
 
     return (
         <LayoutContext.Provider value={ {panelView, showPanel, handleToggle, isColapsed} }>
-            <div className={`grid grid-cols-[1fr_auto] gap-0 w-screen h-screen overflow-hidden font-roboto `}>
+            <div className={`grid grid-cols-[1fr_auto] gap-0 w-screen h-screen overflow-hidden `}>
                 <div className="relative">
                     {children}
                 </div>

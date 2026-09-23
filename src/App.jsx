@@ -176,8 +176,8 @@ function App() {
               "fechaDefuncion": null,
               "lugarNacimiento": "Santiago de Alcántara (Cáceres)",
               "familiasIds": ["fam-003"],
-              "padreId":  "per-036",
-              "madreId": "per-035",
+              "padreId":  null,
+              "madreId": null,
               "hijosIds": ["per-004", "per-008" ],
               "parejasId": ["per-006"]
             },
@@ -239,7 +239,7 @@ function App() {
   
   return (
     <>
-      <div className="w-screen h-screen font-sans">
+      <div className="w-screen h-screen font-roboto">
         <RootsflowLayout
           onAsideTransitionEnd={() => arbolRef.current.resetView()}
           children={

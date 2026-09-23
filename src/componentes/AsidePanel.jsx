@@ -218,7 +218,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
                         persona.biografia.map((paragraph, i) => (
                         <p
                         key={i}
-                        className={`font-roboto text-base mb-4 ${
+                        className={`text-base mb-4 ${
                             i === 0 ? "text-white" : "text-neutral-200"
                         }`}
                         >
