@@ -1,5 +1,5 @@
 import * as f3 from 'family-chart';
-import { useRef, useEffect, forwardRef, useImperativeHandle } from "react";
+import { useState, useRef, useEffect, forwardRef, useImperativeHandle } from "react";
 import { useLayoutContext } from './LayoutContext.jsx';
 import normalizarData from "../logica/normalizarData.js";
 import 'family-chart/styles/family-chart.css';
@@ -8,6 +8,7 @@ import getParentescoMainId from "../logica/parentesco.js";
 import { FaUsersViewfinder } from "react-icons/fa6";
 import { GiLaurelsTrophy } from "react-icons/gi";
 import { BsPersonLinesFill } from "react-icons/bs";
+import { MdPersonSearch } from "react-icons/md";
 import PeopleFinder from './PeopleFinder.jsx'
 
 // IMPLEMENTAR HITOS VIDA
@@ -19,7 +20,8 @@ function FamilyTree ({ personas, mainId, personaOnClick}, ref) {
     const containerRef = useRef(null);
     const chartRef = useRef(null);
     const listadoParentescoRef = useRef(null);
-    const esPrimerRender = useRef(true); 
+    const esPrimerRender = useRef(true);
+    const [isOpen, setIsOpen] = useState(false);
 
     const { showPanel } = useLayoutContext();
 
@@ -109,12 +111,25 @@ function FamilyTree ({ personas, mainId, personaOnClick}, ref) {
                 ref={containerRef}
                 style={{ width: '100%', height: '100%', margin: 'auto', backgroundColor: 'rgb(33,33,33)', color: '#fff' }}>
             </div>
-            <div className="absolute top-10 right-50">
+            <div className={`absolute top-42 left-45 grid transition-all duration-500  ${isOpen ? "grid-cols-[1fr]" : "grid-cols-[0fr] overflow-hidden"} will-change-transform`}>
                 <PeopleFinder 
                             data = {personas}
-                            onSelect = {personaOnClick}>
+                            onSelect = {personaOnClick}
+                            isSearchOpen={isOpen}
+                >
+                            
                 </PeopleFinder>
             </div>
+            <button 
+                className={`absolute top-35 left-43 -translate-x-1/2 text-md border p-3 bg-[#4A5565] cursor-pointer z-10 transition-all duration-500 hover:scale-110 will-change-transform hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]
+                     ${isOpen ? "rounded-4xl border-[#DCDCDC] scale-110 shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]" : "border-transparent rounded-xl"}
+                `}
+                title="Buscar persona"
+                aria-label="Buscar persona"
+                onClick={() => setIsOpen(!isOpen)}
+                >
+                <MdPersonSearch className="w-8 h-8" aria-hidden="true" focusable="false"/>
+            </button>
             <button 
                 className="absolute bottom-48 left-5/10 -translate-x-1/2 text-md rounded-xl p-3 bg-[#4A5565] cursor-pointer z-10 transition-transform duration-300 hover:scale-110 will-change-transform hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]" 
                 title="Centrar vista"

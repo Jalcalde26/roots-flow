@@ -2,9 +2,9 @@ import { useState, useRef, useEffect } from "react";
 
 const LIMIT = 3;
 
-function PeopleFinder ({ data, onSelect }) {
+function PeopleFinder ({ data, onSelect, isSearchOpen}) {
     const [query, setQuery] = useState("");
-    const [open, setOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const [viewAll, setViewAll] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -16,13 +16,13 @@ function PeopleFinder ({ data, onSelect }) {
     useEffect(() => {
         const onClickOut = (e) => {
             if (contRef.current && !contRef.current.contains(e.target)) {
-                setOpen(false);
+                setIsOpen(false);
             }
         };
         document.addEventListener("pointerdown", onClickOut);
         return () => document.removeEventListener("pointerdown", onClickOut);
     }, []);
-    
+
     const normalizeText = (text) =>
         text
         .trim()
@@ -57,17 +57,20 @@ function PeopleFinder ({ data, onSelect }) {
     const selectPerson = (id) => {
         onSelect(id);
         setQuery("");
-        setOpen(false);
+        setIsOpen(false);
         setViewAll(false);
         setActiveIndex(0);
     };
+
+
+
     
 
     // teclado en el input: el foco se queda aquí y solo se mueve el resaltado
     const handleInputKeyDown = (e) => {
         if (e.key === "ArrowDown") {
             e.preventDefault();
-            if (!open) setOpen(true);
+            if (!isOpen) setIsOpen(true);
             setActiveIndex((i) => Math.min(i + 1, lastIndex));
         }
         if (e.key === "ArrowUp") {
@@ -95,19 +98,26 @@ function PeopleFinder ({ data, onSelect }) {
         }
     };
 
+    
+
     return (
         <div 
             ref={contRef}
-            className="relative w-58"
+            className={`relative min-w-0 max-w-60 border rounded-lg transition-all durante-500  ${isSearchOpen ? "border-[#DCDCDC] opacity-100" : "border-transparent overflow-hidden"}`}
+            onTransitionEnd={(e) => {
+                if (e.target === e.currentTarget && isSearchOpen) {
+                inputRef.current?.focus();
+                };
+            }}
             onKeyDown={(e) => {
                 if (e.key === "Escape") {
-                    setOpen(false);
+                    setIsOpen(false);
                     inputRef.current?.blur();
                     contRef.current?.blur();
                 }
             }}
             onBlur={(e) => {
-                if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false);
+                if (!e.currentTarget.contains(e.relatedTarget)) setIsOpen(false);
             }}
             >
             <input
@@ -116,18 +126,19 @@ function PeopleFinder ({ data, onSelect }) {
                 value={query}
                 onChange={(e) => {
                     setQuery(e.target.value);
-                    setOpen(true); //sobra? hacer pruebas
+                    setIsOpen(true); //sobra? hacer pruebas
                     setViewAll(false);
                     setActiveIndex(0);
                 }}
-                onFocus={() => setOpen(true)}
+                onFocus={() => setIsOpen(true)}
                 onKeyDown={handleInputKeyDown}
                 placeholder="Encuentra a tu familiar..."
-                className="w-full rounded-md border border-white/10 bg-[#2a2a2a] px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus:border-white/30"
+                className="w-full bg-[#4A5565] px-8 py-3 rounded-lg text-sm text-white outline-none placeholder:text-white/70"
             />
 
             {open && q && results.length > 0 && (
-            <ul className={`absolute flex flex-col gap-[1px] ${open ? "" : "hidden"} max-h-46 w-full overflow-y-auto overflow-x-hidden [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.3)_transparent] rounded-md border border-white/10 bg-[#2a2a2a] shadow-lg`}>
+            <ul className={`absolute max-h-46 left-0 flex flex-col gap-[1px] ${isOpen ? "" : "hidden"} border border-[#DCDCDC] w-54 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.3)_transparent] rounded-md bg-[#4A5565]
+                    shadow-[0px_0px_14px_-10px_rgba(0,0,0,0.8)]`}>
                 {results.map( (p, i) => (
                     <li
                         key={p.id}
@@ -137,7 +148,7 @@ function PeopleFinder ({ data, onSelect }) {
                         onMouseEnter={() => setActiveIndex(i)}
                         onKeyDown={(e) => handleItemKeyDown(e, i, () => selectPerson(p.id))}
                         onClick={() => selectPerson(p.id)}
-                        className={`flex gap-4 ${i === activeIndex ? "bg-white/10" : ""} rounded-sm cursor-pointer items-center gap-2 px-2 py-1 outline-none text-sm text-white`}
+                        className={`flex gap-4 ${i === activeIndex ? "bg-white/10" : ""} rounded-sm cursor-pointer items-center px-2 py-1 outline-none text-sm text-white`}
                     >
                         {p.fotografia ? (
                             <img
@@ -177,8 +188,9 @@ function PeopleFinder ({ data, onSelect }) {
             </ul>
             )}
 
-            {open && q && results.length === 0 && (
-            <div className="absolute z-20 mt-1 w-full rounded-md border border-white/10 bg-[#2a2a2a] px-3 py-2 text-sm text-white/50">
+            {isOpen && q && results.length === 0 && (
+            <div className={`absolute text-white/70 text-center px-2 py-3 border border-[#DCDCDC] w-54 text-sm rounded-md bg-[#4A5565]
+                    shadow-[0px_0px_14px_-10px_rgba(0,0,0,0.8)]`}>
                 Sin resultados
             </div>
             )}
