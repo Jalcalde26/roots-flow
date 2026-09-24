@@ -22,6 +22,7 @@ function FamilyTree ({ personas, mainId, personaOnClick}, ref) {
     const listadoParentescoRef = useRef(null);
     const esPrimerRender = useRef(true);
     const [isOpen, setIsOpen] = useState(false);
+    const [isHoverReady, setIsHoverReady] = useState(true);
 
     const { showPanel } = useLayoutContext();
 
@@ -85,6 +86,11 @@ function FamilyTree ({ personas, mainId, personaOnClick}, ref) {
         };
     }, []);
 
+    const handleTransitionEnd = (e) => {
+        if (e.propertyName !== "width") return;
+        setIsHoverReady(!isHoverReady);
+    };
+
 
     useEffect( () => { // Actualización de arbol al cambiar foco
 
@@ -111,25 +117,38 @@ function FamilyTree ({ personas, mainId, personaOnClick}, ref) {
                 ref={containerRef}
                 style={{ width: '100%', height: '100%', margin: 'auto', backgroundColor: 'rgb(33,33,33)', color: '#fff' }}>
             </div>
-            <div className={`absolute top-42 left-45 grid transition-all duration-500  ${isOpen ? "grid-cols-[1fr]" : "grid-cols-[0fr] overflow-hidden"} will-change-transform`}>
-                <PeopleFinder 
-                            data = {personas}
-                            onSelect = {personaOnClick}
-                            isSearchOpen={isOpen}
+            <div className={`absolute top-35 left-43 grid items-center will-change-transform
+                ${isOpen 
+                    ? "grid-cols-[min-content_1fr] bg-[#4A5565] -translate-y-1 gap-0 rounded-r-2xl rounded-4xl [transition:translate_0.3s,grid-template-columns_0.5s_0.3s,border-radius_0.3s_0.5s]" 
+                    : `grid-cols-[min-content_0fr] gap-0 rounded-4xl bg-transparent 
+                        ${isHoverReady 
+                            ? "hover:-translate-y-1 [transition:translate_0.3s,grid-template-columns_0.5s,border_0.4s,border-radius_0.3s_0.5s,background-color_0.0s_0.5s]" 
+                            : "[transition:translate_0.3s,grid-template-columns_0.5s,border_0.4s,border-radius_0.3s_0.5s,background-color_0.0s_0.5s]"} 
+                    `}`}
+                onTransitionEnd={handleTransitionEnd}
+            >
+                <button
+                    className={`text-md p-3 cursor-pointer bg-[#4A5565]
+                        ${isOpen 
+                            ? "border rounded-4xl transition-all duration-300 delay-0" 
+                            : `border border-transparent rounded-xl duration-300 delay-100`}
+                    
+                    `}
+                    title="Buscar persona"
+                    aria-label="Buscar persona"
+                    onClick={() => setIsOpen(!isOpen)}
                 >
-                            
-                </PeopleFinder>
+                    <MdPersonSearch className="w-8 h-8" aria-hidden="true" focusable="false"/>
+                </button>
+                <div className={`overflow-hidden min-w-0 max-w-auto`}>
+                    <PeopleFinder 
+                                data = {personas}
+                                onSelect = {personaOnClick}
+                                isSearchOpen={isOpen}
+                    >      
+                    </PeopleFinder>
+                </div>
             </div>
-            <button 
-                className={`absolute top-35 left-43 -translate-x-1/2 text-md border p-3 bg-[#4A5565] cursor-pointer z-10 transition-all duration-500 hover:scale-110 will-change-transform hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]
-                     ${isOpen ? "rounded-4xl border-[#DCDCDC] scale-110 shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]" : "border-transparent rounded-xl"}
-                `}
-                title="Buscar persona"
-                aria-label="Buscar persona"
-                onClick={() => setIsOpen(!isOpen)}
-                >
-                <MdPersonSearch className="w-8 h-8" aria-hidden="true" focusable="false"/>
-            </button>
             <button 
                 className="absolute bottom-48 left-5/10 -translate-x-1/2 text-md rounded-xl p-3 bg-[#4A5565] cursor-pointer z-10 transition-transform duration-300 hover:scale-110 will-change-transform hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]" 
                 title="Centrar vista"
@@ -142,14 +161,14 @@ function FamilyTree ({ personas, mainId, personaOnClick}, ref) {
                 title="Hitos de vida"
                 aria-label="Ver hitos de vida"
                 onClick={ () => showPanel("hitos")}>
-                <GiLaurelsTrophy className="w-7 h-7"/>
+                <GiLaurelsTrophy className="w-8 h-8"/>
             </button>
             <button 
                 className="absolute bottom-40 left-3/10 -translate-x-1/2 text-md rounded-xl p-3 bg-[#4A5565] cursor-pointer z-10 transition-transform duration-300 hover:scale-110 will-change-transform hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]" 
                 title="Biografía"
                 aria-label="Ver biografia"
                 onClick={() => showPanel("biografia")}>
-                <BsPersonLinesFill className="w-7 h-7"/>
+                <BsPersonLinesFill className="w-8 h-8"/>
             </button>
         </>
     );

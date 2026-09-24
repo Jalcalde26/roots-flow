@@ -103,7 +103,7 @@ function PeopleFinder ({ data, onSelect, isSearchOpen}) {
     return (
         <div 
             ref={contRef}
-            className={`relative min-w-0 max-w-60 border rounded-lg transition-all durante-500  ${isSearchOpen ? "border-[#DCDCDC] opacity-100" : "border-transparent overflow-hidden"}`}
+            className={`min-w-0 w-52`} 
             onTransitionEnd={(e) => {
                 if (e.target === e.currentTarget && isSearchOpen) {
                 inputRef.current?.focus();
@@ -132,13 +132,14 @@ function PeopleFinder ({ data, onSelect, isSearchOpen}) {
                 }}
                 onFocus={() => setIsOpen(true)}
                 onKeyDown={handleInputKeyDown}
+                spellCheck={false}
                 placeholder="Encuentra a tu familiar..."
-                className="w-full bg-[#4A5565] px-8 py-3 rounded-lg text-sm text-white outline-none placeholder:text-white/70"
+                className="w-47 h-full bg-[#4A5565] pl-4 py-3 text-md text-white outline-none placeholder:text-white/70 placeholder:text-sm"
             />
 
             {open && q && results.length > 0 && (
-            <ul className={`absolute max-h-46 left-0 flex flex-col gap-[1px] ${isOpen ? "" : "hidden"} border border-[#DCDCDC] w-54 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.3)_transparent] rounded-md bg-[#4A5565]
-                    shadow-[0px_0px_14px_-10px_rgba(0,0,0,0.8)]`}>
+            <ul className={`absolute w-54 left-13 top-15 flex flex-col gap-[1px] ${isOpen ? "" : "hidden"} border border-[#DCDCDC] overflow-y-auto [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.3)_transparent]
+                z-0 rounded-xl bg-[#4A5565]`}>
                 {results.map( (p, i) => (
                     <li
                         key={p.id}
@@ -189,8 +190,7 @@ function PeopleFinder ({ data, onSelect, isSearchOpen}) {
             )}
 
             {isOpen && q && results.length === 0 && (
-            <div className={`absolute text-white/70 text-center px-2 py-3 border border-[#DCDCDC] w-54 text-sm rounded-md bg-[#4A5565]
-                    shadow-[0px_0px_14px_-10px_rgba(0,0,0,0.8)]`}>
+            <div className={`absolute left-13 top-15 text-white text-center px-2 py-3 border border-[#DCDCDC] w-54 text-sm rounded-md bg-[#4A5565]`}>
                 Sin resultados
             </div>
             )}
