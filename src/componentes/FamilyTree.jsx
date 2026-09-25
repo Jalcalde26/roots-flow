@@ -11,7 +11,6 @@ import { BsPersonLinesFill } from "react-icons/bs";
 import { MdPersonSearch } from "react-icons/md";
 import PeopleFinder from './PeopleFinder.jsx'
 
-// ORDENAR POR ORDEN ALFABETICO LOS RESULTADOS
 // IMPLEMENTAR HITOS VIDA
 // IMPLEMENTE MODAL FOTOS
 // IMPLEMENTAR BOTON-MENÚ FILTROS -> getMaxDepth(mainId) + (getMaxDepth(mainId).ancestry > 3 o getMaxDepth(mainId).progeny > 2 indicativo que invite a seguir navegando)

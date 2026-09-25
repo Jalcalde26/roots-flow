@@ -40,6 +40,13 @@ function PeopleFinder ({ data, onSelect, isSearchOpen, shouldFocus}) {
             normalizeText(fullName(p))
             .includes(q))
         : [];
+    coincidences.sort( (a,b) => { //localeCompare para respetar normas de escritura españolas
+        return (
+            a.nombre.localeCompare(b.nombre, "es", {sensitive: "base"}) ||
+            a.apellidoPaterno.localeCompare(b.apellidoPaterno, "es", {sensitive: "base"}) ||
+            a.apellidoMaterno.localeCompare(b.apellidoMaterno, "es", {sensitive: "base"})
+        );
+    });
     // Los resultados son las coincidences mostradas
     const results = viewAll ? coincidences : coincidences.slice(0, LIMIT);
     // si hay mas coincidencias que resultados mostrados, aparecerá un boton con el valor de remaining

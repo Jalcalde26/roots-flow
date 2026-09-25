@@ -15,7 +15,7 @@ function PetPanel ({mascota, isMascotaDeath , onClose, isVisible}) {
         <>
             <div className="relative min-h-0 overflow-hidden">
                 <div className={`flex rounded-xl mt-4 p-3 gap-4 bg-neutral-800 transition-opacity duration-[700ms] ${isVisible ? "opacity-100" : "opacity-0"}`}> 
-                    <div className="h-40 h-[200px] w-[300px] rounded-2xl overflow-hidden">
+                    <div className="h-40 h-[200px] w-[300px] rounded-lg overflow-hidden">
                         {mascota?.fotografia ? (
                         <img
                             src={mascota?.fotografia}

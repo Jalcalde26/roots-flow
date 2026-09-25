@@ -16,6 +16,7 @@ import { getHijos } from '../logica/familyUtilities.js';
 import { useLayoutContext } from './LayoutContext.jsx';
 import PetPanel from './PetPanel.jsx';
 import Dato from './Dato.jsx';
+import MilestoneTimeline from './MilestoneTimeLine.jsx';
 
 
 function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
@@ -83,7 +84,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
                 <div className={"text-white text-roboto"}>
                     <div>
                     {/* foto */}
-                    <div className="max-w-[360px] h-56 rounded-2xl bg-neutral-800 overflow-hidden mb-6">
+                    <div className="max-w-[360px] h-56 rounded-xl bg-neutral-800 overflow-hidden mb-6">
                         {persona.fotografia ? (
                         <img
                             src={persona.fotografia}
@@ -228,9 +229,22 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
                     </div>
                 </div>
             </div>
-
             {/* PANEL HITOS */}
-            <div className={`${panelView === "hitos" ? "" : "hidden"} p-16 pr-14 `}>
+            <MilestoneTimeline
+                data={personas}
+                mainId={mainId}
+            >
+
+            </MilestoneTimeline>
+            
+        </>
+    );
+}
+
+export default AsidePanel;
+
+/* 
+<div className={`${panelView === "hitos" ? "" : "hidden"} p-16 pr-14 `}>
                 <div className={`flex items-center justify-between mb-6`}>
                     <div className='flex justify-between gap-2'>
                         <button className={`text-neutral-400 hover:text-white cursor-pointer`} 
@@ -252,8 +266,4 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
                     </button>
                 </div>
             </div>
-        </>
-    );
-}
-
-export default AsidePanel;
+*/
