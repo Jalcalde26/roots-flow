@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 
 const LIMIT = 3;
 
-function PeopleFinder ({ data, onSelect, isSearchOpen}) {
+function PeopleFinder ({ data, onSelect, isSearchOpen, shouldFocus}) {
     const [query, setQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [viewAll, setViewAll] = useState(false);
@@ -62,7 +62,17 @@ function PeopleFinder ({ data, onSelect, isSearchOpen}) {
         setActiveIndex(0);
     };
 
+    useEffect( () => {
+        if (isSearchOpen) return;
+        setQuery("");
+        setIsOpen(false);
+        setViewAll(false);
+        setActiveIndex(0);
+    }, [isSearchOpen]);
 
+    useEffect(() => { // Cuando este abierto el buscador && haya acabado la animación -> foco al input
+        if (shouldFocus) inputRef.current?.focus();
+    }, [shouldFocus]);
 
     
 
@@ -97,18 +107,12 @@ function PeopleFinder ({ data, onSelect, isSearchOpen}) {
             else itemRefs.current[i - 1]?.focus();
         }
     };
-
     
 
     return (
         <div 
             ref={contRef}
             className={`min-w-0 w-52`} 
-            onTransitionEnd={(e) => {
-                if (e.target === e.currentTarget && isSearchOpen) {
-                inputRef.current?.focus();
-                };
-            }}
             onKeyDown={(e) => {
                 if (e.key === "Escape") {
                     setIsOpen(false);
@@ -119,6 +123,7 @@ function PeopleFinder ({ data, onSelect, isSearchOpen}) {
             onBlur={(e) => {
                 if (!e.currentTarget.contains(e.relatedTarget)) setIsOpen(false);
             }}
+            inert={!isSearchOpen}
             >
             <input
                 ref={inputRef}
@@ -134,12 +139,12 @@ function PeopleFinder ({ data, onSelect, isSearchOpen}) {
                 onKeyDown={handleInputKeyDown}
                 spellCheck={false}
                 placeholder="Encuentra a tu familiar..."
-                className="w-47 h-full bg-[#4A5565] pl-4 py-3 text-md text-white outline-none placeholder:text-white/70 placeholder:text-sm"
+                className={`w-47 h-full pl-4 py-3 text-md text-white outline-none placeholder:text-white/70 placeholder:text-sm`}
             />
 
-            {open && q && results.length > 0 && (
-            <ul className={`absolute w-54 left-13 top-15 flex flex-col gap-[1px] ${isOpen ? "" : "hidden"} border border-[#DCDCDC] overflow-y-auto [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.3)_transparent]
-                z-0 rounded-xl bg-[#4A5565]`}>
+            {isOpen && q && results.length > 0 && (
+            <ul className={`absolute w-54 left-12 top-15 flex flex-col gap-[1px] border border-white/20 px-2 py-2 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.3)_transparent]
+                z-0 rounded-md bg-[#4A5565]`}>
                 {results.map( (p, i) => (
                     <li
                         key={p.id}
@@ -149,7 +154,7 @@ function PeopleFinder ({ data, onSelect, isSearchOpen}) {
                         onMouseEnter={() => setActiveIndex(i)}
                         onKeyDown={(e) => handleItemKeyDown(e, i, () => selectPerson(p.id))}
                         onClick={() => selectPerson(p.id)}
-                        className={`flex gap-4 ${i === activeIndex ? "bg-white/10" : ""} rounded-sm cursor-pointer items-center px-2 py-1 outline-none text-sm text-white`}
+                        className={`flex gap-4 ${i === activeIndex ? "bg-white/10 text-white" : "text-white/80"} rounded-sm cursor-pointer items-center px-2 py-1 outline-none text-sm`}
                     >
                         {p.fotografia ? (
                             <img
@@ -178,7 +183,7 @@ function PeopleFinder ({ data, onSelect, isSearchOpen}) {
                         onMouseEnter={() => setActiveIndex(lastIndex)}
                         onClick={() => setViewAll(true)}
                         onKeyDown={handleInputKeyDown}
-                        className={`cursor-pointer px-2 py-3 rounded-sm text-sm text-white/60 outline-none ${activeIndex === results.length
+                        className={`cursor-pointer pl-4 py-3 rounded-sm text-sm outline-none ${activeIndex === results.length
                             ? "bg-white/10 text-white"
                             : "text-white/60"
                         }`}
@@ -190,7 +195,7 @@ function PeopleFinder ({ data, onSelect, isSearchOpen}) {
             )}
 
             {isOpen && q && results.length === 0 && (
-            <div className={`absolute left-13 top-15 text-white text-center px-2 py-3 border border-[#DCDCDC] w-54 text-sm rounded-md bg-[#4A5565]`}>
+            <div className={`absolute w-54 left-12 top-15 text-white/60 text-center px-4 py-5 border border-white/20 text-sm rounded-md bg-[#4A5565]`}>
                 Sin resultados
             </div>
             )}

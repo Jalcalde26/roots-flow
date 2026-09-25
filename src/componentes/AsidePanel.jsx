@@ -57,7 +57,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
     return (
         <>
             {/* PANEL BIOGRAFIA */}
-            <div className={`${panelView === "biografia" ? "" : "hidden"} p-16 pr-14`}>
+            <div className={`${panelView === "biografia" ? "" : "hidden"} p-16 pr-14 `}>
                 {/* barra superior */}
                 <div className={`flex items-center justify-between mb-6`}>
                     <div className='flex justify-between gap-2'>

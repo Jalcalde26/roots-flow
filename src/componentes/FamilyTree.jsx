@@ -11,18 +11,24 @@ import { BsPersonLinesFill } from "react-icons/bs";
 import { MdPersonSearch } from "react-icons/md";
 import PeopleFinder from './PeopleFinder.jsx'
 
+// ORDENAR POR ORDEN ALFABETICO LOS RESULTADOS
 // IMPLEMENTAR HITOS VIDA
 // IMPLEMENTE MODAL FOTOS
-// IMPLEMENTAR BUSCADOR POR FILTRO
 // IMPLEMENTAR BOTON-MENÚ FILTROS -> getMaxDepth(mainId) + (getMaxDepth(mainId).ancestry > 3 o getMaxDepth(mainId).progeny > 2 indicativo que invite a seguir navegando)
+// MIGRAR TODO A INGLÉS
+// DEBUGGEAR CODIGO
+// INTRODUCIR DATOS FAMILIARES
+// FIN DE PROYECTO FRONT-END
+// APRENDER LIBRERIAS COMPLEMENTARIAS
 
 function FamilyTree ({ personas, mainId, personaOnClick}, ref) {
     const containerRef = useRef(null);
     const chartRef = useRef(null);
     const listadoParentescoRef = useRef(null);
     const esPrimerRender = useRef(true);
-    const [isOpen, setIsOpen] = useState(false);
-    const [isHoverReady, setIsHoverReady] = useState(true);
+    const [isOpen, setIsOpen] = useState(true);
+    const [isHoverReady, setIsHoverReady] = useState(false);
+    const [isAnimating, setIsAnimating] = useState(false);
 
     const { showPanel } = useLayoutContext();
 
@@ -86,10 +92,23 @@ function FamilyTree ({ personas, mainId, personaOnClick}, ref) {
         };
     }, []);
 
-    const handleTransitionEnd = (e) => {
-        if (e.propertyName !== "width") return;
-        setIsHoverReady(!isHoverReady);
+    const handleClick = () => {
+        if (isAnimating) return;
+        setIsAnimating(true);
+        setIsOpen(!isOpen);
     };
+
+    const handleTransitionEnd = (e) => {
+        if (e.target !== e.currentTarget) return;
+        if (e.propertyName !== "grid-template-columns") return;
+        setIsHoverReady(!isHoverReady);
+        setIsAnimating(false);
+    };
+
+    useEffect( () => { // red de seguridad en caso de que no se ejecute el onTransitionEnd por spam de clicks
+        const timeout = setTimeout(() => setIsAnimating(false), 900);
+        return () => clearTimeout(timeout);
+    }, [isAnimating]);
 
 
     useEffect( () => { // Actualización de arbol al cambiar foco
@@ -107,7 +126,7 @@ function FamilyTree ({ personas, mainId, personaOnClick}, ref) {
         chartRef.current.updateMainId(mainId); // Actualizacion foco
         chartRef.current.updateTree(); // Actualizacion arbol
 
-    }, [mainId]); // Se ejecuta cada vez que mainId cambia
+    }, [mainId, personas]);
 
     return( 
         <>
@@ -117,34 +136,42 @@ function FamilyTree ({ personas, mainId, personaOnClick}, ref) {
                 ref={containerRef}
                 style={{ width: '100%', height: '100%', margin: 'auto', backgroundColor: 'rgb(33,33,33)', color: '#fff' }}>
             </div>
-            <div className={`absolute top-35 left-43 grid items-center will-change-transform
+            {/* Transición hecha con CSS vanilla a propósito, para reforzar el control manual de timing/orquestación en CSS vanilla.
+                Próximas transiciones del proyecto se realizan con Motion (Framer Motion) por mantenibilidad y legibilidad del código */}
+            <div className={`absolute top-35 left-43 grid items-center will-change-transform bg-[#4A5565] will-change-auto
                 ${isOpen 
-                    ? "grid-cols-[min-content_1fr] bg-[#4A5565] -translate-y-1 gap-0 rounded-r-2xl rounded-4xl [transition:translate_0.3s,grid-template-columns_0.5s_0.3s,border-radius_0.3s_0.5s]" 
-                    : `grid-cols-[min-content_0fr] gap-0 rounded-4xl bg-transparent 
+                    ? "grid-cols-[min-content_1fr] -translate-y-1 gap-0 rounded-r-2xl rounded-4xl [transition:translate_0.3s,grid-template-columns_0.5s_0.2s,border-radius_0.3s_0.5s] shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]" 
+                    : `grid-cols-[min-content_0fr] gap-0 rounded-4xl
                         ${isHoverReady 
-                            ? "hover:-translate-y-1 [transition:translate_0.3s,grid-template-columns_0.5s,border_0.4s,border-radius_0.3s_0.5s,background-color_0.0s_0.5s]" 
-                            : "[transition:translate_0.3s,grid-template-columns_0.5s,border_0.4s,border-radius_0.3s_0.5s,background-color_0.0s_0.5s]"} 
-                    `}`}
+                            ? "hover:-translate-y-1 [transition:translate_0.3s,grid-template-columns_0.5s,border_0.4s,border-radius_0.3s]" 
+                            : "-translate-y-1 [transition:grid-template-columns_0.5s,border_0.4s,border-radius_0.3s]"} 
+                        `}
+                `}
                 onTransitionEnd={handleTransitionEnd}
             >
                 <button
-                    className={`text-md p-3 cursor-pointer bg-[#4A5565]
+                    className={`text-md p-3 border-2 cursor-pointer bg-[#4A5565]
                         ${isOpen 
-                            ? "border rounded-4xl transition-all duration-300 delay-0" 
-                            : `border border-transparent rounded-xl duration-300 delay-100`}
+                            ? "border-white/60 rounded-4xl [transition:border-radius_0.3s]" 
+                            : `rounded-xl
+                                ${isHoverReady 
+                                    ? "border-transparent hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)] [transition:border-radius_0.3s,border-color_0.2,box-shadow_0.3s]"
+                                    : "border-transparent hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)] [transition:border-radius_0.3s_0.5s,border-color_0.2s_0.5s,box-shadow_0.3s_0.5s]"}`}
                     
                     `}
                     title="Buscar persona"
                     aria-label="Buscar persona"
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={handleClick}
+                    disabled={isAnimating}
                 >
                     <MdPersonSearch className="w-8 h-8" aria-hidden="true" focusable="false"/>
                 </button>
-                <div className={`overflow-hidden min-w-0 max-w-auto`}>
+                <div className={`min-w-0 overflow-hidden`}>
                     <PeopleFinder 
                                 data = {personas}
                                 onSelect = {personaOnClick}
                                 isSearchOpen={isOpen}
+                                shouldFocus={isOpen && !isAnimating}
                     >      
                     </PeopleFinder>
                 </div>
