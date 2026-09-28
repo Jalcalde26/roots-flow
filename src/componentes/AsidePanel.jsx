@@ -62,7 +62,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick, isDarkMode}) {
                 {/* barra superior */}
                 <div className={`flex items-center justify-between mb-6`}>
                     <div className='flex justify-between gap-2'>
-                        <button className={` ${isDarkMode ? "text-darkFont" : " "}`} aria-label="Ver biografía">
+                        <button className={` ${isDarkMode ? "text-darkFont" : "text-lightFont"}`} aria-label="Ver biografía">
                         Biografía
                         </button>
                         <button className='cursor-pointer' aria-label='Intercambiar panel' onClick={panelView === "biografia" 
@@ -70,18 +70,18 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick, isDarkMode}) {
                                                                                                         : () => showPanel("biografia")}>
                             <MdOutlineSwapHoriz className='h-6 w-6 origin-center transition-transform duration-300 hover:scale-120 text-svg' aria-hidden='true' focusable="false"/>
                         </button>
-                        <button className={`${isDarkMode ? "text-neutral-400 hover:text-white" : " "} cursor-pointer `} 
+                        <button className={`${isDarkMode ? "text-neutral-400 hover:text-white" : "text-neutral-500 hover:text-lightFont"} cursor-pointer `} 
                                 aria-label="Ver hitos"
                                 onClick={ () => showPanel("hitos")}>
                         Hitos
                         </button>
                     </div>
-                    <button className={`cursor-pointer text-darkFont ${isDarkMode ? "hover:text-neutral-400" : " "}`} aria-label="Cerrar panel lateral" onClick={handleToggle}>
+                    <button className={`cursor-pointer ${isDarkMode ? "text-darkFont hover:text-neutral-400" : "hover:text-neutral-500"}`} aria-label="Cerrar panel lateral" onClick={handleToggle}>
                         <IoClose className="w-4 h-4" aria-hidden="true" focusable="false"/>
                     </button>
                 </div>
 
-                <div className={` ${isDarkMode ? "text-darkFont" : " "}`}>
+                <div className={` ${isDarkMode ? "text-darkFont" : "text-lightFont"}`}>
                     <div>
                     {/* foto  1000×750 px*/}
                     <div className="w-full aspect-[4/3] max-h-64 h-56 rounded-xl bg-neutral-800 overflow-hidden mb-6">
@@ -112,7 +112,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick, isDarkMode}) {
                     </h1>
 
                     {/* datos personales */}
-                    <dl className={`flex flex-col gap-[0.5rem] text-sm ${isDarkMode ? "text-darkFont" : " "}`}>
+                    <dl className={`flex flex-col gap-[0.5rem] text-sm ${isDarkMode ? "text-darkFont" : "text-lightFont"}`}>
                         {/* nacimiento - muerte */}
                         <Dato Icono={TbCross} etiqueta={"fecha de nacimiento y muerte"} title="Nacimiento - Defunción">
                             {esFechaValida(persona.fechaNacimiento)
@@ -169,7 +169,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick, isDarkMode}) {
                             </dt>
                             <dd className="flex flex-wrap gap-2">
                                 {hijos.map( h => (
-                                    <button className={`capitalize ${isDarkMode ? "text-darkFont hover:text-neutral-300" : " "} underline underline-offset-2 cursor-pointer`}
+                                    <button className={`capitalize ${isDarkMode ? "text-darkFont hover:text-neutral-300" : "text-lightFont hover:text-neutral-500"} underline underline-offset-2 cursor-pointer`}
                                         aria-label="Ver hijo"
                                         onClick={() => personaOnClick(h.id)}
                                         key={h.id}>
@@ -188,7 +188,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick, isDarkMode}) {
                             </dt>
                             <dd className="flex flex-wrap gap-2">
                                 {listadoMascotas.map( m => (
-                                    <button className={`capitalize ${isDarkMode ? "text-white hover:text-neutral-300" : " "} underline underline-offset-2 cursor-pointer`}
+                                    <button className={`capitalize ${isDarkMode ? "text-white hover:text-neutral-300" : "text-lightFont hover:text-neutral-500"} underline underline-offset-2 cursor-pointer`}
                                         aria-label="Ver mascota"
                                         onClick={() => handleToggleMascota(m.id)}
                                         key={m.id}>
@@ -201,7 +201,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick, isDarkMode}) {
                     </dl>
                 </div>
                 {/* Panel de mascotas*/}
-                <div className={`grid transition-all text-pretty duration-700 ${isVisible ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
+                <div className={`grid transition-[grid-template-rows] text-pretty duration-700 ${isVisible ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
                     <PetPanel
                         key={mainId}
                         mascota = {mascota}
@@ -221,8 +221,8 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick, isDarkMode}) {
                         key={i}
                         className={`text-base mb-4 
                             ${i === 0 
-                                ? (isDarkMode ? `text-white` : ``)
-                                : (isDarkMode ? `text-neutral-200` : ``)
+                                ? (isDarkMode ? `text-white` : `text-neutral-900`)
+                                : (isDarkMode ? `text-neutral-200` : `text-neutral-700`)
                             }`}
                         >
                         {paragraph}

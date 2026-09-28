@@ -146,11 +146,11 @@ function PeopleFinder ({ data, onSelect, isSearchOpen, shouldFocus, isDarkMode})
                 onKeyDown={handleInputKeyDown}
                 spellCheck={false}
                 placeholder="Encuentra a tu familiar..."
-                className={`w-47 h-full pl-4 py-3 text-svg text-md ${isDarkMode ? `placeholder:text-white/70` : ` `} outline-none  placeholder:text-sm`}
+                className={`w-47 h-full pl-4 py-3 text-svg text-md ${isDarkMode ? `placeholder:text-white/70` : `placeholder:text-white/70`} outline-none  placeholder:text-sm`}
             />
 
             {isOpen && q && results.length > 0 && (
-            <ul className={`absolute text-svg w-54 left-12 top-15 flex flex-col gap-[1px] border ${isDarkMode ? `border-white/40` : `` } px-2 py-2 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.3)_transparent]
+            <ul className={`absolute text-svg w-54 left-12 top-15 flex flex-col gap-[1px] border ${isDarkMode ? `border-white/40` : `border-white/40` } px-2 py-2 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.3)_transparent]
                 z-0 rounded-md bg-button`}>
                 {results.map( (p, i) => (
                     <li
@@ -163,8 +163,8 @@ function PeopleFinder ({ data, onSelect, isSearchOpen, shouldFocus, isDarkMode})
                         onClick={() => selectPerson(p.id)}
                         className={`flex gap-4 rounded-sm cursor-pointer items-center px-2 py-1 outline-none text-sm
                                 ${i === activeIndex 
-                                    ? (isDarkMode ? `bg-white/10 text-white` : ``) 
-                                    : (isDarkMode ? `text-white/80 ` : ``)
+                                    ? (isDarkMode ? `bg-white/10 text-white` : `bg-white/10 text-white`) 
+                                    : (isDarkMode ? `text-white/80 ` : `text-white/80`)
                                 }`}
                     >
                         {p.fotografia ? (
@@ -207,7 +207,7 @@ function PeopleFinder ({ data, onSelect, isSearchOpen, shouldFocus, isDarkMode})
             )}
 
             {isOpen && q && results.length === 0 && (
-            <div className={`absolute w-54 left-12 top-15 text-svg text-center px-4 py-5 border ${isDarkMode ? `text-white/60 border-white/40` : ``} text-sm rounded-md bg-button`}>
+            <div className={`absolute w-54 left-12 top-15 text-svg text-center px-4 py-5 border text-white/60 border-white/40 text-sm rounded-md bg-button`}>   
                 Sin resultados
             </div>
             )}

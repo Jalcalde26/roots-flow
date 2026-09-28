@@ -14,7 +14,7 @@ function PetPanel ({mascota, isMascotaDeath , onClose, isVisible, isDarkMode}) {
     return (
         <>
             <div className="relative min-h-0 overflow-hidden">
-                <div className={`flex rounded-xl mt-4 p-3 gap-4 ${isDarkMode ? `bg-neutral-800` : ` `} transition-opacity duration-[700ms] ${isVisible ? "opacity-100" : "opacity-0"}`}> 
+                <div className={`flex rounded-xl mt-4 p-3 gap-4 ${isDarkMode ? `bg-neutral-800` : `bg-neutral-100`} transition-opacity duration-[700ms] ${isVisible ? "opacity-100" : "opacity-0"}`}> 
                     <div className="h-40 h-[200px] w-[300px] rounded-lg overflow-hidden">
                         {mascota?.fotografia ? (
                         <img
@@ -34,16 +34,16 @@ function PetPanel ({mascota, isMascotaDeath , onClose, isVisible, isDarkMode}) {
                     <div className="flex flex-col justify-evenly ml-4">
                         {/* Datos personales */}
                             <div className="flex flex-col justify-center">
-                                <h2 className="capitalize text-xl font-medium leading-tight">
+                                <h2 className="capitalize text-xl font-medium">
                                 {mascota?.nombre}
                                     {mascotaEdad && (
-                                    <span className="normal-case text-lg font-normal">
+                                    <span className="normal-case text-lg">
                                         {` - ${mascotaEdad} años`}
                                     </span>
                                     )}
                                 </h2>
                             </div>
-                            <dl className={`flex flex-col gap-[2px] text-sm ${isDarkMode ? `text-neutral-300` : ` `} mb-14`}>
+                            <dl className={`flex flex-col gap-[2px] text-sm ${isDarkMode ? `text-darkFont` : `text-lightFont`} mb-14`}>
                                 {/* Nacimiento - Muerte */}
                                 <Dato Icono={TbCross} etiqueta="fecha de nacimiento y muerte" title="Nacimienfo - Defunción">
                                     {esFechaValida(mascota.fechaNacimiento)
@@ -78,7 +78,7 @@ function PetPanel ({mascota, isMascotaDeath , onClose, isVisible, isDarkMode}) {
                     </div>
                     {/* BTN cerrar panel */}
                     <button 
-                        className={`absolute cursor-pointer top-8 right-8 ${isDarkMode ? `hover:text-neutral-400` : ` `} `}
+                        className={`absolute cursor-pointer top-8 right-8 ${isDarkMode ? `hover:text-neutral-400` : `hover:text-neutral-500`} `}
                         onClick={onClose}
                         aria-label="Cerrar panel de mascotas">
                             <IoClose className="w-4 h-4" aria-hidden="true" focusable="false"/>

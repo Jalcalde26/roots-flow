@@ -245,7 +245,7 @@ function App() {
   
   return (
     <>
-      <div className={`relative w-[100vw] h-[100vh] font-roboto ${isDarkMode ? `font-darkFont bg-dark` : `font-lightFont bg-light`} `}>
+      <div className={`relative w-[100vw] h-[100vh] font-roboto ${isDarkMode ? `font-darkFont bg-darkBg` : `light text-lightFont bg-lightBg`} `}>
         <RootsflowLayout
           onAsideTransitionEnd={() => arbolRef.current.resetView()}
           isDarkMode = {isDarkMode}

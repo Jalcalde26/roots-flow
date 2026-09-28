@@ -123,8 +123,11 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd, isDarkMode })
                     </div>
                     {/* min-w-[30vw] asegura que el colapsado + difuminado sea en bloque*/}
                     <div className={`relative min-w-[30vw] h-full text-pretty overflow-x-hidden overflow-y-auto transition-[opacity] 
+                                        [scrollbar-gutter:stable] [scrollbar-width:thin]
                                         ${isColapsed ? "opacity-0 duration-300" : "opacity-100 duration-700 delay-300" } 
-                                        [scrollbar-gutter:stable] [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.3)_transparent]`}
+                                        ${isDarkMode 
+                                            ? `[scrollbar-color:rgba(255,255,255,0.3)_transparent]`
+                                            : `[scrollbar-color:rgba(0,0,0,0.3)_transparent]`}`}
                         inert={isColapsed}
                     >
                         <div className={`grid max-w-[30vw] gap-0 overflow-hidden`}>

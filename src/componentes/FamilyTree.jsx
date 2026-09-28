@@ -128,7 +128,7 @@ function FamilyTree ({ personas, mainId, personaOnClick, isDarkMode, setIsDarkMo
 
     }, [mainId, personas]);
 
-     const handleColorClick = () => {
+    const handleColorClick = () => {
         setIsDarkMode(!isDarkMode);
     };
 
@@ -138,7 +138,7 @@ function FamilyTree ({ personas, mainId, personaOnClick, isDarkMode, setIsDarkMo
                 className="f3 relative z-0"
                 id="FamilyChart"
                 ref={containerRef}
-                style={{ width: '100%', height: '100%', margin: 'auto', backgroundColor: '#212121', color: '#fff' }}>
+                style={{ width: '100%', height: '100%', margin: 'auto', backgroundColor: `${isDarkMode ? `#212121` : `#FCFCFB`}`, color: '#fff' }}>
             </div>
             {/* Transición hecha con CSS vanilla a propósito, para reforzar el control manual de timing/orquestación en CSS vanilla.
                 Próximas transiciones del proyecto se realizan con Motion (Framer Motion) por mantenibilidad y legibilidad del código */}
@@ -156,7 +156,7 @@ function FamilyTree ({ personas, mainId, personaOnClick, isDarkMode, setIsDarkMo
                 <button
                     className={`text-md p-3 border-2 cursor-pointer bg-button
                         ${isOpen 
-                            ? `${isDarkMode ? "border-white/60" : " "} rounded-4xl [transition:border-radius_0.3s]` 
+                            ? `${isDarkMode ? "border-white/60" : "border-white/40"} rounded-4xl [transition:border-radius_0.3s]` 
                             : `rounded-xl
                                 ${isHoverReady 
                                     ? "border-transparent hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)] [transition:border-radius_0.3s,border-color_0.2,box-shadow_0.3s]"

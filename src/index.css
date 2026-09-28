@@ -4,7 +4,15 @@
 @font-face { font-family: 'Roboto'; src: url('public/fonts/roboto-v51-latin-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Roboto'; src: url('public/fonts/roboto-v51-latin-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 
-
+@theme {
+  --color-svg: white;
+  --color-darkFont: white;
+  --color-lightFont: #1f2937;
+  --color-button: #4A5565;
+  --color-darkBg: #212121;
+  --color-lightBg: #FCFCFB;
+  --font-roboto: Roboto;
+}
 
 #root {
   display: flex;
@@ -75,3 +83,14 @@ body {
 .f3 div.card-image-rect.sexo-h svg { border-radius: 8px; }
 .f3 div.card-female .person-icon svg {border-radius: 50px;}
 .f3 div.card-male .person-icon svg {border-radius: 8px;}
+
+/* Light Mode */
+
+.light aside button:not(.bg-button).text-svg,
+.light aside button:not(.bg-button) .text-svg { color: var(--color-lightFont); }
+
+
+
+.light .f3 path.link,
+.light .f3 .link { stroke: #3b3d40 !important; }
+.light .f3 div.card-main .card-inner {outline: 4px solid rgb(85, 85, 85);}
