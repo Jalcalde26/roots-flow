@@ -19,7 +19,7 @@ import Dato from './Dato.jsx';
 import MilestoneTimeline from './MilestoneTimeLine.jsx';
 
 
-function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
+function AsidePanel({personas, mascotas, mainId, personaOnClick, isDarkMode}) {
 
     const [mascotaActivaId, setMascotaActivaId] = useState(null); 
     const [isVisible, setIsVisible] = useState(false);
@@ -58,38 +58,38 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
     return (
         <>
             {/* PANEL BIOGRAFIA */}
-            <div className={`${panelView === "biografia" ? "" : "hidden"} p-16 pr-14 `}>
+            <div className={`${panelView === "biografia" ? "" : "hidden"} flex flex-col p-16 pr-14 gap-15`}>
                 {/* barra superior */}
                 <div className={`flex items-center justify-between mb-6`}>
                     <div className='flex justify-between gap-2'>
-                        <button className={`biografia ? text-white`} aria-label="Ver biografía">
+                        <button className={` ${isDarkMode ? "text-darkFont" : " "}`} aria-label="Ver biografía">
                         Biografía
                         </button>
                         <button className='cursor-pointer' aria-label='Intercambiar panel' onClick={panelView === "biografia" 
                                                                                                         ? () => showPanel("hitos") 
                                                                                                         : () => showPanel("biografia")}>
-                            <MdOutlineSwapHoriz className='h-6 w-6 origin-center transition-transform duration-300 hover:scale-120 ' aria-hidden='true' focusable="false"/>
+                            <MdOutlineSwapHoriz className='h-6 w-6 origin-center transition-transform duration-300 hover:scale-120 text-svg' aria-hidden='true' focusable="false"/>
                         </button>
-                        <button className={`text-neutral-400 hover:text-white cursor-pointer `} 
+                        <button className={`${isDarkMode ? "text-neutral-400 hover:text-white" : " "} cursor-pointer `} 
                                 aria-label="Ver hitos"
                                 onClick={ () => showPanel("hitos")}>
                         Hitos
                         </button>
                     </div>
-                    <button className="cursor-pointer hover:text-neutral-400" aria-label="Cerrar panel lateral" onClick={handleToggle}>
+                    <button className={`cursor-pointer text-darkFont ${isDarkMode ? "hover:text-neutral-400" : " "}`} aria-label="Cerrar panel lateral" onClick={handleToggle}>
                         <IoClose className="w-4 h-4" aria-hidden="true" focusable="false"/>
                     </button>
                 </div>
 
-                <div className={"text-white text-roboto"}>
+                <div className={` ${isDarkMode ? "text-darkFont" : " "}`}>
                     <div>
-                    {/* foto */}
-                    <div className="max-w-[360px] h-56 rounded-xl bg-neutral-800 overflow-hidden mb-6">
+                    {/* foto  1000×750 px*/}
+                    <div className="w-full aspect-[4/3] max-h-64 h-56 rounded-xl bg-neutral-800 overflow-hidden mb-6">
                         {persona.fotografia ? (
                         <img
                             src={persona.fotografia}
-                            alt={`fotografía de ${persona.name} ${persona.apellidoPaterno} ${persona.apellidoMaterno}`}
-                            className="w-full h-full object-cover"
+                            alt={`fotografía de ${persona.nombre    } ${persona.apellidoPaterno} ${persona.apellidoMaterno}`}
+                            className="w-full h-full object-cover object-top"
                         />
                         ) : (
                         <div className="w-full h-full flex items-center justify-center text-neutral-300">
@@ -102,7 +102,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
                     </div>
 
                     {/* nombre completo y edad */}
-                    <h1 className="text-2xl font-medium leading-tight mb-2.5 text-roboto">
+                    <h1 className="text-2xl font-medium leading-tight mb-2.5">
                         {persona.nombre} {persona.apellidoPaterno} {persona.apellidoMaterno}
                         {edad && (
                         <span className="text-xl font-normal">
@@ -112,7 +112,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
                     </h1>
 
                     {/* datos personales */}
-                    <dl className="flex flex-col gap-[0.5rem] text-sm text-neutral-300">
+                    <dl className={`flex flex-col gap-[0.5rem] text-sm ${isDarkMode ? "text-darkFont" : " "}`}>
                         {/* nacimiento - muerte */}
                         <Dato Icono={TbCross} etiqueta={"fecha de nacimiento y muerte"} title="Nacimiento - Defunción">
                             {esFechaValida(persona.fechaNacimiento)
@@ -169,7 +169,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
                             </dt>
                             <dd className="flex flex-wrap gap-2">
                                 {hijos.map( h => (
-                                    <button className="capitalize text-white hover:text-neutral-300 underline underline-offset-2 cursor-pointer"
+                                    <button className={`capitalize ${isDarkMode ? "text-darkFont hover:text-neutral-300" : " "} underline underline-offset-2 cursor-pointer`}
                                         aria-label="Ver hijo"
                                         onClick={() => personaOnClick(h.id)}
                                         key={h.id}>
@@ -188,7 +188,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
                             </dt>
                             <dd className="flex flex-wrap gap-2">
                                 {listadoMascotas.map( m => (
-                                    <button className="capitalize text-white hover:text-neutral-300 underline underline-offset-2 cursor-pointer"
+                                    <button className={`capitalize ${isDarkMode ? "text-white hover:text-neutral-300" : " "} underline underline-offset-2 cursor-pointer`}
                                         aria-label="Ver mascota"
                                         onClick={() => handleToggleMascota(m.id)}
                                         key={m.id}>
@@ -208,20 +208,22 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
                         isMascotaDeath = {isMascotaDeath}
                         onClose = {onCloseMascota}
                         isVisible={isVisible}
+                        isDarkMode = {isDarkMode}
                     />
                 </div>
 
                 {/* Sección biografía */}
-                <div className="pt-4">
-                    <div className='w-full border-b border-neutral-500 mb-4'></div>
+                <div className="mt-4 border-t border-neutral-600 pt-6">
                     {/* biografía -> cada indice 1 párrafo*/}
                     {persona.biografia && (
                         persona.biografia.map((paragraph, i) => (
                         <p
                         key={i}
-                        className={`text-base mb-4 ${
-                            i === 0 ? "text-white" : "text-neutral-200"
-                        }`}
+                        className={`text-base mb-4 
+                            ${i === 0 
+                                ? (isDarkMode ? `text-white` : ``)
+                                : (isDarkMode ? `text-neutral-200` : ``)
+                            }`}
                         >
                         {paragraph}
                         </p>
@@ -231,10 +233,13 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
             </div>
             {/* PANEL HITOS */}
             <MilestoneTimeline
-                data={personas}
+                persona={persona}
                 mainId={mainId}
+                showPanel ={showPanel}
+                handleToggleAside={handleToggle}
+                panelView = {panelView}
+                isDarkMode = {isDarkMode}
             >
-
             </MilestoneTimeline>
             
         </>
@@ -244,26 +249,5 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick}) {
 export default AsidePanel;
 
 /* 
-<div className={`${panelView === "hitos" ? "" : "hidden"} p-16 pr-14 `}>
-                <div className={`flex items-center justify-between mb-6`}>
-                    <div className='flex justify-between gap-2'>
-                        <button className={`text-neutral-400 hover:text-white cursor-pointer`} 
-                                aria-label="Ver biografía"
-                                onClick={ () => showPanel("biografia")}>
-                        Biografía
-                        </button>
-                        <button className='cursor-pointer' aria-label='Intercambiar panel' onClick={panelView === "biografia" 
-                                                                                                        ? () => showPanel("hitos") 
-                                                                                                        : () => showPanel("biografia")}>
-                            <MdOutlineSwapHoriz className='h-6 w-6 origin-center transition-transform duration-300 hover:scale-120 ' aria-hidden='true' focusable="false"/>
-                        </button>
-                        <button className={`text-white`} aria-label="Ver hitos">
-                        Hitos
-                        </button>
-                    </div>
-                    <button className={`cursor-pointer hover:text-neutral-400`} aria-label="Cerrar panel lateral" onClick={handleToggle}>
-                        <IoClose className="w-4 h-4" aria-hidden="true" focusable="false"/>
-                    </button>
-                </div>
-            </div>
+
 */

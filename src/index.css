@@ -23,15 +23,14 @@
 }
 
 body {
-  background-color: #DAD2C2 ;
-  color: #ffff;
   width: 100vw;
   height: 100vh;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
-.icono-boda {font-size: 2rem;}
+
+/* ---- DISEÑO PERSONALIZADO ARBOL GENEALOGICO (FAMILY-CHART) ---- */
 
 .card-label > div:first-child {
     font-weight: 400;

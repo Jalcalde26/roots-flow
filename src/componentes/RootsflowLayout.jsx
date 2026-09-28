@@ -2,8 +2,11 @@ import 'family-chart/styles/family-chart.css';
 import '../index.css';
 import { useState, useEffect, useRef } from 'react';
 import LayoutContext from './LayoutContext.jsx'
+import { BsArrowLeft } from "react-icons/bs";
 
-function RootsflowLayout ({ children, aside, onAsideTransitionEnd }) {
+
+
+function RootsflowLayout ({ children, aside, onAsideTransitionEnd, isDarkMode }) {
 
     const [isColapsed, setIsColapsed] = useState(true);
     const [panelView, setPanelView] = useState("biografia");
@@ -100,23 +103,23 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd }) {
                 <div className="relative">
                     {children}
                 </div>
-                <aside className={`h-screen relative bg-[#212121] shadow-[-14px_0_8px_-6px_rgba(0,0,0,0.3)] transition-all ${isDragging ? "duration-0" : "duration-700"}`}
+                <aside className={`h-screen relative bg-dark shadow-[-14px_0_8px_-6px_rgba(0,0,0,0.3)] transition-all ${isDragging ? "duration-0" : "duration-700"}`}
                         style={{ width: `${asideWidth}`}}
                         onTransitionEnd={handleTransitionEnd}>
                         
                     <button
-                        className={`absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 text-xl rounded-full flex justify-center items-center w-9 h-9 bg-gray-600 
+                        className={`absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 text-xl rounded-full flex justify-center items-center w-11 h-11 bg-button
                                     shadow-[-14px_0_8px_-6px_rgba(0,0,0,0.3)] cursor-pointer z-10 transition-transform duration-300 hover:scale-120 will-change-transform`}
                         aria-label="Alterna visualizacion de panel lateral"
                         onClick={handleToggle}
                         disabled={isAnimating}
                     >
-                    {String.fromCodePoint(showLeftArrow ? 8592 : 8594)} 
+                        <BsArrowLeft className={`w-5 h5 transition-transform duration-300 text-svg ${showLeftArrow ? "" : "rotate-180" }`}/> 
                     </button>
                     {/* div para detectar borde izq del aside de forma consistente*/}
                     <div 
                         onMouseDown={handleMouseDown}  
-                        className={`absolute w-4 h-full -translate-x-1/2 left-0 border-white ${isColapsed ? "" : "cursor-col-resize"} z-5`}> 
+                        className={`absolute w-4 h-full -translate-x-1/2 left-0 ${isColapsed ? "" : "cursor-col-resize"} z-5`}> 
                     </div>
                     {/* min-w-[30vw] asegura que el colapsado + difuminado sea en bloque*/}
                     <div className={`relative min-w-[30vw] h-full text-pretty overflow-x-hidden overflow-y-auto transition-[opacity] 

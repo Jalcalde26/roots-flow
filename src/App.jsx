@@ -8,32 +8,38 @@ import AsidePanel from './componentes/AsidePanel.jsx'
 
 function App() {
 
-  const [personaInicialId, setPersonaInicialId] = useState("per-004"); 
+  const [personaInicialId, setPersonaInicialId] = useState("per-004");
+  const [isDarkMode, setIsDarkMode] = useState(true); 
   const arbolRef = useRef(null);
 
   const data = [
               {
-              "id": "per-001",
-              "nombre": "Laura",
-              "apellidoPaterno": "Alcalde",
-              "apellidoMaterno": "Molina",
-              "fotografia": "public/personas/foto prueba.png",
-              "sexo": "m",
-              "fechaNacimiento": "2002-01-14",
-              "fechaDefuncion": null,
-              "lugarNacimiento": "Sevilla",
-              "familiasIds": [ "fam-001", "fan-002" ],
-              "padreId": "per-004",
-              "madreId": "per-005",
-              "hijosIds": [],
-              "parejasId":[],
-              "biografia":["Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi libero nulla fugiat minima culpa? Voluptatibus maiores distinctio iure modi nisi alias obcaecati ipsam exercitationem nam? Aliquid pariatur veritatis quisquam?",
-                            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi libero nulla fugiat minima culpa? Voluptatibus maiores distinctio iure modi nisi alias obcaecati ipsam exercitationem nam? Aliquid pariatur veritatis quisquam?",
-                            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi libero nulla fugiat minima culpa? Voluptatibus maiores distinctio iure modi nisi alias obcaecati ipsam exercitationem nam? Aliquid pariatur veritatis quisquam?",
-                            "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi explicabo velit ullam dicta exercitationem asperiores veritatis, optio sint maiores, beatae odit qui odio omnis, impedit deleniti? Accusamus eveniet labore ut!",
-                            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia illo et dolorem deleniti dolor nostrum accusamus, beatae blanditiis iure magni, ducimus quis officia harum nobis? Assumenda sit est commodi at."
-                          ],
-              "profesion": "Bióloga"
+                "id": "per-001",
+                "nombre": "Laura",
+                "apellidoPaterno": "Alcalde",
+                "apellidoMaterno": "Molina",
+                "fotografia": "public/personas/foto prueba.png",
+                "sexo": "m",
+                "fechaNacimiento": "2002-01-14",
+                "fechaDefuncion": null,
+                "lugarNacimiento": "Sevilla",
+                "familiasIds": [ "fam-001", "fan-002" ],
+                "padreId": "per-004",
+                "madreId": "per-005",
+                "hijosIds": [],
+                "parejasId":[],
+                "biografia":["Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi libero nulla fugiat minima culpa? Voluptatibus maiores distinctio iure modi nisi alias obcaecati ipsam exercitationem nam? Aliquid pariatur veritatis quisquam?",
+                              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi libero nulla fugiat minima culpa? Voluptatibus maiores distinctio iure modi nisi alias obcaecati ipsam exercitationem nam? Aliquid pariatur veritatis quisquam?",
+                              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem excepturi libero nulla fugiat minima culpa? Voluptatibus maiores distinctio iure modi nisi alias obcaecati ipsam exercitationem nam? Aliquid pariatur veritatis quisquam?",
+                              "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi explicabo velit ullam dicta exercitationem asperiores veritatis, optio sint maiores, beatae odit qui odio omnis, impedit deleniti? Accusamus eveniet labore ut!",
+                              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia illo et dolorem deleniti dolor nostrum accusamus, beatae blanditiis iure magni, ducimus quis officia harum nobis? Assumenda sit est commodi at."
+                            ],
+                "profesion": "Bióloga",
+                "milestones": [
+                  {"title": "Graduación Universitaria", "date": "2025-07-25", "description": "Se gradúo con excelencia académica, siendo de las mejores posicionadas de su promoción."},
+                  {"title": "Graduación Universitaria", "date": "2025-07-25", "description": "Se gradúo con excelencia académica, siendo de las mejores posicionadas de su promoción."},
+                  {"title": "Graduación Universitaria", "date": "2025-07-25", "description": "Se gradúo con excelencia académica, siendo de las mejores posicionadas de su promoción."}
+                ]
               },
               {
               "id": "per-008",
@@ -239,15 +245,18 @@ function App() {
   
   return (
     <>
-      <div className="w-screen h-screen font-roboto">
+      <div className={`relative w-[100vw] h-[100vh] font-roboto ${isDarkMode ? `font-darkFont bg-dark` : `font-lightFont bg-light`} `}>
         <RootsflowLayout
           onAsideTransitionEnd={() => arbolRef.current.resetView()}
+          isDarkMode = {isDarkMode}
           children={
             <FamilyTree
               ref={arbolRef}
               personas = {data}
               mainId = {personaInicialId}
               personaOnClick = {setPersonaInicialId}
+              isDarkMode = {isDarkMode}
+              setIsDarkMode = {setIsDarkMode}
             />
           }
           aside={
@@ -257,6 +266,7 @@ function App() {
               mascotas={treeDataJSON.mascotas}
               mainId = {personaInicialId}
               personaOnClick= {setPersonaInicialId}
+              isDarkMode = {isDarkMode}
             />
           }
         /> 
