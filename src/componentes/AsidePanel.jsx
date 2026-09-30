@@ -3,8 +3,8 @@ import fechaFormateada from '../logica/fechaFormateada.js';
 import isDeath from '../logica/isDeath.js';
 import { IoLocationOutline } from "react-icons/io5";
 import { PiHeartHalf } from "react-icons/pi";
-import { TbCross } from "react-icons/tb";
-import { MdWorkOutline } from "react-icons/md";
+import { PiCross } from "react-icons/pi";
+import { BsBriefcase } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { HiOutlineLink } from "react-icons/hi2";
 import esFechaValida from "../logica/esFechaValida.js";
@@ -68,7 +68,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick, isDarkMode}) {
                         <button className='cursor-pointer' aria-label='Intercambiar panel' onClick={panelView === "biografia" 
                                                                                                         ? () => showPanel("hitos") 
                                                                                                         : () => showPanel("biografia")}>
-                            <MdOutlineSwapHoriz className='h-6 w-6 origin-center transition-transform duration-300 hover:scale-120 text-svg' aria-hidden='true' focusable="false"/>
+                            <MdOutlineSwapHoriz className={`h-6 w-6 origin-center transition-transform duration-300 hover:scale-120 ${isDarkMode ? "text-svg" : "text-lightFont"}`} aria-hidden='true' focusable="false"/>
                         </button>
                         <button className={`${isDarkMode ? "text-neutral-400 hover:text-white" : "text-neutral-500 hover:text-lightFont"} cursor-pointer `} 
                                 aria-label="Ver hitos"
@@ -92,7 +92,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick, isDarkMode}) {
                             className="w-full h-full object-cover object-top"
                         />
                         ) : (
-                        <div className="w-full h-full flex items-center justify-center text-neutral-300">
+                        <div className={`w-full h-full flex items-center justify-center  ${isDarkMode ? `bg-neutral-900 text-neutral-300` : `bg-neutral-200 text-neutral-500`}`}>
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <circle cx="12" cy="8" r="4" />
                             <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" />
@@ -114,7 +114,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick, isDarkMode}) {
                     {/* datos personales */}
                     <dl className={`flex flex-col gap-[0.5rem] text-sm ${isDarkMode ? "text-darkFont" : "text-lightFont"}`}>
                         {/* nacimiento - muerte */}
-                        <Dato Icono={TbCross} etiqueta={"fecha de nacimiento y muerte"} title="Nacimiento - Defunción">
+                        <Dato Icono={PiCross} etiqueta={"fecha de nacimiento y muerte"} title="Nacimiento - Defunción">
                             {esFechaValida(persona.fechaNacimiento)
                                 ? fechaFormateada(persona.fechaNacimiento) 
                                 : "Desconocido"} 
@@ -133,7 +133,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick, isDarkMode}) {
                         
                         {/* Profesion */}
                         {persona.profesion && (
-                        <Dato Icono={MdWorkOutline} etiqueta={"Profesión"} title="Profesión">
+                        <Dato Icono={BsBriefcase} etiqueta={"Profesión"} title="Profesión">
                             {persona.profesion}
                         </Dato>
                         )}
@@ -145,7 +145,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick, isDarkMode}) {
                                 {persona.sexo === "m" ? "Casada" : "Casado"} con
                             </dt>
                             <dd className="flex flex-wrap items-center gap-2">
-                                <button className="capitalize text-white hover:text-neutral-300 underline underline-offset-2 cursor-pointer"
+                                <button className={`capitalize ${isDarkMode ? `text-darkFont hover:text-neutral-300` : `text-lightFont hover:text-neutral-500`} underline underline-offset-2 cursor-pointer`}
                                         aria-label="Ver pareja"
                                         onClick={() => personaOnClick(spouse.id)}>
                                     {spouse.nombre} {spouse.apellidoPaterno} {spouse.apellidoMaterno}
@@ -213,7 +213,7 @@ function AsidePanel({personas, mascotas, mainId, personaOnClick, isDarkMode}) {
                 </div>
 
                 {/* Sección biografía */}
-                <div className="mt-4 border-t border-neutral-600 pt-6">
+                <div className={`mt-4 border-t ${isDarkMode ? `border-neutral-600`: `border-neutral-300`} pt-6`}>
                     {/* biografía -> cada indice 1 párrafo*/}
                     {persona.biografia && (
                         persona.biografia.map((paragraph, i) => (

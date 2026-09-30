@@ -103,18 +103,24 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd, isDarkMode })
                 <div className="relative">
                     {children}
                 </div>
-                <aside className={`h-screen relative bg-dark shadow-[-14px_0_8px_-6px_rgba(0,0,0,0.3)] transition-all ${isDragging ? "duration-0" : "duration-700"}`}
+                <aside className={`h-screen relative transition-all ${isDragging ? "duration-0" : "duration-700"}
+                                    ${isDarkMode
+                                        ? `bg-darkBg shadow-[-14px_0_8px_-6px_rgba(0,0,0,0.3)]`
+                                        : `bg-white border-l border-neutral-200 shadow-[-10px_0_24px_-8px_rgba(15,23,42,0.12)]`}`}
                         style={{ width: `${asideWidth}`}}
                         onTransitionEnd={handleTransitionEnd}>
                         
                     <button
-                        className={`absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 text-xl rounded-full flex justify-center items-center w-11 h-11 bg-button
-                                    shadow-[-14px_0_8px_-6px_rgba(0,0,0,0.3)] cursor-pointer z-10 transition-transform duration-300 hover:scale-120 will-change-transform`}
+                        className={`absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 text-xl rounded-full flex justify-center items-center w-11 h-11
+                                    cursor-pointer z-10 transition-all duration-300 hover:scale-120 will-change-transform
+                                    ${isDarkMode
+                                        ? `bg-button shadow-[-14px_0_8px_-6px_rgba(0,0,0,0.3)]`
+                                        : `bg-white border border-neutral-200 shadow-md shadow-neutral-900/10 hover:bg-neutral-50 hover:shadow-lg`}`}
                         aria-label="Alterna visualizacion de panel lateral"
                         onClick={handleToggle}
                         disabled={isAnimating}
                     >
-                        <BsArrowLeft className={`w-5 h5 transition-transform duration-300 text-svg ${showLeftArrow ? "" : "rotate-180" }`}/> 
+                        <BsArrowLeft className={`w-5 h-5 transition-transform duration-300 ${isDarkMode ? "text-svg" : "text-lightFont"} ${showLeftArrow ? "" : "rotate-180" }`}/> 
                     </button>
                     {/* div para detectar borde izq del aside de forma consistente*/}
                     <div 
@@ -127,7 +133,7 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd, isDarkMode })
                                         ${isColapsed ? "opacity-0 duration-300" : "opacity-100 duration-700 delay-300" } 
                                         ${isDarkMode 
                                             ? `[scrollbar-color:rgba(255,255,255,0.3)_transparent]`
-                                            : `[scrollbar-color:rgba(0,0,0,0.3)_transparent]`}`}
+                                            : `[scrollbar-color:rgba(0,0,0,0.2)_transparent]`}`}
                         inert={isColapsed}
                     >
                         <div className={`grid max-w-[30vw] gap-0 overflow-hidden`}>

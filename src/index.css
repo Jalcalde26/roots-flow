@@ -68,13 +68,13 @@ body {
     font-size: 14px !important;   /* negativo sube, positivo baja */
 }
 
-.f3 .card_cont .card-inner.rama-abuelosPaternos { background-color: #9bb7c2; } 
-.f3 .card_cont .card-inner.rama-abuelosMaternos { background-color: #d3a3ab; } 
-.f3 .card_cont .card-inner.rama-paterno         { background-color: #789fac; } 
-.f3 .card_cont .card-inner.rama-materno         { background-color: #c48a92; }
-.f3 .card_cont .card-inner.rama-ego             { background-color: #d4a373; }
-.f3 .card_cont .card-inner.rama-hijos           { background-color: #4d7f66; }
-.f3 .card_cont .card-inner.rama-nietos          { background-color: #5f8f78; }
+.f3 .card_cont .card-inner.rama-abuelosPaternos { background-color: #4a7a8c; }
+.f3 .card_cont .card-inner.rama-abuelosMaternos { background-color: #a3606c; }
+.f3 .card_cont .card-inner.rama-paterno         { background-color: #386676; }
+.f3 .card_cont .card-inner.rama-materno         { background-color: #8f4d5a; }
+.f3 .card_cont .card-inner.rama-ego             { background-color: #9a6420; }
+.f3 .card_cont .card-inner.rama-hijos           { background-color: #457359; }
+.f3 .card_cont .card-inner.rama-nietos          { background-color: #4b7c64; }
 .f3 .card_cont .card-inner.rama-default         { background-color: #555555; }
 
 .f3 div.card-image-rect.sexo-m img { border-radius: 50px; }
@@ -86,11 +86,12 @@ body {
 
 /* Light Mode */
 
-.light aside button:not(.bg-button).text-svg,
-.light aside button:not(.bg-button) .text-svg { color: var(--color-lightFont); }
-
-
-
+/* Enlaces más suaves para que las tarjetas coloreadas destaquen sobre el fondo claro */
 .light .f3 path.link,
-.light .f3 .link { stroke: #3b3d40 !important; }
-.light .f3 div.card-main .card-inner {outline: 4px solid rgb(85, 85, 85);}
+.light .f3 .link { @apply stroke-neutral-400 stroke-[1.5px]!; }
+
+/* Tarjeta principal: anillo de contraste con separación del fondo */
+.light .f3 div.card-main .card-inner { @apply outline-[4px] outline-neutral-700 outline-offset-0; }
+
+/* Profundidad sutil en las tarjetas */
+.light .f3 .card_cont .card-inner { @apply shadow-md shadow-neutral-900/15 hover:shadow-lg; }

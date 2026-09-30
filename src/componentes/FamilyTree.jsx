@@ -13,12 +13,12 @@ import PeopleFinder from './PeopleFinder.jsx'
 import { IoIosSunny } from "react-icons/io";
 import { IoMoonSharp } from "react-icons/io5";
 
-// IMPLEMENTAR DARK / LIGHT MODE
+// MEDIAQUERYS
+// AÑADIR META DESCRIPTION
 // IMPLEMENTE MODAL FOTOS
 // MIGRAR TODO A INGLÉS
 // INTRODUCIR DATOS FAMILIARES
 // FIN DE PROYECTO FRONT-END
-// APRENDER LIBRERIAS COMPLEMENTARIAS
 
 function FamilyTree ({ personas, mainId, personaOnClick, isDarkMode, setIsDarkMode}, ref) {
     const containerRef = useRef(null);
@@ -28,7 +28,6 @@ function FamilyTree ({ personas, mainId, personaOnClick, isDarkMode, setIsDarkMo
     const [isOpen, setIsOpen] = useState(true);
     const [isHoverReady, setIsHoverReady] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
-    const [rotation, setRotation] = useState(0);
 
     const { showPanel } = useLayoutContext();
 
@@ -75,9 +74,11 @@ function FamilyTree ({ personas, mainId, personaOnClick, isDarkMode, setIsDarkMo
                 const info = listadoParentescoRef.current.find(p => p.id === d.data.id);
                 const parentesco = info?.parentesco ?? "default";
                 const sexo = info?.sexo ?? "default";
+                const nombre = [d.data.data.firstName, d.data.data.lastName].filter(Boolean).join(" ");
+                this.querySelector('img')?.setAttribute('alt', `Fotografía de ${nombre}`);
+                this.querySelector('.person-icon svg')?.setAttribute('aria-hidden', 'true');
 
                 const cardInner = this.querySelector('div.card-inner');
-                if (!cardInner) return;
                 cardInner.classList.add(`rama-${parentesco}`, `sexo-${sexo}`);
             });
 
@@ -132,7 +133,13 @@ function FamilyTree ({ personas, mainId, personaOnClick, isDarkMode, setIsDarkMo
         setIsDarkMode(!isDarkMode);
     };
 
-    return( 
+    // Estilos de botones flotantes: modo oscuro (slate) / modo claro (blanco con borde y sombra suave)
+    const floatingBtn = isDarkMode
+        ? "bg-button hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]"
+        : "bg-white ring-1 ring-neutral-200 shadow-md shadow-neutral-900/10 hover:bg-neutral-50 hover:shadow-lg";
+    const iconColor = isDarkMode ? "text-svg" : "text-lightFont";
+
+    return(
         <>
             <div
                 className="f3 relative z-0"
@@ -142,25 +149,26 @@ function FamilyTree ({ personas, mainId, personaOnClick, isDarkMode, setIsDarkMo
             </div>
             {/* Transición hecha con CSS vanilla a propósito, para reforzar el control manual de timing/orquestación en CSS vanilla.
                 Próximas transiciones del proyecto se realizan con Motion (Framer Motion) por mantenibilidad y legibilidad del código */}
-            <div className={`absolute top-35 left-43 grid items-center will-change-transform bg-button will-change-auto
-                ${isOpen 
-                    ? "grid-cols-[min-content_1fr] -translate-y-1 gap-0 rounded-r-2xl rounded-4xl [transition:translate_0.3s,grid-template-columns_0.5s_0.2s,border-radius_0.3s_0.5s] shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]" 
+            <div className={`absolute top-35 left-43 grid items-center will-change-transform will-change-auto
+                ${isDarkMode ? "bg-button" : "bg-white ring-1 ring-neutral-200"}
+                ${isOpen
+                    ? `grid-cols-[min-content_1fr] -translate-y-1 gap-0 rounded-r-2xl rounded-4xl [transition:translate_0.3s,grid-template-columns_0.5s_0.2s,border-radius_0.3s] ${isDarkMode ? "shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]" : "shadow-lg shadow-neutral-900/15"}`
                     : `grid-cols-[min-content_0fr] gap-0 rounded-4xl
                         ${isHoverReady 
-                            ? "hover:-translate-y-1 [transition:translate_0.3s,grid-template-columns_0.5s,border_0.4s,border-radius_0.3s]" 
-                            : "-translate-y-1 [transition:grid-template-columns_0.5s,border_0.4s,border-radius_0.3s]"} 
+                            ? "hover:-translate-y-1 rounded-xl [transition:translate_0.3s,grid-template-columns_0.5s,border_0.4s,border-radius_0.3s]" 
+                            : "-translate-y-1 shadow-lg shadow-neutral-900/15 [transition:grid-template-columns_0.5s,border_0.4s,border-radius_0.3s]"} 
                         `}
                 `}
                 onTransitionEnd={handleTransitionEnd}
             >
                 <button
-                    className={`text-md p-3 border-2 cursor-pointer bg-button
-                        ${isOpen 
-                            ? `${isDarkMode ? "border-white/60" : "border-white/40"} rounded-4xl [transition:border-radius_0.3s]` 
+                    className={`text-md p-3 border-2 cursor-pointer 
+                        ${isOpen
+                            ? `${isDarkMode ? "border-white/60 bg-button" : "border-neutral-200 bg-neutral-50"} rounded-4xl [transition:border-radius_0.3s]`
                             : `rounded-xl
-                                ${isHoverReady 
-                                    ? "border-transparent hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)] [transition:border-radius_0.3s,border-color_0.2,box-shadow_0.3s]"
-                                    : "border-transparent hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)] [transition:border-radius_0.3s_0.5s,border-color_0.2s_0.5s,box-shadow_0.3s_0.5s]"}`}
+                                ${isHoverReady
+                                    ? `${isDarkMode ? "bg-button" : "bg-white"} border-transparent ${isDarkMode ? "hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]" : "hover:shadow-md hover:bg-neutral-50"} [transition:border-radius_0.3s,border-color_0.2,box-shadow_0.3s]`
+                                    : `border-transparent ${isDarkMode ? "hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]" : "hover:shadow-md"} [transition:border-radius_0.3s_0.5s,border-color_0.2s_0.5s,box-shadow_0.3s_0.5s]`}`}
                     
                     `}
                     title="Buscar persona"
@@ -168,7 +176,7 @@ function FamilyTree ({ personas, mainId, personaOnClick, isDarkMode, setIsDarkMo
                     onClick={handleClick}
                     disabled={isAnimating}
                 >
-                    <MdPersonSearch className="w-8 h-8 text-svg" aria-hidden="true" focusable="false"/>
+                    <MdPersonSearch className={`w-8 h-8 ${iconColor}`}aria-hidden="true" focusable="false"/>
                 </button>
                 <div className={`min-w-0 overflow-hidden`}>
                     <PeopleFinder 
@@ -182,25 +190,25 @@ function FamilyTree ({ personas, mainId, personaOnClick, isDarkMode, setIsDarkMo
                 </div>
             </div>
             <button 
-                className="absolute bottom-48 left-5/10 -translate-x-1/2 text-md rounded-xl p-3 bg-button cursor-pointer z-10 transition-transform duration-300 hover:scale-110 will-change-transform hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]" 
+                className={`absolute bottom-48 left-5/10 -translate-x-1/2 text-md rounded-xl p-3 cursor-pointer z-10 transition-transform duration-300 hover:scale-110 will-change-transform ${floatingBtn}`}
                 title="Centrar vista"
                 aria-label="Centrar vista del arbol genealogico"
                 onClick={resetView}>
-                <FaUsersViewfinder className="w-8 h-8 text-svg"/>
+                <FaUsersViewfinder className={`w-8 h-8 ${iconColor}`}/>
             </button>
             <button 
-                className="absolute bottom-40 left-7/10 -translate-x-1/2 text-md rounded-xl p-3 bg-button cursor-pointer z-10 transition-transform duration-300 hover:scale-110 will-change-transform hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]" 
+                className={`absolute bottom-40 left-7/10 -translate-x-1/2 text-md rounded-xl p-3 cursor-pointer z-10 transition-transform duration-300 hover:scale-110 will-change-transform ${floatingBtn}`}
                 title="Hitos de vida"
                 aria-label="Ver hitos de vida"
                 onClick={ () => showPanel("hitos")}>
-                <GiLaurelsTrophy className="w-8 h-8 text-svg "/>
+                <GiLaurelsTrophy className={`w-8 h-8 ${iconColor}`}/>
             </button>
             <button 
-                className="absolute bottom-40 left-3/10 -translate-x-1/2 text-md rounded-xl p-3 bg-button cursor-pointer z-10 transition-transform duration-300 hover:scale-110 will-change-transform hover:shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]" 
+                className={`absolute bottom-40 left-3/10 -translate-x-1/2 text-md rounded-xl p-3 cursor-pointer z-10 transition-transform duration-300 hover:scale-110 will-change-transform ${floatingBtn}`}
                 title="Biografía"
                 aria-label="Ver biografia"
                 onClick={() => showPanel("biografia")}>
-                <BsPersonLinesFill className="w-8 h-8 text-svg"/>
+                <BsPersonLinesFill className={`w-8 h-8 ${iconColor}`}/>
             </button>
             <div className="absolute top-35 right-43 -translate-x-1/2">
                 <button
@@ -208,39 +216,44 @@ function FamilyTree ({ personas, mainId, personaOnClick, isDarkMode, setIsDarkMo
                     aria-checked={!isDarkMode}
                     aria-label="Modo claro"
                     onClick={handleColorClick}
-                    className="relative block w-32 h-13 rounded-full cursor-pointer
-                        bg-[linear-gradient(90deg,#2B313B,#4A5565)]
-                        shadow-[inset_0_2px_6px_rgba(0,0,0,0.5),inset_0_-1px_0_rgba(255,255,255,0.06)]
-                        focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                    className={`relative block w-32 h-13 rounded-full cursor-pointer
+                        focus-visible:outline-2 focus-visible:outline-offset-2
+                        ${isDarkMode
+                            ? `bg-[linear-gradient(90deg,#2B313B,#4A5565)]
+                               shadow-[inset_0_2px_6px_rgba(0,0,0,0.5),inset_0_-1px_0_rgba(255,255,255,0.06)]
+                               focus-visible:outline-white`
+                            : `bg-neutral-200 ring-1 ring-neutral-300
+                               shadow-[inset_0_2px_4px_rgba(0,0,0,0.12)]
+                               focus-visible:outline-neutral-500`}`}
                 >
                     {/* iconos fantasma */}
                     <IoMoonSharp
-                        className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-svg opacity-40"
+                        className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 opacity-40 ${isDarkMode ? "text-svg" : "text-neutral-600"}`}
                         aria-hidden="true"
                         focusable="false"
                     />
                     <IoIosSunny
-                        className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-svg opacity-40"
+                        className={`absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 opacity-40 ${isDarkMode ? "text-svg" : "text-neutral-600"}`}
                         aria-hidden="true"
                         focusable="false"
                     />
 
                     {/* thumb */}
                     <span
-                        className={`absolute top-1 left-1 z-10 size-11 rounded-full bg-button
-                            shadow-[0_2px_6px_rgba(0,0,0,0.5)] transition-transform duration-500 ease-in-out
+                        className={`absolute top-1 left-1 z-10 size-11 rounded-full transition-transform duration-500 ease-in-out
+                            ${isDarkMode ? `bg-button shadow-[0_2px_6px_rgba(0,0,0,0.5)]` : `bg-white ring-1 ring-neutral-300 shadow-[0_2px_6px_rgba(0,0,0,0.2)]`}
                             ${isDarkMode ? `translate-x-0` : `translate-x-19 rotate-360`}
                         `}
                     >
                         <IoMoonSharp
-                            className={`absolute inset-0 m-auto w-6 h-6 text-svg transition-all duration-500 ease-in-out
+                            className={`absolute inset-0 m-auto w-6 h-6 ${iconColor} transition-all duration-500 ease-in-out
                                 ${isDarkMode ? `opacity-100 scale-100` : `opacity-0 scale-50`}
                             `}
                             aria-hidden="true"
                             focusable="false"
                         />
                         <IoIosSunny
-                            className={`absolute inset-0 m-auto w-6 h-6 text-svg transition-all duration-500 ease-in-out
+                            className={`absolute inset-0 m-auto w-6 h-6 ${iconColor} transition-all duration-500 ease-in-out
                                 ${isDarkMode ? `opacity-0 scale-50` : `opacity-100 scale-100`}
                             `}
                             aria-hidden="true"

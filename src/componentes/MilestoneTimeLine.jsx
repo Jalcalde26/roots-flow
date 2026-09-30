@@ -29,7 +29,7 @@ function MilestoneTimeline({ persona, mainId, showPanel, panelView, handleToggle
                         <button className='cursor-pointer' aria-label='Intercambiar panel' onClick={panelView === "biografia" 
                                                                                                         ? () => showPanel("hitos") 
                                                                                                         : () => showPanel("biografia")}>
-                            <MdOutlineSwapHoriz className='h-6 w-6 origin-center transition-transform duration-300 hover:scale-120 text-svg' aria-hidden='true' focusable="false"/>
+                            <MdOutlineSwapHoriz className={`h-6 w-6 origin-center transition-transform duration-300 hover:scale-120 ${isDarkMode ? "text-svg" : "text-lightFont"}`} aria-hidden='true' focusable="false"/>
                         </button>
                         <button className={`${isDarkMode ? `text-darkFont` : `text-lightFont`}`} aria-label="Ver hitos">
                         Hitos
@@ -62,13 +62,13 @@ function MilestoneTimeline({ persona, mainId, showPanel, panelView, handleToggle
                 <button className='cursor-pointer' aria-label='Intercambiar panel' onClick={panelView === "biografia" 
                                                                                                 ? () => showPanel("hitos") 
                                                                                                 : () => showPanel("biografia")}>
-                    <MdOutlineSwapHoriz className='h-6 w-6 origin-center transition-transform duration-300 hover:scale-120 text-svg' aria-hidden='true' focusable="false"/>
+                    <MdOutlineSwapHoriz className={`h-6 w-6 origin-center transition-transform duration-300 hover:scale-120 ${isDarkMode ? "text-svg" : "text-lightFont"}`} aria-hidden='true' focusable="false"/>
                 </button>
                 <button className={`${isDarkMode ? `text-darkFont` : `text-lightFont`}`} aria-label="Ver hitos">
                 Hitos
                 </button>
             </div>
-            <button className={`cursor-pointer text-svg ${isDarkMode ? `hover:text-neutral-400` : ``}`} aria-label="Cerrar panel lateral" onClick={handleToggleAside}>
+            <button className={`cursor-pointer ${isDarkMode ? `text-svg hover:text-neutral-400` : `text-lightFont`}`} aria-label="Cerrar panel lateral" onClick={handleToggleAside}>
                 <IoClose className="w-4 h-4" aria-hidden="true" focusable="false"/>
             </button>
         </div>
@@ -86,7 +86,7 @@ function MilestoneTimeline({ persona, mainId, showPanel, panelView, handleToggle
                                     }`}
                                 onClick={() => handleToggle(index)}
                             >
-                                <PiFlagPennantFill className={`w-3 h-3 transition-colors duration-300 ${isActive ? "text-black" : "text-svg"}`}focusable="false" aria-hidden="true"/>
+                                <PiFlagPennantFill className={`w-3 h-3 transition-colors duration-300 ${isActive ? "text-black" : (isDarkMode ? "text-svg" : "text-lightFont")}`}focusable="false" aria-hidden="true"/>
                             </button>
 
                             <button

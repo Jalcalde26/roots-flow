@@ -146,12 +146,15 @@ function PeopleFinder ({ data, onSelect, isSearchOpen, shouldFocus, isDarkMode})
                 onKeyDown={handleInputKeyDown}
                 spellCheck={false}
                 placeholder="Encuentra a tu familiar..."
-                className={`w-47 h-full pl-4 py-3 text-svg text-md ${isDarkMode ? `placeholder:text-white/70` : `placeholder:text-white/70`} outline-none  placeholder:text-sm`}
+                className={`w-47 h-full pl-4 py-3 text-md ${isDarkMode ? `text-svg placeholder:text-white/70` : `text-lightFont placeholder:text-neutral-500`} outline-none  placeholder:text-sm`}
             />
 
             {isOpen && q && results.length > 0 && (
-            <ul className={`absolute text-svg w-54 left-12 top-15 flex flex-col gap-[1px] border ${isDarkMode ? `border-white/40` : `border-white/40` } px-2 py-2 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.3)_transparent]
-                z-0 rounded-md bg-button`}>
+            <ul className={`absolute w-54 max-h-51 left-12 top-15 flex flex-col gap-[1px] border px-2 py-2 overflow-y-auto [scrollbar-width:thin]
+                z-0 rounded-md
+                ${isDarkMode
+                    ? `text-svg border-white/40 [scrollbar-color:rgba(255,255,255,0.3)_transparent] bg-button`
+                    : `text-lightFont border-neutral-200 [scrollbar-color:rgba(0,0,0,0.2)_transparent] bg-white shadow-lg shadow-neutral-900/10`}`}>
                 {results.map( (p, i) => (
                     <li
                         key={p.id}
@@ -163,8 +166,8 @@ function PeopleFinder ({ data, onSelect, isSearchOpen, shouldFocus, isDarkMode})
                         onClick={() => selectPerson(p.id)}
                         className={`flex gap-4 rounded-sm cursor-pointer items-center px-2 py-1 outline-none text-sm
                                 ${i === activeIndex 
-                                    ? (isDarkMode ? `bg-white/10 text-white` : `bg-white/10 text-white`) 
-                                    : (isDarkMode ? `text-white/80 ` : `text-white/80`)
+                                    ? (isDarkMode ? `bg-white/10 text-white` : `bg-neutral-100 text-lightFont`)
+                                    : (isDarkMode ? `text-white/80 ` : `text-neutral-600`)
                                 }`}
                     >
                         {p.fotografia ? (
@@ -174,7 +177,7 @@ function PeopleFinder ({ data, onSelect, isSearchOpen, shouldFocus, isDarkMode})
                                 className="h-9 w-9 rounded-full object-cover"
                             />
                         ) : (
-                        <div className="w-9 h-9 flex items-center justify-center text-neutral-300">
+                        <div className={`w-9 h-9 flex items-center justify-center ${isDarkMode ? "text-neutral-300" : "text-neutral-400"}`}>
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <circle cx="12" cy="8" r="4" />
                             <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" />
@@ -196,8 +199,8 @@ function PeopleFinder ({ data, onSelect, isSearchOpen, shouldFocus, isDarkMode})
                         onKeyDown={handleInputKeyDown}
                         className={`cursor-pointer pl-4 py-3 rounded-sm text-sm outline-none 
                             ${activeIndex === results.length
-                                ? "bg-white/10 text-white"
-                                : "text-white/60"
+                                ? (isDarkMode ? "bg-white/10 text-white" : "bg-neutral-100 text-lightFont")
+                                : (isDarkMode ? "text-white/60" : "text-neutral-500")
                             }`}
                     >
                         + {remaining}
@@ -207,7 +210,10 @@ function PeopleFinder ({ data, onSelect, isSearchOpen, shouldFocus, isDarkMode})
             )}
 
             {isOpen && q && results.length === 0 && (
-            <div className={`absolute w-54 left-12 top-15 text-svg text-center px-4 py-5 border text-white/60 border-white/40 text-sm rounded-md bg-button`}>   
+            <div className={`absolute w-54 left-12 top-15 text-center px-4 py-5 border text-sm rounded-md
+                ${isDarkMode
+                    ? `text-svg text-white/60 border-white/40 bg-button`
+                    : `text-neutral-500 border-neutral-200 bg-white shadow-lg shadow-neutral-900/10`}`}>
                 Sin resultados
             </div>
             )}
