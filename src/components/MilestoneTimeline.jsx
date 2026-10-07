@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import fechaFormateada from '../logica/fechaFormateada.js';
-import esFechaValida from '../logica/esFechaValida.js';
+import formatDate from '../utils/formatDate.js';
+import isValidDate from '../utils/isValidDate.js';
 import { IoChevronDown } from "react-icons/io5";
 import { MdOutlineSwapHoriz } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { PiFlagPennantFill } from "react-icons/pi";
 
-function MilestoneTimeline({ persona, mainId, showPanel, panelView, handleToggleAside, isDarkMode }) {
+function MilestoneTimeline({ person, mainId, showPanel, panelView, handleToggleAside, isDarkMode }) {
 
     const [milestoneActiveIndex, setMilestoneActiveIndex] = useState(null);
 
-    const milestones = persona?.milestones ?? [];
+    const milestones = person?.milestones ?? [];
 
     const handleToggle = (index) => {
         setMilestoneActiveIndex(prev => (prev === index ? null : index));
@@ -18,17 +18,17 @@ function MilestoneTimeline({ persona, mainId, showPanel, panelView, handleToggle
 
     if (milestones.length === 0) {
         return (
-            <div className={`${panelView === "hitos" ? "" : "hidden"} p-16 pr-14`}>
+            <div className={`${panelView === "milestones" ? "" : "hidden"} p-16 pr-14 max-3xl:p-10 max-3xl:pr-8 max-md:p-6 max-md:pr-5`}>
                 <div className={`flex items-center justify-between mb-6`}>
                     <div className='flex justify-between gap-2'>
                         <button className={`${isDarkMode ? `text-neutral-400 hover:text-white` : "text-neutral-500 hover:text-lightFont"} cursor-pointer`} 
                                 aria-label="Ver biografía"
-                                onClick={ () => showPanel("biografia")}>
+                                onClick={ () => showPanel("biography")}>
                         Biografía
                         </button>
-                        <button className='cursor-pointer' aria-label='Intercambiar panel' onClick={panelView === "biografia" 
-                                                                                                        ? () => showPanel("hitos") 
-                                                                                                        : () => showPanel("biografia")}>
+                        <button className='cursor-pointer' aria-label='Intercambiar panel' onClick={panelView === "biography" 
+                                                                                                        ? () => showPanel("milestones") 
+                                                                                                        : () => showPanel("biography")}>
                             <MdOutlineSwapHoriz className={`h-6 w-6 origin-center transition-transform duration-300 hover:scale-120 ${isDarkMode ? "text-svg" : "text-lightFont"}`} aria-hidden='true' focusable="false"/>
                         </button>
                         <button className={`${isDarkMode ? `text-darkFont` : `text-lightFont`}`} aria-label="Ver hitos">
@@ -40,7 +40,7 @@ function MilestoneTimeline({ persona, mainId, showPanel, panelView, handleToggle
                     </button>
                 </div>
                 <div className="flex w-full justify-center items-center mt-20"> 
-                    <p className={`block text-2xl ${isDarkMode ? `text-neutral-400` : `text-neutral-500`}`}>No hay hitos registrados.</p>
+                    <p className={`block text-2xl max-md:text-lg text-center${isDarkMode ? `text-neutral-400` : `text-neutral-500`}`}>No hay hitos registrados.</p>
                 </div>
             </div>
                 
@@ -50,18 +50,18 @@ function MilestoneTimeline({ persona, mainId, showPanel, panelView, handleToggle
 
     return (
 
-    <div className={`flex flex-col ${panelView === "hitos" ? "" : "hidden"} p-16 pr-14 pb-40 h-[100vh] gap-20`}>
+    <div className={`flex flex-col ${panelView === "milestones" ? "" : "hidden"} p-16 pr-14 pb-40 h-[100vh] gap-20 max-3xl:p-10 max-3xl:pr-8 max-3xl:pb-20 max-3xl:gap-8 max-lg:h-auto max-lg:min-h-dvh max-md:p-6 max-md:pr-5 max-md:pb-12 max-md:gap-4`}>
 
         <div className={`flex items-center justify-between mb-6`}>
             <div className='flex gap-2'>
                 <button className={` ${isDarkMode ? `text-neutral-400 hover:text-white` : `text-neutral-500 hover:text-lightFont`}  cursor-pointer`} 
                         aria-label="Ver biografía"
-                        onClick={ () => showPanel("biografia")}>
+                        onClick={ () => showPanel("biography")}>
                 Biografía
                 </button>
-                <button className='cursor-pointer' aria-label='Intercambiar panel' onClick={panelView === "biografia" 
-                                                                                                ? () => showPanel("hitos") 
-                                                                                                : () => showPanel("biografia")}>
+                <button className='cursor-pointer' aria-label='Intercambiar panel' onClick={panelView === "biography" 
+                                                                                                ? () => showPanel("milestones") 
+                                                                                                : () => showPanel("biography")}>
                     <MdOutlineSwapHoriz className={`h-6 w-6 origin-center transition-transform duration-300 hover:scale-120 ${isDarkMode ? "text-svg" : "text-lightFont"}`} aria-hidden='true' focusable="false"/>
                 </button>
                 <button className={`${isDarkMode ? `text-darkFont` : `text-lightFont`}`} aria-label="Ver hitos">
@@ -73,7 +73,7 @@ function MilestoneTimeline({ persona, mainId, showPanel, panelView, handleToggle
             </button>
         </div>
         <div className="flex-1 flex justify-center">
-            <ol className={`flex ${milestones.length <= 2 ? "justify-start gap-20" : "justify-between gap-10"}  flex-col border-l ${isDarkMode ? `border-neutral-600` : `border-neutral-300`} ml-2 mt-8 py-10`}>
+            <ol className={`flex ${milestones.length <= 2 ? "justify-start gap-20" : "justify-between gap-10"}  flex-col border-l ${isDarkMode ? `border-neutral-600` : `border-neutral-300`} ml-2 mt-8 py-10 max-md:mt-2 max-md:py-6`}>
                 {milestones.map((milestone, index) => {
                     const isActive = milestoneActiveIndex === index;
                     return (
@@ -90,7 +90,7 @@ function MilestoneTimeline({ persona, mainId, showPanel, panelView, handleToggle
                             </button>
 
                             <button
-                                className={`w-full text-left rounded-2xl border transition-all cursor-pointer px-6 py-5
+                                className={`w-full text-left rounded-2xl border transition-all cursor-pointer px-6 py-5 max-md:px-4 max-md:py-4
                                     ${isActive
                                         ? (isDarkMode ? `bg-neutral-800 border-neutral-600 shadow-lg shadow-black/20` : `bg-neutral-100 border-neutral-300 shadow-lg shadow-black/10`)
                                         : (isDarkMode ? `bg-neutral-900 border-neutral-800 hover:bg-neutral-800/70 hover:border-neutral-700` : `bg-white border-neutral-200 hover:bg-neutral-50 hover:border-neutral-300`)
@@ -105,9 +105,9 @@ function MilestoneTimeline({ persona, mainId, showPanel, panelView, handleToggle
                                         <h2 className={`text-base font-semibold ${isDarkMode ? `text-darkFont` : `text-lightFont`}`}>
                                             {milestone.title}
                                         </h2>
-                                        {esFechaValida(milestone.date) && (
+                                        {isValidDate(milestone.date) && (
                                             <time className={`text-xs ${isDarkMode ? `text-neutral-300` : `text-neutral-500`}`}>
-                                                {fechaFormateada(milestone.date)}
+                                                {formatDate(milestone.date)}
                                             </time>
                                         )}
                                     </div>

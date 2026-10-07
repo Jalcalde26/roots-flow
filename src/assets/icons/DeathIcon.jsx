@@ -1,5 +1,5 @@
 import * as React from "react";
-const defuncionIcon = (props) => (
+const DeathIcon = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlSpace="preserve"
@@ -34,4 +34,4 @@ const defuncionIcon = (props) => (
     />
   </svg>
 );
-export  default defuncionIcon;
+export  default DeathIcon;

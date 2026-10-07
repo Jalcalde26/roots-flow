@@ -8,8 +8,8 @@ import { BsArrowLeft } from "react-icons/bs";
 
 function RootsflowLayout ({ children, aside, onAsideTransitionEnd, isDarkMode }) {
 
-    const [isColapsed, setIsColapsed] = useState(true);
-    const [panelView, setPanelView] = useState("biografia");
+    const [isCollapsed, setIsCollapsed] = useState(true);
+    const [panelView, setPanelView] = useState("biography");
     const [showLeftArrow, setShowLeftArrow] = useState(true);
     const [isDragging, setIsDragging] = useState(false);
     const [asideWidth, setAsideWidth] = useState("1.5rem");
@@ -27,19 +27,15 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd, isDarkMode })
         function handleMouseMove(e) {
             asideWidthRef.current = document.documentElement.clientWidth - e.clientX;
 
-            if (asideWidthRef.current >= document.documentElement.clientWidth * 0.3) {
-                setAsideWidth(`30vw`);
-                return;
-            }
-
             if (asideWidthRef.current <= 24) {
-                setAsideWidth(`1.5rem`);  
-                setIsColapsed(true);
-                handleMouseUp(); 
+                setAsideWidth(`1.5rem`);
+                setIsCollapsed(true);
+                handleMouseUp();
                 return;
             }
 
-            setAsideWidth(`${asideWidthRef.current}px`);               
+            // --aside-max (index.css) limita el ancho según la resolución
+            setAsideWidth(`min(${asideWidthRef.current}px, var(--aside-max))`);
         };
 
         function handleMouseUp() {
@@ -67,7 +63,7 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd, isDarkMode })
 
     function handleMouseDown (e) {
         if (isAnimating) return;
-        if (isColapsed) return;
+        if (isCollapsed) return;
         e.preventDefault();
         setIsDragging(true);
     };
@@ -75,17 +71,17 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd, isDarkMode })
     const handleToggle = () => {
         // Usamos una variable local para lidiar con la asincronia del estado y no leer el estado desactualizado
         if (isAnimating) return;
-        const newIsColapsed = !isColapsed;
-        setIsColapsed(newIsColapsed);
-        setAsideWidth(newIsColapsed ? "1.5rem" : "30vw");
-        asideWidthRef.current = newIsColapsed ? "1.5rem" : "30vw";
+        const newIsCollapsed = !isCollapsed;
+        setIsCollapsed(newIsCollapsed);
+        setAsideWidth(newIsCollapsed ? "1.5rem" : "var(--aside-max)");
+        asideWidthRef.current = newIsCollapsed ? "1.5rem" : "var(--aside-max)";
         setIsAnimating(true);
     };
 
     const handleTransitionEnd = (e) => {
         if (e.target !== e.currentTarget) return;
         if (e.propertyName !== "width") return;
-        setShowLeftArrow(isColapsed);
+        setShowLeftArrow(isCollapsed);
         setIsAnimating(false);
         if (!isDragging) onAsideTransitionEnd();
         
@@ -93,17 +89,17 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd, isDarkMode })
 
     const showPanel = (view) => {
         setPanelView(view);
-        if (isColapsed || (view === panelView) ) handleToggle();
+        if (isCollapsed || (view === panelView) ) handleToggle();
     };
 
 
     return (
-        <LayoutContext.Provider value={ {panelView, showPanel, handleToggle, isColapsed} }>
-            <div className={`grid grid-cols-[1fr_auto] gap-0 w-screen h-screen overflow-hidden`}>
+        <LayoutContext.Provider value={ {panelView, showPanel, handleToggle, isCollapsed} }>
+            <div className={`grid grid-cols-[1fr_auto] gap-0 w-screen h-screen max-lg:h-dvh overflow-hidden`}>
                 <div className="relative">
                     {children}
                 </div>
-                <aside className={`h-screen relative transition-all ${isDragging ? "duration-0" : "duration-700"}
+                <aside className={`h-screen relative max-lg:fixed max-lg:top-0 max-lg:right-0 max-lg:h-dvh max-lg:z-20 transition-[width] ${isDragging ? "duration-0" : "duration-700"}
                                     ${isDarkMode
                                         ? `bg-darkBg shadow-[-14px_0_8px_-6px_rgba(0,0,0,0.3)]`
                                         : `bg-white border-l border-neutral-200 shadow-[-10px_0_24px_-8px_rgba(15,23,42,0.12)]`}`}
@@ -112,7 +108,7 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd, isDarkMode })
                         
                     <button
                         className={`absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 text-xl rounded-full flex justify-center items-center w-11 h-11
-                                    cursor-pointer z-10 transition-all duration-300 hover:scale-120 will-change-transform
+                                    cursor-pointer z-10 transition-transform duration-300 hover:scale-120 will-change-transform
                                     ${isDarkMode
                                         ? `bg-button shadow-[-14px_0_8px_-6px_rgba(0,0,0,0.3)]`
                                         : `bg-white border border-neutral-200 shadow-md shadow-neutral-900/10 hover:bg-neutral-50 hover:shadow-lg`}`}
@@ -125,18 +121,18 @@ function RootsflowLayout ({ children, aside, onAsideTransitionEnd, isDarkMode })
                     {/* div para detectar borde izq del aside de forma consistente*/}
                     <div 
                         onMouseDown={handleMouseDown}  
-                        className={`absolute w-4 h-full -translate-x-1/2 left-0 ${isColapsed ? "" : "cursor-col-resize"} z-5`}> 
+                        className={`absolute w-4 h-full -translate-x-1/2 left-0 ${isCollapsed ? "" : "cursor-col-resize"} z-5`}> 
                     </div>
-                    {/* min-w-[30vw] asegura que el colapsado + difuminado sea en bloque*/}
-                    <div className={`relative min-w-[30vw] h-full text-pretty overflow-x-hidden overflow-y-auto transition-[opacity] 
+                    {/* min-w (ancho máximo del aside) asegura que el colapsado + difuminado sea en bloque*/}
+                    <div className={`relative min-w-[var(--aside-max)] h-full text-pretty overflow-x-hidden overflow-y-auto transition-[opacity]
                                         [scrollbar-gutter:stable] [scrollbar-width:thin]
-                                        ${isColapsed ? "opacity-0 duration-300" : "opacity-100 duration-700 delay-300" } 
+                                        ${isCollapsed ? "opacity-0 duration-300" : "opacity-100 duration-700 delay-300" } 
                                         ${isDarkMode 
                                             ? `[scrollbar-color:rgba(255,255,255,0.3)_transparent]`
                                             : `[scrollbar-color:rgba(0,0,0,0.2)_transparent]`}`}
-                        inert={isColapsed}
+                        inert={isCollapsed}
                     >
-                        <div className={`grid max-w-[30vw] gap-0 overflow-hidden`}>
+                        <div className={`grid max-w-[var(--aside-max)] gap-0 overflow-hidden`}>
                             {aside}
                         </div>
                     </div>

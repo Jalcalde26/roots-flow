@@ -12,7 +12,19 @@
   --color-darkBg: #212121;
   --color-lightBg: #FCFCFB;
   --font-roboto: Roboto;
+  --breakpoint-3xl: 120rem; /* 1920px: por encima se mantiene el diseño base (2k) */
 }
+
+/* ---- RESPONSIVE: ancho máximo del panel lateral (lo consume RootsflowLayout) ---- */
+
+:root { --aside-max: 30vw; }
+
+@media (width < 120rem) { :root { --aside-max: 36vw; } }
+@media (width < 80rem)  { :root { --aside-max: 44vw; } }
+/* A partir de aquí el panel se superpone al árbol (position: fixed) */
+@media (width < 64rem)  { :root { --aside-max: 60vw; } }
+/* Se reserva hueco para que el botón de alternar el panel siga visible */
+@media (width < 48rem)  { :root { --aside-max: calc(100vw - 1.75rem); } }
 
 #root {
   display: flex;
@@ -35,6 +47,10 @@ body {
   height: 100vh;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+@media (width < 64rem) {
+  body { height: 100dvh; } /* evita el salto de la barra del navegador en móvil/tablet */
 }
 
 
@@ -68,19 +84,19 @@ body {
     font-size: 14px !important;   /* negativo sube, positivo baja */
 }
 
-.f3 .card_cont .card-inner.rama-abuelosPaternos { background-color: #4a7a8c; }
-.f3 .card_cont .card-inner.rama-abuelosMaternos { background-color: #a3606c; }
-.f3 .card_cont .card-inner.rama-paterno         { background-color: #386676; }
-.f3 .card_cont .card-inner.rama-materno         { background-color: #8f4d5a; }
-.f3 .card_cont .card-inner.rama-ego             { background-color: #9a6420; }
-.f3 .card_cont .card-inner.rama-hijos           { background-color: #457359; }
-.f3 .card_cont .card-inner.rama-nietos          { background-color: #4b7c64; }
-.f3 .card_cont .card-inner.rama-default         { background-color: #555555; }
+.f3 .card_cont .card-inner.branch-paternalGrandparents { background-color: #4a7a8c; }
+.f3 .card_cont .card-inner.branch-maternalGrandparents { background-color: #a3606c; }
+.f3 .card_cont .card-inner.branch-paternal             { background-color: #386676; }
+.f3 .card_cont .card-inner.branch-maternal             { background-color: #8f4d5a; }
+.f3 .card_cont .card-inner.branch-ego                  { background-color: #9a6420; }
+.f3 .card_cont .card-inner.branch-children             { background-color: #457359; }
+.f3 .card_cont .card-inner.branch-grandchildren        { background-color: #4b7c64; }
+.f3 .card_cont .card-inner.branch-default              { background-color: #555555; }
 
-.f3 div.card-image-rect.sexo-m img { border-radius: 50px; }
-.f3 div.card-image-rect.sexo-h img { border-radius: 8px; }
-.f3 div.card-image-rect.sexo-m svg { border-radius: 50px; }
-.f3 div.card-image-rect.sexo-h svg { border-radius: 8px; }
+.f3 div.card-image-rect.sex-female img { border-radius: 50px; }
+.f3 div.card-image-rect.sex-male img   { border-radius: 8px; }
+.f3 div.card-image-rect.sex-female svg { border-radius: 50px; }
+.f3 div.card-image-rect.sex-male svg   { border-radius: 8px; }
 .f3 div.card-female .person-icon svg {border-radius: 50px;}
 .f3 div.card-male .person-icon svg {border-radius: 8px;}
 

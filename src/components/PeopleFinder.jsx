@@ -31,26 +31,26 @@ function PeopleFinder ({ data, onSelect, isSearchOpen, shouldFocus, isDarkMode})
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "");
 
-    const fullName = (p) => [p.nombre, p.apellidoPaterno, p.apellidoMaterno].filter(Boolean).join(" ");
+    const fullName = (p) => [p.firstName, p.paternalSurname, p.maternalSurname].filter(Boolean).join(" ");
 
     const q = normalizeText(query);
     
-    const coincidences = q
+    const matches = q
         ? data.filter((p) =>
             normalizeText(fullName(p))
             .includes(q))
         : [];
-    coincidences.sort( (a,b) => { //localeCompare para respetar normas de escritura españolas
+    matches.sort( (a,b) => { //localeCompare para respetar normas de escritura españolas
         return (
-            a.nombre.localeCompare(b.nombre, "es", {sensitive: "base"}) ||
-            a.apellidoPaterno.localeCompare(b.apellidoPaterno, "es", {sensitive: "base"}) ||
-            a.apellidoMaterno.localeCompare(b.apellidoMaterno, "es", {sensitive: "base"})
+            (a.firstName ?? "").localeCompare(b.firstName ?? "", "es", {sensitivity: "base"}) ||
+            (a.paternalSurname ?? "").localeCompare(b.paternalSurname ?? "", "es", {sensitivity: "base"}) ||
+            (a.maternalSurname ?? "").localeCompare(b.maternalSurname ?? "", "es", {sensitivity: "base"})
         );
     });
     // Los resultados son las coincidences mostradas
-    const results = viewAll ? coincidences : coincidences.slice(0, LIMIT);
+    const results = viewAll ? matches : matches.slice(0, LIMIT);
     // si hay mas coincidencias que resultados mostrados, aparecerá un boton con el valor de remaining
-    const remaining = coincidences.length - results.length;
+    const remaining = matches.length - results.length;
     const hasMore = remaining > 0;
     // lastIndex condicional. Si hay coincidencias ocultas + 1 para poder acceder al boton que los despliega. 
     const lastIndex = results.length - 1 + (hasMore ? 1 : 0);
@@ -170,10 +170,10 @@ function PeopleFinder ({ data, onSelect, isSearchOpen, shouldFocus, isDarkMode})
                                     : (isDarkMode ? `text-white/80 ` : `text-neutral-600`)
                                 }`}
                     >
-                        {p.fotografia ? (
+                        {p.photo ? (
                             <img
-                                src={p.fotografia}
-                                alt={`imagen de ${[p.nombre, p.apellidoPaterno, p.apellidoMaterno].filter(Boolean).join(" ")}`}
+                                src={p.photo}
+                                alt={`imagen de ${[p.firstName, p.paternalSurname, p.maternalSurname].filter(Boolean).join(" ")}`}
                                 className="h-9 w-9 rounded-full object-cover"
                             />
                         ) : (

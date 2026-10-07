@@ -1,5 +1,5 @@
 import * as React from "react";
-const LugarNacimientoIcon= (props) => (
+const BirthPlaceIcon= (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlSpace="preserve"
@@ -61,4 +61,4 @@ const LugarNacimientoIcon= (props) => (
     </g>
   </svg>
 );
-export default LugarNacimientoIcon;
+export default BirthPlaceIcon;

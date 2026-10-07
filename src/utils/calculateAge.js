@@ -1,31 +1,31 @@
-import esFechaValida from './esFechaValida.js'
+import isValidDate from './isValidDate.js'
 
-function calcularEdad(fechaNacimiento, fechaDefuncion) {
-    if (!esFechaValida(fechaNacimiento)) return false;
+function calculateAge(birthDate, deathDate) {
+    if (!isValidDate(birthDate)) return false;
 
-    const hoy = new Date();
-    const nacimiento = new Date(fechaNacimiento);
-    const fallecimiento = new Date(fechaDefuncion);
+    const today = new Date();
+    const birth = new Date(birthDate);
+    const death = new Date(deathDate);
 
-    let edad = 0;
-    let mes = 0;
+    let age = 0;
+    let month = 0;
 
-    if (fechaDefuncion === null) {
-        edad = hoy.getFullYear() - nacimiento.getFullYear();
-        mes = hoy.getMonth() - nacimiento.getMonth();
-        if (mes < 0 || (mes === 0 && fallecimiento.getDate() < nacimiento.getDate())) edad--;
+    if (deathDate === null) {
+        age = today.getFullYear() - birth.getFullYear();
+        month = today.getMonth() - birth.getMonth();
+        if (month < 0 || (month === 0 && death.getDate() < birth.getDate())) age--;
     } else {
-        edad = fallecimiento.getFullYear() - nacimiento.getFullYear();
-        mes = fallecimiento.getMonth() - nacimiento.getMonth();
-        if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) edad--;
+        age = death.getFullYear() - birth.getFullYear();
+        month = death.getMonth() - birth.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birth.getDate())) age--;
     };
-    
-    return edad;
+
+    return age;
 }
 
-export default calcularEdad;
+export default calculateAge;
 
-export function calcularMascotaEdad(mascota) {
-    if (mascota) return calcularEdad(mascota.fechaNacimiento, mascota.fechaDefuncion);
+export function calculatePetAge(pet) {
+    if (pet) return calculateAge(pet.birthDate, pet.deathDate);
     return null;
 };

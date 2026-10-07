@@ -1,5 +1,5 @@
 
-export const NacimientoIcon = ({ className = "w-5 h-5", ...props }) => (
+export const BirthIcon =({ className = "w-5 h-5", ...props }) => (
   <svg 
     className={className} 
     viewBox="0 0 512.001 512.001" 

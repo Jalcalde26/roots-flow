@@ -1,33 +1,30 @@
-import treeDataJSON from '../data/family-tree.json';
-import fechaFormateada from '../logica/fechaFormateada.js'
+import isValidDate from './isValidDate.js'
 
-export default normalizarData;
+const GENDER_BY_SEX = { female: "F", male: "M" }; // family-chart: "F" | "M" | undefined (card-genderless)
 
-function normalizarData (personas) { //aportar array plano con las personas a renderizar
-    const copiaPersonas = structuredClone(personas);
-    const nodos = copiaPersonas.map(p => ({
+export default normalizeData;
+
+function normalizeData (people) { //aportar array plano con las personas a renderizar
+    const peopleCopy = structuredClone(people);
+    const nodes = peopleCopy.map(p => ({
         id: p.id,
         data: {
-            "firstName": p.nombre,
-            "lastName": [p.apellidoPaterno, p.apellidoMaterno].filter(Boolean).join(" "),
-            "birthday": `Nac. ${p.fechaNacimiento 
-                                    ? p.fechaNacimiento === "undefined" 
-                                          ? "Desconocido" 
-                                          : p.fechaNacimiento.split("-")[0] 
-                                    : "Desconocido"}`,
-            avatar: p.fotografia,
-            gender: p.sexo === "m" ? "F" : "M",
-            fullBirthDate: p?.fechaNacimiento ? `${p.fechaNacimiento}` : "",
-            weddingDate: p?.fechaMatrimonio
+            "firstName": p.firstName,
+            "lastName": [p.paternalSurname, p.maternalSurname].filter(Boolean).join(" "),
+            "birthday": `Nac. ${isValidDate(p.birthDate) ? p.birthDate.split("-")[0] : "Desconocido"}`,
+            avatar: p.photo,
+            gender: GENDER_BY_SEX[p.sex],
+            fullBirthDate: isValidDate(p.birthDate) ? p.birthDate : "",
+            weddingDate: isValidDate(p.marriageDate) ? p.marriageDate : null
         },
         rels: {
-            spouses: p.parejasId, //solo incluimos una pareja por ahora
-            children: p.hijosIds, // solo hijos biologicos por ahora
-            parents: [p.padreId, p.madreId].filter(Boolean) //solo incluimos padres biologicos por ahora
+            spouses: p.spouseIds ?? [], //solo incluimos una pareja por ahora
+            children: p.childrenIds ?? [], // solo hijos biologicos por ahora
+            parents: [p.fatherId, p.motherId].filter(Boolean) //solo incluimos padres biologicos por ahora
         }
     }))
 
-    return nodos;
+    return nodes;
 };
 
 /* 

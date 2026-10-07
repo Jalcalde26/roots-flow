@@ -1,98 +1,98 @@
-import { getPadres, getHermanos, getTios, getAbuelos } from './familyUtilities.js'
+import { getParents, getSiblings, getAuntsAndUncles, getGrandparents } from './familyUtilities.js'
 
-export default function getParentescoMainId(personaInicialId, personas){
+export default function getKinshipByMainId(mainPersonId, people){
 
-    if (!personas || !personaInicialId) return [];
+    if (!people || !mainPersonId) return [];
 
     //obtenemos la personaInicial a partir del ID
-    const personaInicial = personas.find(p => p.id === personaInicialId) ?? null;
-    if (!personaInicial) return [];
+    const mainPerson = people.find(p => p.id === mainPersonId) ?? null;
+    if (!mainPerson) return [];
 
     // Creamos copias
-    const copiaPersonas = structuredClone(personas);
-    const copiaPersonaInicial = structuredClone(personaInicial);
+    const peopleCopy = structuredClone(people);
+    const mainPersonCopy = structuredClone(mainPerson);
 
     // ----- ego -----
-    const listadoHermanos = getHermanos(copiaPersonaInicial, copiaPersonas);
-    listadoHermanos.push(copiaPersonaInicial);
-    const hermanos = listadoHermanos
+    const siblingList = getSiblings(mainPersonCopy, peopleCopy);
+    siblingList.push(mainPersonCopy);
+    const siblings = siblingList
         .filter( p => p!= null)
         .map( p => ({
             id: p.id,
-            parentesco: "ego",
-            sexo: p.sexo
+            kinship: "ego",
+            sex: p.sex
     }));
 
     // ----- Primera generacion ascendente (padres y tios) ------
-    const {padre, madre} = getPadres(copiaPersonaInicial, copiaPersonas);
-    const padres = [
-        padre && {id: padre.id, parentesco: "paterno", sexo: padre.sexo},
-        madre && {id: madre.id, parentesco: "materno", sexo: madre.sexo}
+    const {father, mother} = getParents(mainPersonCopy, peopleCopy);
+    const parents = [
+        father && {id: father.id, kinship: "paternal", sex: father.sex},
+        mother && {id: mother.id, kinship: "maternal", sex: mother.sex}
     ].filter(Boolean);
 
-    const {tiosPaternos, tiosMaternos} = getTios(copiaPersonaInicial, copiaPersonas);
-    const tios = [
-        ...tiosPaternos.filter(p => p != null).map(p => ({ id: p.id, parentesco: "paterno", sexo: p.sexo })),
-        ...tiosMaternos.filter(p => p != null).map(p => ({id: p.id, parentesco: "materno", sexo: p.sexo}))
+    const {paternalAuntsAndUncles, maternalAuntsAndUncles} = getAuntsAndUncles(mainPersonCopy, peopleCopy);
+    const auntsAndUncles = [
+        ...paternalAuntsAndUncles.filter(p => p != null).map(p => ({ id: p.id, kinship: "paternal", sex: p.sex })),
+        ...maternalAuntsAndUncles.filter(p => p != null).map(p => ({id: p.id, kinship: "maternal", sex: p.sex}))
     ];
 
     // ------ segunda generacion ascendente (abuelos) --------
     const {
-        abueloPaterno, 
-        abuelaPaterna, 
-        abueloMaterno, 
-        abuelaMaterna
-    } = getAbuelos(copiaPersonaInicial, copiaPersonas);
+        paternalGrandfather,
+        paternalGrandmother,
+        maternalGrandfather,
+        maternalGrandmother
+    } = getGrandparents(mainPersonCopy, peopleCopy);
 
-    const abuelos = [
-        abueloPaterno && {id: abueloPaterno.id, parentesco: "abuelosPaternos", sexo: abueloPaterno.sexo},
-        abuelaPaterna && {id: abuelaPaterna.id, parentesco: "abuelosPaternos", sexo: abuelaPaterna.sexo},
-        abueloMaterno && {id: abueloMaterno.id, parentesco: "abuelosMaternos", sexo: abueloMaterno.sexo},
-        abuelaMaterna && {id: abuelaMaterna.id, parentesco: "abuelosMaternos", sexo: abuelaMaterna.sexo}
+    const grandparents = [
+        paternalGrandfather && {id: paternalGrandfather.id, kinship: "paternalGrandparents", sex: paternalGrandfather.sex},
+        paternalGrandmother && {id: paternalGrandmother.id, kinship: "paternalGrandparents", sex: paternalGrandmother.sex},
+        maternalGrandfather && {id: maternalGrandfather.id, kinship: "maternalGrandparents", sex: maternalGrandfather.sex},
+        maternalGrandmother && {id: maternalGrandmother.id, kinship: "maternalGrandparents", sex: maternalGrandmother.sex}
     ].filter(Boolean);
 
     // ------ tercera generacion ascendente (bis-abuelos) ------
-    
-    const bisabuelosPaternos = Object.values(getAbuelos(padre, copiaPersonas))
+
+    const paternalGreatGrandparents = Object.values(getGrandparents(father, peopleCopy))
                                 .filter( p => p != null)
                                 .map(p => ({
                                     id: p.id,
-                                    parentesco: "paterno",
-                                    sexo: p.sexo
+                                    kinship: "paternal",
+                                    sex: p.sex
                                 }));
 
-    const bisabuelosMaternos = Object.values(getAbuelos(madre, copiaPersonas))
+    const maternalGreatGrandparents = Object.values(getGrandparents(mother, peopleCopy))
                                 .filter( p => p != null)
                                 .map(p => ({
                                     id: p.id,
-                                    parentesco: "materno",
-                                    seox: p.sexo
+                                    kinship: "maternal",
+                                    sex: p.sex
                                 }));
 
-    const bisabuelos = [...bisabuelosPaternos, ...bisabuelosMaternos];
-    
+    const greatGrandparents = [...paternalGreatGrandparents, ...maternalGreatGrandparents];
+
     // ------ primera generacion descendente (hijos) ------
-    
-    const listadoHijos = personaInicial.hijosIds.map ( h => copiaPersonas
-                        .find( p => h === p.id))
+
+    const childList = mainPerson.childrenIds.map ( c => peopleCopy
+                        .find( p => c === p.id))
                         .filter(p => p != null);
 
-    const hijos = listadoHijos.map( h => ({
-                            id: h.id,
-                            parentesco: "hijos",
-                            sexo: h.sexo
+    const children = childList.map( c => ({
+                            id: c.id,
+                            kinship: "children",
+                            sex: c.sex
                         }));
 
     // ------ segunda generacion descendente (nietos) ------
 
-    const nietos = listadoHijos.flatMap(h => h.hijosIds
-                                        .map(hijoId => copiaPersonas.find(cp => hijoId === cp.id))
+    const grandchildren = childList.flatMap(c => c.childrenIds
+                                        .map(childId => peopleCopy.find(pc => childId === pc.id))
                                         .filter(p => p != null)
-                                        .map ( nieto => ({
-                                            id: nieto.id,
-                                            parentesco: "nietos",
-                                            sexo: nieto.sexo
+                                        .map ( grandchild => ({
+                                            id: grandchild.id,
+                                            kinship: "grandchildren",
+                                            sex: grandchild.sex
                                         })));
 
-    return [...padres, ...tios, ...abuelos, ...bisabuelos, ...hermanos, ...hijos, ...nietos];
+    return [...parents, ...auntsAndUncles, ...grandparents, ...greatGrandparents, ...siblings, ...children, ...grandchildren];
 };

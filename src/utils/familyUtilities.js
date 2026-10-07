@@ -1,73 +1,73 @@
-import calcularEdad from './calcularEdad.js';
+import calculateAge from './calculateAge.js';
 
-export function getPadres (persona, personas) {
+export function getParents (person, people) {
 
-    if (!persona) return { padre:null, madre:null };
+    if (!person) return { father:null, mother:null };
 
-    const padre= personas.find (p => p.id === persona.padreId) ?? null;
-    const madre= personas.find (p => p.id === persona.madreId) ?? null; 
+    const father= people.find (p => p.id === person.fatherId) ?? null;
+    const mother= people.find (p => p.id === person.motherId) ?? null;
 
-    return {padre, madre} ; 
+    return {father, mother} ;
 }
-export function obtenerFechaOrdenable (individuo) {
-    new Date(individuo.fechaNacimiento ?? "3000-01-01")
+export function getSortableDate (individual) {
+    new Date(individual.birthDate ?? "3000-01-01")
 };
 
-export function getHermanos (persona, personas) {
+export function getSiblings (person, people) {
 
-    if (!persona) return [];
+    if (!person) return [];
 
-    const {padre, madre} = getPadres(persona, personas);
+    const {father, mother} = getParents(person, people);
     // Unificamos Ids de los hermanos evitando duplicaciones
-    const hermanosIds = new Set( [...(padre?.hijosIds ?? []), ...(madre?.hijosIds ?? []) ] );
+    const siblingIds = new Set( [...(father?.childrenIds ?? []), ...(mother?.childrenIds ?? []) ] );
     //Early return si no tiene hermanos
-    if (hermanosIds.size === 0 ) return [];
+    if (siblingIds.size === 0 ) return [];
 
-    const hermanos = Array.from(hermanosIds)
-                    .map( id => personas.find( p => p.id === id))
-                    .filter (p => p && p.id !== persona.id);
+    const siblings = Array.from(siblingIds)
+                    .map( id => people.find( p => p.id === id))
+                    .filter (p => p && p.id !== person.id);
 
-    // Ordenamos de mayor a menor. 
+    // Ordenamos de mayor a menor.
     // Si fechaNacimiento = {} --> menor.
-    const obtenerFechaOrdenable = (individuo) => new Date(individuo.fechaNacimiento ?? "3000-01-01");
-    hermanos.sort( (a,b) => obtenerFechaOrdenable(a) - obtenerFechaOrdenable(b) );
+    const getSortableDate = (individual) => new Date(individual.birthDate ?? "3000-01-01");
+    siblings.sort( (a,b) => getSortableDate(a) - getSortableDate(b) );
 
-    return hermanos;
+    return siblings;
 }
 
-export function getAbuelos (persona, personas) {
+export function getGrandparents (person, people) {
 
-    if (!persona) return { abueloPaterno: null, abuelaPaterna: null, abueloMaterno: null, abuelaMaterna: null }
+    if (!person) return { paternalGrandfather: null, paternalGrandmother: null, maternalGrandfather: null, maternalGrandmother: null }
 
-    const {padre, madre} = getPadres(persona, personas);
+    const {father, mother} = getParents(person, people);
 
-    const abueloPaterno = personas.find ( p => p.id === padre?.padreId) ?? null;
-    const abuelaPaterna = personas.find ( p => p.id === padre?.madreId) ?? null;
-    const abueloMaterno = personas.find ( p => p.id === madre?.padreId) ?? null;
-    const abuelaMaterna = personas.find ( p => p.id === madre?.madreId) ?? null;
+    const paternalGrandfather = people.find ( p => p.id === father?.fatherId) ?? null;
+    const paternalGrandmother = people.find ( p => p.id === father?.motherId) ?? null;
+    const maternalGrandfather = people.find ( p => p.id === mother?.fatherId) ?? null;
+    const maternalGrandmother = people.find ( p => p.id === mother?.motherId) ?? null;
 
-    return {abueloPaterno, abuelaPaterna, abueloMaterno, abuelaMaterna}
+    return {paternalGrandfather, paternalGrandmother, maternalGrandfather, maternalGrandmother}
 }
 
-export function getTios (persona, personas) {
+export function getAuntsAndUncles (person, people) {
 
-    if (!persona) return { tiosPaternos: [], tiosMaternos: []}
+    if (!person) return { paternalAuntsAndUncles: [], maternalAuntsAndUncles: []}
 
-    const { padre, madre } = getPadres(persona, personas);
+    const { father, mother } = getParents(person, people);
 
-    const tiosPaternos = getHermanos(padre, personas);
-    const tiosMaternos =  getHermanos(madre, personas);
+    const paternalAuntsAndUncles = getSiblings(father, people);
+    const maternalAuntsAndUncles =  getSiblings(mother, people);
 
-    return { tiosPaternos, tiosMaternos };
+    return { paternalAuntsAndUncles, maternalAuntsAndUncles };
 };
 
-export function getHijos (persona, personas) {
-    if (!persona || !personas) return [];
-    const hijos = persona.hijosIds
-        .map(id => personas.find( p => p.id === id))
+export function getChildren (person, people) {
+    if (!person || !people) return [];
+    const children = person.childrenIds
+        .map(id => people.find( p => p.id === id))
         .filter(Boolean);
         // ordenación mayor a menor
-    hijos.sort((a,b) => calcularEdad(b.fechaNacimiento, b.fechaDefuncion) - calcularEdad(a.fechaNacimiento, a.fechaDefuncion));
+    children.sort((a,b) => calculateAge(b.birthDate, b.deathDate) - calculateAge(a.birthDate, a.deathDate));
 
-    return hijos;
+    return children;
 };
