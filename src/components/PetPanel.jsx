@@ -6,6 +6,7 @@ import { IoPricetagsOutline } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 import formatDate from '../utils/formatDate.js';
 import isValidDate from "../utils/isValidDate.js";
+import ModalPicture from './ModalPicture.jsx';
 
 
 function PetPanel ({pet, isPetDead , onClose, isVisible, isDarkMode}) {
@@ -14,13 +15,13 @@ function PetPanel ({pet, isPetDead , onClose, isVisible, isDarkMode}) {
     return (
         <>
             <div className="relative min-h-0 overflow-hidden">
-                <div className={`flex max-sm:flex-col rounded-xl mt-4 p-3 gap-4${isDarkMode ? `bg-neutral-800` : `bg-neutral-100`} transition-opacity duration-[700ms] ${isVisible ? "opacity-100" : "opacity-0"}`}>
-                    <div className="h-40 h-[200px] w-[300px] max-3xl:h-40 max-3xl:w-40 max-3xl:shrink-0 max-sm:h-48 max-sm:w-full rounded-lg overflow-hidden">
+                <div className={`flex max-lg:flex-col rounded-xl mt-4 p-3 gap-4 ${isDarkMode ? `bg-neutral-800` : `bg-neutral-100`} transition-opacity duration-[700ms] ${isVisible ? "opacity-100" : "opacity-0"}`}>
+                    <div className="h-40 h-[200px] w-[300px] max-3xl:h-40 max-3xl:w-40 max-3xl:shrink-0 max-lg:h-48 max-lg:w-full rounded-lg overflow-hidden">
                         {pet?.photo ? (
-                        <img
-                            src={pet?.photo}
-                            alt={`fotografía de ${pet?.name}`}
-                            className="w-full h-full object-cover"
+                        <ModalPicture
+                            src= {pet.photo}
+                            alt= {`fotografía de ${pet?.name}`}
+                            className={"w-full h-full object-cover"}
                         />
                         ) : (
                         <div className={`w-full h-full flex items-center justify-center ${isDarkMode ? `bg-transparent text-neutral-300` : `bg-transparent text-neutral-500`}`}>
@@ -31,7 +32,7 @@ function PetPanel ({pet, isPetDead , onClose, isVisible, isDarkMode}) {
                         </div>
                         )}
                     </div>
-                    <div className="flex flex-col justify-evenly ml-4 max-3xl:ml-0 max-3xl:pr-6 max-sm:gap-2">
+                    <div className="flex flex-col justify-evenly ml-4 max-3xl:ml-0 max-3xl:pr-6 max-lg:gap-2">
                         {/* Datos personales */}
                             <div className="flex flex-col justify-center">
                                 <h2 className="capitalize text-xl font-medium">

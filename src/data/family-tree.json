@@ -1,31 +1,5 @@
 {
     "defaultMainPersonId": "per-001",
-    "families": [
-        {
-            "id": "fam-001",
-            "name": "Alcalde",
-            "imgUrl": "../imagenes/heraldica-castilla-header.webp",
-            "foundingYear": null
-        },
-        {
-            "id": "fam-002",
-            "name": "Molina",
-            "imgUrl": null,
-            "foundingYear": null
-        },
-        {
-            "id": "fam-003",
-            "name": "Lopez",
-            "imgUrl": null,
-            "foundingYear": null
-        },
-        {
-            "id": "fam-004",
-            "name": "Legaz",
-            "imgUrl": null,
-            "foundingYear": null
-            }
-    ]   ,
     "people": 
         [
         {
@@ -38,11 +12,13 @@
             "birthDate": "2002-01-14",
             "deathDate": null,
             "birthPlace": "Sevilla",
-            "familyIds": [ "fam-001", "fan-002" ],
             "fatherId": "per-004",
             "motherId": "per-005",
             "childrenIds": [],
-            "spouseIds":[]
+            "spouseIds":[],
+            "biography":[""],
+            "profession": "Bióloga",
+            "milestones": []
         },
         {
             "id": "per-002",
@@ -54,11 +30,13 @@
             "birthDate": "1998-07-06",
             "deathDate": null,
             "birthPlace": "Sevilla",
-            "familyIds": [ "fam-001", "fan-002" ],
             "fatherId": "per-004",
             "motherId": "per-005",
             "childrenIds": [],
-            "spouseIds":[]
+            "spouseIds":[],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-003",
@@ -70,11 +48,13 @@
             "birthDate": "1995-04-26",
             "deathDate": null,
             "birthPlace": "Sevilla",
-            "familyIds": [ "fam-001", "fan-002" ],
             "fatherId":  "per-004",
-            "motherId": null,
+            "motherId": "per-005",
             "childrenIds": [],
-            "spouseIds":[]
+            "spouseIds":[],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-004",
@@ -83,14 +63,16 @@
             "maternalSurname": "Lopez",
             "photo": null,
             "sex": "male",
-            "birthDate": "1998-07-06",
+            "birthDate": "1966-05-17",
             "deathDate": null,
             "birthPlace": "Sevilla",
-            "familyIds": [ "fam-001" ],
             "fatherId":  "per-006",
             "motherId": "per-007",
             "childrenIds": ["per-001", "per-002", "per-003"],
-            "spouseIds": ["per-005"]
+            "spouseIds": ["per-005"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-005",
@@ -102,11 +84,13 @@
             "birthDate": "1965-07-18",
             "deathDate": null,
             "birthPlace": "Murcia",
-            "familyIds": [ "fam-002" ],
             "fatherId": "per-042",
             "motherId": "per-043",
             "childrenIds": ["per-001", "per-002", "per-003"],
-            "spouseIds": ["per-004"]
+            "spouseIds": ["per-004"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-006",
@@ -118,11 +102,13 @@
             "birthDate": "1934-07-29",
             "deathDate": null,
             "birthPlace": "Córdoba",
-            "familyIds": [ "fam-001" ],
-            "fatherId":  null,
-            "motherId": null,
+            "fatherId":  "per-014",
+            "motherId": "per-015",
             "childrenIds": ["per-004", "per-008" ],
-            "spouseIds": ["per-007"]
+            "spouseIds": ["per-007"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-007",
@@ -134,11 +120,13 @@
             "birthDate": "1944-07-19",
             "deathDate": null,
             "birthPlace": "Santiago de Alcántara (Cáceres)",
-            "familyIds": ["fam-003"],
             "fatherId":  "per-036",
             "motherId": "per-035",
             "childrenIds": ["per-004", "per-008" ],
-            "spouseIds": ["per-006"]
+            "spouseIds": ["per-006"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-008",
@@ -150,11 +138,13 @@
             "birthDate": "1971-08-11",
             "deathDate": null,
             "birthPlace": "Sevilla",
-            "familyIds": ["fam-001"],
             "fatherId":  "per-006",
             "motherId": "per-007",
             "childrenIds": [ "per-010" ],
-            "spouseIds": ["per-009"]
+            "spouseIds": ["per-009"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-009",
@@ -166,11 +156,13 @@
             "birthDate": "1968-08-27",
             "deathDate": null,
             "birthPlace": "Puigcerda (Gerona)",
-            "familyIds": [],
             "fatherId":  null,
             "motherId": null,
             "childrenIds": [ "per-010" ],
-            "spouseIds": ["per-008"]
+            "spouseIds": ["per-008"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-010",
@@ -182,11 +174,13 @@
             "birthDate": "2004-10-08",
             "deathDate": null,
             "birthPlace": "Sevilla",
-            "familyIds": ["fam-001"],
             "fatherId":  "per-009",
             "motherId": "per-008",
             "childrenIds": [],
-            "spouseIds": []
+            "spouseIds": [],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-011",
@@ -198,11 +192,13 @@
             "birthDate": "1933-01-06",
             "deathDate": null,
             "birthPlace": "Cordoba",
-            "familyIds": ["fam-001"],
-            "fatherId":  null,
-            "motherId": null,
+            "fatherId":  "per-014",
+            "motherId": "per-015",
             "childrenIds": [],
-            "spouseIds": []
+            "spouseIds": [],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-012",
@@ -214,11 +210,13 @@
             "birthDate": "1931-11-06",
             "deathDate": null,
             "birthPlace": "Sevilla",
-            "familyIds": ["fam-001"],
-            "fatherId":  null,
-            "motherId": null,
+            "fatherId":  "per-014",
+            "motherId": "per-015",
             "childrenIds": [],
-            "spouseIds": []
+            "spouseIds": [],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-013",
@@ -230,11 +228,13 @@
             "birthDate": "1946-10-29",
             "deathDate": null,
             "birthPlace": "Sevilla",
-            "familyIds": [],
             "fatherId":  null,
-            "motherId": null,
+            "motherId": "per-015",
             "childrenIds": [],
-            "spouseIds": []
+            "spouseIds": [],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-014",
@@ -246,11 +246,13 @@
             "birthDate": "1906-03-13",
             "deathDate": "1942-05-29",
             "birthPlace": "Honachuelos (Cordoba)",
-            "familyIds": ["fam-001"],
-            "fatherId":  null,
-            "motherId": null,
+            "fatherId":  "per-022",
+            "motherId": "per-020",
             "childrenIds": ["per-011", "per-012", "per-006" ],
-            "spouseIds": ["per-015"]
+            "spouseIds": ["per-015"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-015",
@@ -262,11 +264,13 @@
             "birthDate": "1907-07-26",
             "deathDate": "1972-10-09", 
             "birthPlace": "Paterna del Campo (Huelva)",
-            "familyIds": [],
-            "fatherId":  null,
-            "motherId": null,
+            "fatherId":  "per-026",
+            "motherId": "per-025",
             "childrenIds": ["per-011", "per-012", "per-013", "per-006" ],
-            "spouseIds": ["per-014"]
+            "spouseIds": ["per-014"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-016",
@@ -278,11 +282,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": null,
-            "familyIds": ["fam-001"],
-            "fatherId":  null,
-            "motherId": null,
+            "fatherId":  "per-022",
+            "motherId": "per-020",
             "childrenIds": [],
-            "spouseIds": ["per-017"]
+            "spouseIds": ["per-017"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-017",
@@ -294,11 +300,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": null,
-            "familyIds": [],
             "fatherId":  null,
             "motherId": null,
             "childrenIds": [],
-            "spouseIds": ["per-016"]
+            "spouseIds": ["per-016"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-018",
@@ -310,11 +318,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": null,
-            "familyIds": [],
-            "fatherId":  null,
-            "motherId": null,
+            "fatherId":  "per-026",
+            "motherId": "per-025",
             "childrenIds": [],
-            "spouseIds": []
+            "spouseIds": [],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-019",
@@ -326,11 +336,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": null,
-            "familyIds": [],
-            "fatherId":  null,
-            "motherId": null,
+            "fatherId":  "per-026",
+            "motherId": "per-025",
             "childrenIds": [],
-            "spouseIds": []
+            "spouseIds": [],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-020",
@@ -342,11 +354,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "San Calixto (Cordoba)",
-            "familyIds": [],
             "fatherId":  "per-023",
             "motherId": "per-024",
             "childrenIds": ["per-014", "per-016" ],
-            "spouseIds": ["per-022"]
+            "spouseIds": ["per-022"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-021",
@@ -358,11 +372,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": null,
-            "familyIds": [],
             "fatherId":  "per-023",
             "motherId": "per-024",
             "childrenIds": [],
-            "spouseIds": []
+            "spouseIds": [],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-022",
@@ -374,11 +390,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "La Posadilla (Cordoba)",
-            "familyIds": [],
             "fatherId":  null,
             "motherId": null,
             "childrenIds": ["per-014", "per-016" ],
-            "spouseIds": ["per-020"]
+            "spouseIds": ["per-020"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-023",
@@ -390,11 +408,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "San Pedro (Portugal)",
-            "familyIds": [],
             "fatherId":  null,
             "motherId": null,
             "childrenIds": [ "per-020", "per-021"],
-            "spouseIds": ["per-024"]
+            "spouseIds": ["per-024"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-024",
@@ -406,11 +426,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "Valdezufre",
-            "familyIds": [],
             "fatherId":  null,
             "motherId": null,
             "childrenIds": [ "per-020", "per-021"],
-            "spouseIds": ["per-023"]
+            "spouseIds": ["per-023"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-025",
@@ -422,11 +444,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "Sevilla",
-            "familyIds": [],
-            "fatherId":  null,
-            "motherId": null,
+            "fatherId":  "per-027",
+            "motherId": "per-028",
             "childrenIds": [ "per-015", "per-018", "per-019"],
-            "spouseIds": ["per-026"]
+            "spouseIds": ["per-026"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-026",
@@ -438,11 +462,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "Paterna del campo (Huelva)",
-            "familyIds": [],
-            "fatherId":  null,
-            "motherId": null,
+            "fatherId":  "per-029",
+            "motherId": "per-030",
             "childrenIds": [ "per-015", "per-018", "per-019"],
-            "spouseIds": ["per-025"]
+            "spouseIds": ["per-025"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-027",
@@ -454,11 +480,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "Carrion de los cespedes",
-            "familyIds": [],
             "fatherId":  null,
             "motherId": null,
             "childrenIds": [ "per-025"],
-            "spouseIds": ["per-028"]
+            "spouseIds": ["per-028"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-028",
@@ -470,11 +498,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "Paterna del Campo",
-            "familyIds": [],
             "fatherId":  null,
             "motherId": null,
             "childrenIds": [ "per-025"],
-            "spouseIds": ["per-027"]
+            "spouseIds": ["per-027"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-029",
@@ -486,11 +516,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "Paterna del Campo",
-            "familyIds": [],
             "fatherId":  null,
             "motherId": null,
             "childrenIds": [ "per-026"],
-            "spouseIds": ["per-030"]
+            "spouseIds": ["per-030"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-030",
@@ -502,11 +534,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "Paterna del Campo",
-            "familyIds": [],
             "fatherId":  null,
             "motherId": null,
             "childrenIds": [ "per-026"],
-            "spouseIds": ["per-029"]
+            "spouseIds": ["per-029"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-031",
@@ -518,11 +552,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": null,
-            "familyIds": ["fam-003"],
-            "fatherId":  null,
+            "fatherId":  "per-036",
             "motherId": "per-035",
             "childrenIds": [],
-            "spouseIds": []
+            "spouseIds": [],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-032",
@@ -534,11 +570,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": null,
-            "familyIds": ["fam-003"],
-            "fatherId":  null,
+            "fatherId":  "per-036",
             "motherId": "per-035",
             "childrenIds": [],
-            "spouseIds": []
+            "spouseIds": [],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-033",
@@ -550,11 +588,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": null,
-            "familyIds": [],
             "fatherId":  null,
             "motherId": "per-035",
             "childrenIds": [],
-            "spouseIds": []
+            "spouseIds": [],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-034",
@@ -566,11 +606,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": null,
-            "familyIds": [],
             "fatherId":  null,
             "motherId": "per-035",
             "childrenIds": [],
-            "spouseIds": []
+            "spouseIds": [],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-035",
@@ -582,11 +624,13 @@
             "birthDate": "1919-10-25",
             "deathDate": null,
             "birthPlace": "Santiago de Alcantara (Cáceres)",
-            "familyIds": [],
-            "fatherId":  null,
-            "motherId": null,
-            "childrenIds": ["per-007", "per-0031", "per-0032", "per-0033", "per-0034"],
-            "spouseIds": ["per-036"]
+            "fatherId":  "per-037",
+            "motherId": "per-038",
+            "childrenIds": ["per-007", "per-031", "per-032", "per-033", "per-034"],
+            "spouseIds": ["per-036"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-036",
@@ -598,11 +642,13 @@
             "birthDate": "1919-04-25",
             "deathDate": null,
             "birthPlace": "Santiago de Alcantara (Cáceres)",
-            "familyIds": ["fam-003"],
-            "fatherId":  null,
-            "motherId": null,
-            "childrenIds": ["per-007", "per-0031", "per-0032"],
-            "spouseIds": ["per-035"]
+            "fatherId":  "per-039",
+            "motherId": "per-040",
+            "childrenIds": ["per-007", "per-031", "per-032"],
+            "spouseIds": ["per-035"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-037",
@@ -614,11 +660,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "Santiago de Alcantara (Cáceres)",
-            "familyIds": [],
             "fatherId":  null,
             "motherId": null,
             "childrenIds": ["per-035"],
-            "spouseIds": ["per-038"]
+            "spouseIds": ["per-038"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-038",
@@ -630,11 +678,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "Santiago de Alcantara (Cáceres)",
-            "familyIds": [],
             "fatherId":  null,
             "motherId": null,
             "childrenIds": ["per-035"],
-            "spouseIds": ["per-037"]
+            "spouseIds": ["per-037"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-039",
@@ -646,11 +696,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "Santiago de Alcantara (Cáceres)",
-            "familyIds": ["fam-003"],
             "fatherId":  null,
             "motherId": null,
             "childrenIds": ["per-036"],
-            "spouseIds": ["per-040"]
+            "spouseIds": ["per-040"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-040",
@@ -662,11 +714,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "Santiago de Alcantara (Cáceres)",
-            "familyIds": [],
             "fatherId":  null,
             "motherId": null,
             "childrenIds": ["per-036"],
-            "spouseIds": ["per-039"]
+            "spouseIds": ["per-039"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-041",
@@ -678,11 +732,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "Totana (Murcia)",
-            "familyIds": ["fam-002"],
             "fatherId":  "per-042",
             "motherId": "per-043",
             "childrenIds": [],
-            "spouseIds": []
+            "spouseIds": [],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-042",
@@ -694,11 +750,13 @@
             "birthDate": null,
             "deathDate":"undefined",
             "birthPlace": "Totana (Murcia)",
-            "familyIds": ["fam-002"],
             "fatherId":  null,
             "motherId": null,
             "childrenIds": ["per-041", "per-005"],
-            "spouseIds": ["per-043"]
+            "spouseIds": ["per-043"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         },
         {
             "id": "per-043",
@@ -710,11 +768,13 @@
             "birthDate": null,
             "deathDate": null,
             "birthPlace": "Totana (Murcia)",
-            "familyIds": [],
             "fatherId":  null,
             "motherId": null,
             "childrenIds": ["per-041", "per-005"],
-            "spouseIds": ["per-042"]
+            "spouseIds": ["per-042"],
+            "biography":[""],
+            "profession": null,
+            "milestones": []
         }
     ],
 

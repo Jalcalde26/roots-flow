@@ -14,6 +14,7 @@ import { PiPawPrint } from "react-icons/pi";
 import { useState } from 'react';
 import { getChildren } from '../utils/familyUtilities.js';
 import { useLayoutContext } from './LayoutContext.jsx';
+import ModalPicture from './ModalPicture.jsx'
 import PetPanel from './PetPanel.jsx';
 import InfoItem from './InfoItem.jsx';
 import MilestoneTimeline from './MilestoneTimeline.jsx';
@@ -86,10 +87,10 @@ function AsidePanel({people, pets, mainId, onPersonClick, isDarkMode}) {
                     {/* foto  1000×750 px*/}
                     <div className="w-full aspect-[4/3] max-h-64 h-56 rounded-xl bg-neutral-800 overflow-hidden mb-6">
                         {person.photo ? (
-                        <img
-                            src={person.photo}
-                            alt={`fotografía de ${person.firstName    } ${person.paternalSurname} ${person.maternalSurname}`}
-                            className="w-full h-full object-cover object-top"
+                        <ModalPicture
+                            src= {person.photo}
+                            alt= {`fotografía de ${person.firstName} ${person.paternalSurname} ${person.maternalSurname}`}
+                            className={"w-full h-full object-cover object-top"}
                         />
                         ) : (
                         <div className={`w-full h-full flex items-center justify-center ${isDarkMode ? `bg-neutral-900 text-neutral-300` : `bg-neutral-200 text-neutral-500`}`}>

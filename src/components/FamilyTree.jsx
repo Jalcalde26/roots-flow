@@ -13,10 +13,7 @@ import PeopleFinder from './PeopleFinder.jsx'
 import { IoIosSunny } from "react-icons/io";
 import { IoMoonSharp } from "react-icons/io5";
 
-// MEDIAQUERYS
 // AÑADIR META DESCRIPTION
-// IMPLEMENTE MODAL FOTOS
-// MIGRAR TODO A INGLÉS
 // INTRODUCIR DATOS FAMILIARES
 // FIN DE PROYECTO FRONT-END
 
@@ -47,7 +44,7 @@ function FamilyTree ({ people, mainId, onPersonClick, isDarkMode, setIsDarkMode}
         const data = normalizeData(people); // Normalizar datos JSON/Base datos -> family-chart (libreria)
         kinshipListRef.current = getKinshipByMainId(mainId, people); // Calculo local de parentesco + sexo -> Controla color de card y forma de img cards.
         const chart = f3.createChart(containerRef.current, data)
-            .setAncestryDepth(3) // Calcula x lineas ascendentes
+            .setAncestryDepth(2) // Calcula x lineas ascendentes
             .setProgenyDepth(2) // Calcula x lineas descendentes
             .setSingleParentEmptyCard(false) // Elimina card vacia en caso de familia mono-parental
             /*.setLinkSpouseText((sp1, sp2) => { // Texto en la union de casados
@@ -149,7 +146,7 @@ function FamilyTree ({ people, mainId, onPersonClick, isDarkMode, setIsDarkMode}
             </div>
             {/* Transición hecha con CSS vanilla a propósito, para reforzar el control manual de timing/orquestación en CSS vanilla.
                 Próximas transiciones del proyecto se realizan con Motion (Framer Motion) por mantenibilidad y legibilidad del código */}
-            <div className={`absolute top-35 left-43 max-3xl:top-16 max-3xl:left-16 max-lg:top-6 max-lg:left-6 max-sm:top-4 max-sm:left-4 max-sm:z-10 grid items-center will-change-transform will-change-auto
+            <div className={`absolute top-10 left-10 2xl:top-16 2xl:left-16 max-sm:top-4 max-sm:left-4 max-sm:z-10 grid items-center will-change-transform will-change-auto
                 ${isDarkMode ? "bg-button" : "bg-white ring-1 ring-neutral-200"}
                 ${isOpen
                     ? `grid-cols-[min-content_1fr] -translate-y-1 gap-0 rounded-r-2xl rounded-4xl [transition:translate_0.3s,grid-template-columns_0.5s_0.2s,border-radius_0.3s] ${isDarkMode ? "shadow-[0px_0px_14px_0px_rgba(0,0,0,0.8)]" : "shadow-lg shadow-neutral-900/15"}`
@@ -190,27 +187,27 @@ function FamilyTree ({ people, mainId, onPersonClick, isDarkMode, setIsDarkMode}
                 </div>
             </div>
             <button 
-                className={`absolute bottom-48 max-3xl:bottom-24 max-md:bottom-12 left-5/10 -translate-x-1/2 text-md rounded-xl p-3 cursor-pointer z-10 transition-transform duration-300 hover:scale-110 will-change-transform ${floatingBtn}`}
+                className={`absolute bottom-5 3xl:bottom-24 left-5/10 -translate-x-1/2 text-md rounded-xl p-3 cursor-pointer z-10 transition-transform duration-300 hover:scale-110 will-change-transform ${floatingBtn}`}
                 title="Centrar vista"
                 aria-label="Centrar vista del arbol genealogico"
                 onClick={resetView}>
-                <FaUsersViewfinder className={`w-8 h-8 ${iconColor}`}/>
+                <FaUsersViewfinder className={`w-9 h-9 ${iconColor}`}/>
             </button>
             <button 
-                className={`absolute bottom-40 max-3xl:bottom-16 max-md:bottom-6 left-7/10 max-sm:left-8/10 -translate-x-1/2 text-md rounded-xl p-3 cursor-pointer z-10 transition-transform duration-300 hover:scale-110 will-change-transform ${floatingBtn}`}
+                className={`absolute bottom-5 3xl:bottom-16 left-7/10 max-sm:left-8/10 -translate-x-1/2 text-md rounded-xl p-3 cursor-pointer z-10 transition-transform duration-300 hover:scale-110 will-change-transform ${floatingBtn}`}
                 title="Hitos de vida"
                 aria-label="Ver hitos de vida"
                 onClick={ () => showPanel("milestones")}>
                 <GiLaurelsTrophy className={`w-8 h-8 ${iconColor}`}/>
             </button>
             <button 
-                className={`absolute bottom-40 max-3xl:bottom-16 max-md:bottom-6 left-3/10 max-sm:left-2/10 -translate-x-1/2 text-md rounded-xl p-3 cursor-pointer z-10 transition-transform duration-300 hover:scale-110 will-change-transform ${floatingBtn}`}
+                className={`absolute bottom-5 3xl:bottom-16 left-3/10 max-sm:left-2/10 -translate-x-1/2 text-md rounded-xl p-3 cursor-pointer z-10 transition-transform duration-300 hover:scale-110 will-change-transform ${floatingBtn}`}
                 title="Biografía"
                 aria-label="Ver biografia"
                 onClick={() => showPanel("biography")}>
                 <BsPersonLinesFill className={`w-8 h-8 ${iconColor}`}/>
             </button>
-            <div className="absolute top-35 right-43 -translate-x-1/2 max-3xl:top-16 max-3xl:right-16 max-3xl:translate-x-0 max-lg:top-7 max-lg:right-10 max-sm:top-22 max-sm:right-8">
+            <div className="absolute top-10 right-10 2xl:top-16 2xl:right-16 -translate-x-1/2 max-sm:right-4 max-sm:top-24">
                 <button
                     role="switch"
                     aria-checked={!isDarkMode}
@@ -220,11 +217,11 @@ function FamilyTree ({ people, mainId, onPersonClick, isDarkMode, setIsDarkMode}
                         focus-visible:outline-2 focus-visible:outline-offset-2
                         ${isDarkMode
                             ? `bg-[linear-gradient(90deg,#2B313B,#4A5565)]
-                               shadow-[inset_0_2px_6px_rgba(0,0,0,0.5),inset_0_-1px_0_rgba(255,255,255,0.06)]
-                               focus-visible:outline-white`
+                                shadow-[inset_0_2px_6px_rgba(0,0,0,0.5),inset_0_-1px_0_rgba(255,255,255,0.06)]
+                                focus-visible:outline-white`
                             : `bg-neutral-200 ring-1 ring-neutral-300
-                               shadow-[inset_0_2px_4px_rgba(0,0,0,0.12)]
-                               focus-visible:outline-neutral-500`}`}
+                                shadow-[inset_0_2px_4px_rgba(0,0,0,0.12)]
+                                focus-visible:outline-neutral-500`}`}
                 >
                     {/* iconos fantasma */}
                     <IoMoonSharp

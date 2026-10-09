@@ -24,7 +24,7 @@
 /* A partir de aquí el panel se superpone al árbol (position: fixed) */
 @media (width < 64rem)  { :root { --aside-max: 60vw; } }
 /* Se reserva hueco para que el botón de alternar el panel siga visible */
-@media (width < 48rem)  { :root { --aside-max: calc(100vw - 1.75rem); } }
+@media (width < 32rem)  { :root { --aside-max: calc(100vw - 1.75rem); } }
 
 #root {
   display: flex;

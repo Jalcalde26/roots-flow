@@ -40,7 +40,7 @@ function MilestoneTimeline({ person, mainId, showPanel, panelView, handleToggleA
                     </button>
                 </div>
                 <div className="flex w-full justify-center items-center mt-20"> 
-                    <p className={`block text-2xl max-md:text-lg text-center${isDarkMode ? `text-neutral-400` : `text-neutral-500`}`}>No hay hitos registrados.</p>
+                    <p className={`block text-2xl max-md:text-lg text-center ${isDarkMode ? `text-neutral-400` : `text-neutral-500`}`}>No hay hitos registrados.</p>
                 </div>
             </div>
                 
